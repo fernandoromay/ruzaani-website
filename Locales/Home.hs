@@ -15,6 +15,7 @@ data HomeLocale = HomeLocale
     , statBar :: [Stat]
     , agentsTitle :: Text
     , agentsSubtitle :: Text
+    , agentsId :: Text
     , agents :: [PointWithIcon]
     , replaceTitle :: Text
     , replaceSubtitle :: Text
@@ -73,6 +74,7 @@ getLocale EN = HomeLocale
         , Stat {number = "Real-time", label = "Attribution"}
         ]
     -- The AI Agent Layer
+    , agentsId = "agents/"
     , agentsTitle = "The AI Agent Layer"
     , agentsSubtitle = "This system runs on a shared context layer: every agent reads and writes to the same data. When the SDR qualifies a lead, the Closer already has the full context."
     , agents = 
@@ -208,6 +210,7 @@ getLocale ES = HomeLocale
         , Stat {number = "Tiempo real", label = "Atribución"}
         ]
     -- The AI Agent Layer
+    , agentsId = "agentes/"
     , agentsTitle = "La Capa de Agentes de IA"
     , agentsSubtitle = "El sistema opera sobre una capa de contexto compartido: cada agente lee y escribe en los mismos datos. Cuando el SDR califica un lead, el Closer ya tiene todo el contexto."
     , agents = 
@@ -338,6 +341,7 @@ getLocale KO = HomeLocale
         , Stat {number = "실시간", label = "어트리뷰션"}
         ]
     -- The AI Agent Layer
+    , agentsId = "agents/"
     , agentsTitle = "AI 에이전트 레이어"
     , agentsSubtitle = "이 시스템은 공유 컨텍스트 레이어 위에서 동작합니다. 모든 에이전트는 동일한 데이터를 읽고 쓰며, SDR이 리드를 검증하면 Closer는 이미 전체 컨텍스트를 가진 상태에서 이어받습니다."
     , agents = 

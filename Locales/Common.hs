@@ -1,5 +1,6 @@
 module Locales.Common where
 
+import Config.Routes
 import Locales.Prelude
 
 data NavbarLocale = NavbarLocale
@@ -43,63 +44,63 @@ navbarLocale :: Language -> NavbarLocale
 navbarLocale EN =
   NavbarLocale
     { homeText = "Home",
-      homeLink = "/",
+      homeLink = path EN Home,
       productText = "Product",
-      productLink = "/product/",
+      productLink = path EN Product,
       solutionsText = "Solutions",
-      solutionsLink = "/solutions/",
+      solutionsLink = path EN Solutions,
       useCasesText = "Use Cases",
-      useCasesLink = "/use-cases/",
+      useCasesLink = path EN UseCases,
       agencyText = "Agency Program",
-      agencyLink = "/agency-program/",
+      agencyLink = path EN Agency,
       pricingText = "Pricing",
-      pricingLink = "/pricing/",
+      pricingLink = path EN Pricing,
       -- , blogText = "Intelligence"
       -- , blogLink = "/intelligence/"
       accessText = "Request Access",
-      accessLink = "/access/",
+      accessLink = path EN Access,
       loginText = "Login",
       loginLink = "https://admin.ruzaani.com/"
     }
 navbarLocale ES =
   NavbarLocale
     { homeText = "Inicio",
-      homeLink = "/es/",
+      homeLink = path ES Home,
       productText = "Producto",
-      productLink = "/es/producto/",
+      productLink = path ES Product,
       solutionsText = "Soluciones",
-      solutionsLink = "/es/soluciones/",
+      solutionsLink = path ES Solutions,
       useCasesText = "Casos de Uso",
-      useCasesLink = "/es/casos-de-uso/",
+      useCasesLink = path ES UseCases,
       agencyText = "Programa Agencias",
-      agencyLink = "/es/agencias/",
+      agencyLink = path ES Agency,
       pricingText = "Precios",
-      pricingLink = "/es/precios/",
+      pricingLink = path ES Pricing,
       -- , blogText = "Inteligencia"
       -- , blogLink = "/es/inteligencia/"
       accessText = "Solicitar Acceso",
-      accessLink = "/es/acceso/",
+      accessLink = path ES Access,
       loginText = "Login",
       loginLink = "https://admin.ruzaani.com/"
     }
 navbarLocale KO =
   NavbarLocale
     { homeText = "홈",
-      homeLink = "/ko/",
+      homeLink = path KO Home,
       productText = "제품",
-      productLink = "/ko/product/",
+      productLink = path KO Product,
       solutionsText = "솔루션",
-      solutionsLink = "/ko/solutions/",
+      solutionsLink = path KO Solutions,
       useCasesText = "사용 사례",
-      useCasesLink = "/ko/use-cases/",
+      useCasesLink = path KO UseCases,
       agencyText = "에이전시 프로그램",
-      agencyLink = "/ko/agency-program/",
+      agencyLink = path KO Agency,
       pricingText = "가격",
-      pricingLink = "/ko/pricing/",
+      pricingLink = path KO Pricing,
       -- , blogText = "인텔리전스"
       -- , blogLink = "/ko/intelligence/",
       accessText = "액세스 요청",
-      accessLink = "/ko/access/",
+      accessLink = path KO Access,
       loginText = "로그인",
       loginLink = "https://admin.ruzaani.com/"
     }
@@ -110,9 +111,9 @@ footerLocale EN = FooterLocale
     , resourcesTitle = "Resources"
     , toolsTitle = "Access & Contact"
     , privacy = "Privacy Policy"
-    , privacyUrl = "/privacy-policy/"
+    , privacyUrl = path EN Privacy
     , terms = "Terms of Service"
-    , termsUrl = "/terms-and-conditions/"
+    , termsUrl = path EN Terms
     , rights = "All rights reserved."
     , description = "AI Business Intelligence Suite"
     , contactText = "Contact Us"
@@ -127,9 +128,9 @@ footerLocale ES = FooterLocale
     , resourcesTitle = "Recursos"
     , toolsTitle = "Acceso y Contacto"
     , privacy = "Política de Privacidad"
-    , privacyUrl = "/es/politica-de-privacidad/"
+    , privacyUrl = path ES Privacy
     , terms = "Términos de Servicio"
-    , termsUrl = "/es/terminos-y-condiciones/"
+    , termsUrl = path ES Terms
     , rights = "Todos los derechos reservados."
     , description = "Suite de Inteligencia Empresarial de IA"
     , contactText = "Contáctanos"
@@ -145,9 +146,9 @@ footerLocale KO = FooterLocale
     , resourcesTitle = "리소스"
     , toolsTitle = "액세스 및 연락처"
     , privacy = "개인정보 처리방침"
-    , privacyUrl = "/ko/privacy-policy/"
+    , privacyUrl = path KO Privacy
     , terms = "이용약관"
-    , termsUrl = "/ko/terms-and-conditions/"
+    , termsUrl = path KO Terms
     , rights = "모든 권리 보유."
     , description = "AI 비즈니스 인텔리전스 스위트"
     , contactText = "문의"
