@@ -11,6 +11,8 @@ data Route
     | Agency
     | Pricing
     | Access
+    | Privacy
+    | Terms
     deriving (Eq)
 
 path :: Language -> Route -> Text
@@ -18,9 +20,9 @@ path EN Home = "/"
 path ES Home = "/es/"
 path KO Home = "/ko/"
 
-path EN Product = "/product/"
-path ES Product = "/es/producto/"
-path KO Product = "/ko/product/"
+path EN Product = "/#agents/"
+path ES Product = "/es/#agentes/"
+path KO Product = "/ko/#agents/"
 
 path EN Solutions = "/solutions/"
 path ES Solutions = "/es/soluciones/"
@@ -41,3 +43,11 @@ path KO Pricing = "/ko/pricing/"
 path EN Access = "/access/"
 path ES Access = "/es/acceso/"
 path KO Access = "/ko/access/"
+
+path EN Privacy = "/privacy-policy/"
+path ES Privacy = "/es/politica-de-privacidad/"
+path KO Privacy = "/ko/privacy-policy/"
+
+path EN Terms = "/terms-of-service/"
+path ES Terms = "/es/terminos-y-condiciones/"
+path KO Terms = "/ko/terms-of-service/"
