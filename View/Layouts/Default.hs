@@ -11,16 +11,24 @@ defaultLayout lang seo viewContent =
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
     <link rel="icon" href="{assetPath "img/favicon.png"}">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{assetPath "css/common.css"}">
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     {renderSEO seo}
 
-    <link rel="stylesheet" href="{assetPath "css/style.css"}">
 </head>
-<body style="font-family: sans-serif; margin: 0; padding: 0;">
+<body>
     {navbar lang}
     
-    <main style="padding: 2rem;">
+    <main>
         {viewContent}
     </main>
 
