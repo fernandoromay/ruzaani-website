@@ -39,9 +39,9 @@
     --weight-body: 400;
 
     /* Brand Assets */
-    --iso: url('/src/img/brand/iso.svg');
-    --logo: url('/src/img/brand/logo_h.svg');
-    --logo-w: url('/src/img/brand/logo_w.svg');
+    --iso: url('/img/brand/iso.svg');
+    --logo: url('/img/brand/logo_h.svg');
+    --logo-w: url('/img/brand/logo_w.svg');
 
     /* Constant Sizes */
     --menu-height: 80px;
@@ -91,7 +91,7 @@ html {
         --weight-h3: 550;
         --weight-body: 300;
 
-        --logo-h: url('/src/img/brand/iso_w.svg');
+        --logo-h: url('/img/brand/iso_w.svg');
     }
 }
 

@@ -11,7 +11,7 @@ defaultLayout lang seo viewContent = [lurk|
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light dark">
-    <link rel="icon" href="{assetPath "img/favicon.png"}">
+    <link rel="icon" type="image/svg+xml" href="{assetPath "img/brand/iso_w_inv_round.svg"}">
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
