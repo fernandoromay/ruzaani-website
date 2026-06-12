@@ -3,27 +3,41 @@ module Locales.Common where
 import Locales.Prelude
 
 data NavbarLocale = NavbarLocale
-  { homeText :: Text,
-    homeLink :: Text,
-    productText :: Text,
-    productLink :: Text,
-    solutionsText :: Text,
-    solutionsLink :: Text,
-    useCasesText :: Text,
-    useCasesLink :: Text,
-    agencyText :: Text,
-    agencyLink :: Text,
-    pricingText :: Text,
-    pricingLink :: Text,
-    loginText :: Text,
-    loginLink :: Text,
-    accessText :: Text,
-    accessLink :: Text
+  { homeText :: Text
+  , homeLink :: Text
+  , productText :: Text
+  , productLink :: Text
+  , solutionsText :: Text
+  , solutionsLink :: Text
+  , useCasesText :: Text
+  , useCasesLink :: Text
+  , agencyText :: Text
+  , agencyLink :: Text
+  , pricingText :: Text
+  , pricingLink :: Text
+  , loginText :: Text
+  , loginLink :: Text
+  , accessText :: Text
+  , accessLink :: Text
   }
 
 data FooterLocale = FooterLocale
-  { text :: Text
-  }
+    { companyTitle :: Text
+    , resourcesTitle :: Text
+    , toolsTitle :: Text
+    , privacy :: Text
+    , privacyUrl :: Text
+    , terms :: Text
+    , termsUrl :: Text
+    , rights :: Text
+    , description :: Text
+    , contactText :: Text
+    , contactMail :: Text
+    , socialLinkedin :: Text
+    , socialX :: Text
+    , socialFacebook :: Text
+    , socialInstagram :: Text
+    }
 
 navbarLocale :: Language -> NavbarLocale
 navbarLocale EN =
@@ -91,6 +105,55 @@ navbarLocale KO =
     }
 
 footerLocale :: Language -> FooterLocale
-footerLocale EN = FooterLocale {text = "Built with LURK © 2026"}
-footerLocale ES = FooterLocale {text = "Hecho con LURK © 2026"}
-footerLocale KO = FooterLocale {text = "LURK © 2026 로 만들어짐"}
+footerLocale EN = FooterLocale
+    { companyTitle = "Company"
+    , resourcesTitle = "Resources"
+    , toolsTitle = "Access & Contact"
+    , privacy = "Privacy Policy"
+    , privacyUrl = "/privacy-policy/"
+    , terms = "Terms of Service"
+    , termsUrl = "/terms-and-conditions/"
+    , rights = "All rights reserved."
+    , description = "AI Business Intelligence Suite"
+    , contactText = "Contact Us"
+    , contactMail = "contact@ruzaani.com"
+    , socialLinkedin = "https://www.linkedin.com/company/ruzaaniai/"
+    , socialX = "https://twitter.com/ruzaaniai"
+    , socialFacebook = "https://www.facebook.com/ruzaaniai"
+    , socialInstagram = "https://www.instagram.com/ruzaaniai/"
+    }
+footerLocale ES = FooterLocale
+    { companyTitle = "Compañía"
+    , resourcesTitle = "Recursos"
+    , toolsTitle = "Acceso y Contacto"
+    , privacy = "Política de Privacidad"
+    , privacyUrl = "/es/politica-de-privacidad/"
+    , terms = "Términos de Servicio"
+    , termsUrl = "/es/terminos-y-condiciones/"
+    , rights = "Todos los derechos reservados."
+    , description = "Suite de Inteligencia Empresarial de IA"
+    , contactText = "Contáctanos"
+    , contactMail = "contact@ruzaani.com"
+    , socialLinkedin = "https://www.linkedin.com/company/ruzaaniai/"
+    , socialX = "https://twitter.com/ruzaaniai"
+    , socialFacebook = "https://www.facebook.com/ruzaaniai"
+    , socialInstagram = "https://www.instagram.com/ruzaaniai/"
+    }
+
+footerLocale KO = FooterLocale
+    { companyTitle = "회사"
+    , resourcesTitle = "리소스"
+    , toolsTitle = "액세스 및 연락처"
+    , privacy = "개인정보 처리방침"
+    , privacyUrl = "/ko/privacy-policy/"
+    , terms = "이용약관"
+    , termsUrl = "/ko/terms-and-conditions/"
+    , rights = "모든 권리 보유."
+    , description = "AI 비즈니스 인텔리전스 스위트"
+    , contactText = "문의"
+    , contactMail = "contact@ruzaani.com"
+    , socialLinkedin = "https://www.linkedin.com/company/ruzaaniai/"
+    , socialX = "https://twitter.com/ruzaaniai"
+    , socialFacebook = "https://www.facebook.com/ruzaaniai"
+    , socialInstagram = "https://www.instagram.com/ruzaaniai/"
+    }
