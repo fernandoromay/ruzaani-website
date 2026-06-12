@@ -98,7 +98,7 @@ executable my-lurk-app
                      scotty,
                      text,
                      hasql,
-                     hasql-pool ^>= 0.5,
+                     hasql-pool,
                      wai,
                      warp,
                      containers,
