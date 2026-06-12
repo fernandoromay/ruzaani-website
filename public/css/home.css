@@ -1,0 +1,237 @@
+@charset "UTF-8";
+@import "./common.css";
+
+/* --- Gradient Mesh Hero Background --- */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -150px;
+    right: -100px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(10, 173, 149, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -150px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(10, 173, 149, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Floating Mockup --- */
+.ui-mockup-main {
+    width: 100%;
+    background-color: var(--bg-elevated);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.4s ease-in-out;
+
+    /* Floating effect */
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.04),
+        0 10px 15px rgba(0, 0, 0, 0.06),
+        0 30px 60px rgba(0, 0, 0, 0.10),
+        0 50px 80px rgba(0, 0, 0, 0.06);
+    transform: perspective(1200px) rotateY(-4deg) rotateX(1deg);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.ui-mockup-main:hover {
+    transform: perspective(1200px) rotateY(-1deg) rotateX(0deg);
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.04),
+        0 10px 15px rgba(0, 0, 0, 0.08),
+        0 40px 80px rgba(0, 0, 0, 0.14);
+}
+
+/* Reverse tilt for right-aligned mockups */
+.mockup-reverse {
+    transform: perspective(1200px) rotateY(4deg) rotateX(1deg);
+}
+
+.mockup-reverse:hover {
+    transform: perspective(1200px) rotateY(1deg) rotateX(0deg);
+}
+
+/* Flat (no tilt) for displacement visual */
+.mockup-flat {
+    transform: none !important;
+}
+
+/* --- Stat Bar --- */
+.stat-bar {
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.stat-item {
+    padding: 1.75rem 1rem;
+    text-align: center;
+}
+
+.stat-item .stat-number {
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-main);
+    line-height: 1;
+}
+
+.stat-item .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-top: 0.4rem;
+}
+
+/* --- Dot Grid Background --- */
+.bg-dot-grid {
+    background-color: var(--bg-secondary);
+    background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* --- Bento Grid Swarm --- */
+.bento-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1.5rem;
+}
+
+.bento-cell {
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-main);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bento-cell:hover {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 1px var(--accent-primary), 0 8px 30px rgba(10, 173, 149, 0.08);
+}
+
+.bento-cell.bento-wide {
+    grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+    .bento-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bento-cell.bento-wide {
+        grid-column: span 1;
+    }
+}
+
+.agent-icon {
+    font-size: 1.75rem;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+}
+
+/* --- Interactive Displacement List --- */
+.displacement-item {
+    padding: 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.displacement-item:hover,
+.displacement-item.active {
+    background-color: var(--bg-elevated);
+    border-left-color: var(--accent-primary);
+}
+
+/* --- Enterprise Feature Grid (Left Border Accent) --- */
+.enterprise-feature {
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--border-color);
+    transition: border-color 0.3s ease;
+}
+
+.enterprise-feature:hover {
+    border-left-color: var(--accent-primary);
+}
+
+/* --- Animated Gradient Text --- */
+.gradient-title {
+    background: linear-gradient(90deg, var(--text-main) 0%, var(--accent-primary) 50%, var(--text-main) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 6s linear infinite;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* --- Scroll-triggered Fade In --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Security Badges --- */
+.security-badge {
+    padding: 1.5rem 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-elevated);
+    transition: border-color 0.3s ease;
+}
+
+.security-badge:hover {
+    border-color: var(--accent-primary);
+}
+
+
+@media (prefers-color-scheme: dark) {
+    .bento-cell {
+        background: var(--bg-elevated);
+    }
+}

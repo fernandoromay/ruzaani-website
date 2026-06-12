@@ -1,0 +1,106 @@
+@charset "UTF-8";
+@import "./common.css";
+
+/* Coming Soon - Main Focus */
+.coming-soon-title {
+    font-family: var(--font-title);
+    font-size: clamp(2.5rem, 9vw, 7rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    font-weight: 800;
+}
+
+/* Divider */
+.divider {
+    width: 60px;
+    height: 6px;
+    background-color: var(--color-teal);
+}
+
+/* Dynamic Identity */
+.identity-dynamic {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+}
+
+.identity-dynamic .highlight {
+    color: var(--color-teal);
+    font-weight: 700;
+}
+
+.identity-dynamic .separator {
+    color: var(--color-teal);
+}
+
+/* Footer */
+footer {
+    background-color: var(--bg-main);
+    color: var(--text-secondary);
+}
+
+/* Animations */
+.anim-step {
+    opacity: 0;
+    animation: fadeIn 0.6s forwards;
+}
+
+.step-1 {
+    animation-delay: 0.2s;
+}
+
+.step-2 {
+    animation-delay: 0.8s;
+}
+
+.step-3 {
+    animation-delay: 1.0s;
+}
+
+.step-4 {
+    animation-delay: 1.6s;
+}
+
+.step-5 {
+    animation-delay: 1.8s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Logo & Tagline */
+.main-logo {
+    height: 120px;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.tagline {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+@media (max-width: 576px) {
+    .main-logo {
+        height: 80px;
+    }
+
+    .coming-soon-title {
+        font-size: 14vw;
+    }
+
+    .identity-dynamic {
+        font-size: 0.75rem;
+    }
+}

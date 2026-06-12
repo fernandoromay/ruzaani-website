@@ -1,0 +1,216 @@
+@charset "UTF-8";
+@import "./common.css";
+
+/* Banner Top */
+.banner-top {
+  background-color: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.6rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.banner-top a {
+  color: var(--accent-primary);
+}
+
+/* Hero Section */
+.hero-section {
+  min-height: 30vh;
+  margin: auto;
+  padding: 0 !important;
+}
+
+/* Process Steps */
+.process-step {
+  text-align: center;
+}
+
+.process-step-number {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--color-barro);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  margin: 0 auto 1rem;
+  transition: background-color 1.5s ease-in-out;
+}
+
+.process-step-number.active {
+  background-color: var(--color-teal);
+}
+
+.process-step-text {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.audit-intro .card-elevated {
+  background-color: var(--bg-main) !important;
+  border: none;
+}
+
+.audit-intro .card-elevated:hover {
+  box-shadow: none;
+}
+
+/* Audit Progress Indicator */
+.audit-progress {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  padding: 2rem 0;
+}
+
+.progress-step {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.progress-step.active {
+  background-color: var(--color-teal);
+  border-color: var(--color-teal);
+  color: var(--color-white);
+}
+
+.progress-step.completed {
+  background-color: var(--bg-elevated);
+  border-color: var(--color-teal);
+  color: var(--color-teal);
+}
+
+/* Audit Questions */
+.audit-question {
+  display: none;
+  animation: fadeIn 0.3s ease;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.audit-question.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.question-header {
+  margin-bottom: 2rem;
+}
+
+.question-number {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.question-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+/* Option Cards */
+.question-options {
+  margin-bottom: 2rem;
+}
+
+.option-card {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 1.25rem 1.5rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background-color: var(--bg-main);
+  display: block;
+}
+
+.option-card:hover {
+  border-color: var(--color-barro);
+  background-color: var(--bg-elevated);
+}
+
+.option-card.selected {
+  border-color: var(--color-barro);
+  background-color: var(--bg-elevated);
+}
+
+.option-card input[type="radio"] {
+  display: none;
+}
+
+.option-label {
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+/* Audit Navigation */
+.audit-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+/* Trust Signals */
+.trust-signals {
+  padding: 3rem 0;
+  background-color: var(--bg-elevated);
+}
+
+.trust-signals p {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+.trust-signals strong {
+  color: var(--color-barro);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .audit-progress {
+    gap: 0.5rem;
+  }
+
+  .progress-step {
+    width: 32px;
+    height: 32px;
+    font-size: 0.875rem;
+  }
+
+  .question-text {
+    font-size: 1.25rem;
+  }
+
+  .process-step-number {
+    width: 40px;
+    height: 40px;
+  }
+}
