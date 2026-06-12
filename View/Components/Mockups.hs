@@ -1,0 +1,155 @@
+module View.Components.Mockups where
+
+import View.Prelude
+import Locales.Components.Mockups
+
+renderDashboard :: Language -> Html
+renderDashboard lang = [lurk|
+<div class="hero-preview-card">
+    <div class="hero-preview-bar">
+        <span class="hero-dot dot-red"></span>
+        <span class="hero-dot dot-amber"></span>
+        <span class="hero-dot dot-green"></span>
+        <span class="mockup-title ms-2">
+            {l.navTitle}
+        </span>
+    </div>
+
+    <div class="mockup-dashboard-wrap">
+        <!-- Sidebar -->
+        <aside class="mockup-sidebar">
+            <div class="sidebar-iso"></div>
+            <i class="sidebar-icon active fa-solid fa-chart-pie"></i>
+            <i class="sidebar-icon fa-solid fa-users"></i>
+            <i class="sidebar-icon fa-solid fa-calendar"></i>
+            <i class="sidebar-icon fa-solid fa-dollar-sign"></i>
+            <i class="sidebar-icon fa-solid fa-gear"></i>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="mockup-main d-flex flex-column p-3 gap-2">
+
+            <!-- Stats Grid -->
+            <div class="row g-2">
+                {renderStats l.stats}
+            </div>
+
+            <!-- Performance Trend (Graph) -->
+            <div class="mockup-panel p-3 pb-0">
+                <div class="mockup-title">{l.graphTitle}</div>
+                <div class="mockup-trendline my-1">
+                    <svg viewBox="0 0 300 30" preserveAspectRatio="none">
+                        <path d="M0,25 Q50,22 100,15 T200,18 T300,5 T400,8" fill="none" stroke="var(--accent-primary)"
+                            stroke-width="1.2" stroke-linecap="round" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- AI Insights -->
+            <div class="mockup-panel p-3">
+                <div class="mockup-title">{l.insightsTitle}</div>
+                <div class="d-flex flex-column">
+                    {renderInsights l.insights}
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+|]
+    where
+        l = dashboardLocale lang
+        renderStats stats = foldMap (\(i, stat) -> [lurk| 
+        <div class="col-4">
+            <div class="mockup-stat-card p-2">
+                <div class="mockup-stat-val {if i == 2 then "primary" else ""}">{stat.value}</div>
+                <div class="mockup-stat-label">{stat.label}</div>
+            </div>
+        </div>
+        |]) (zip [0..] stats)
+
+        renderInsights insights = foldMap (\i -> [lurk|
+        <div class="mockup-list-item">
+            <div class="priority-indicator priority-{i.priority} me-2">
+                <i class="{icon i.priority}"></i>
+            </div>
+            <span class="mockup-list-name me-2">{i.agent}</span>
+            <span class="mockup-list-msg truncate">{i.message}</span>
+        </div>
+        |]) insights
+            where
+                icon :: Text -> Text
+                icon "high" = "fa-solid fa-circle-exclamation"
+                icon "medium" = "fa-solid fa-circle-info"
+                icon _ = "fa-solid fa-minus"
+
+renderAgency :: Language -> Html
+renderAgency lang = [lurk|
+<div class="hero-preview-card">
+    <div class="hero-preview-bar">
+        <span class="hero-dot dot-red"></span>
+        <span class="hero-dot dot-amber"></span>
+        <span class="hero-dot dot-green"></span>
+        <span class="mockup-title ms-2">
+            {l.navTitle}
+        </span>
+    </div>
+
+    <div class="mockup-dashboard-wrap">
+        <!-- Sidebar -->
+        <aside class="mockup-sidebar">
+            <div class="sidebar-iso"></div>
+            <i class="sidebar-icon active fa-solid fa-layer-group"></i>
+            <i class="sidebar-icon fa-solid fa-briefcase"></i>
+            <i class="sidebar-icon fa-solid fa-file-invoice-dollar"></i>
+            <i class="sidebar-icon fa-solid fa-puzzle-piece"></i>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="mockup-main d-flex flex-column p-3 gap-2">
+            
+            <!-- Workspace Switcher -->
+            <div class="mockup-panel p-2 px-3 d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <div class="priority-indicator priority-medium me-2"><i class="fa-solid fa-circle"></i></div>
+                    <span class="mockup-list-name">{(head l.clients).name}</span>
+                </div>
+                <div class="mockup-list-score">{l.activeClient}</div>
+            </div>
+
+            <!-- Client Management List -->
+            <div class="mockup-panel p-3">
+                <div class="mockup-title mb-2">{(head l.clients).status} {l.clientLabel}</div>
+                <div class="d-flex flex-column gap-1">
+                    {renderClients l.clients}
+                </div>
+            </div>
+
+            <!-- White Label Report Preview -->
+            <div class="mockup-panel p-3 pb-0">
+                <div class="mockup-title text-center mb-1">{l.reportTitle}</div>
+                <div class="mockup-report-brand text-center">
+                    {l.reportBrand}
+                </div>
+                <div class="mockup-trendline mt-3 mb-0 pb-0">
+                    <svg viewBox="0 0 300 20" preserveAspectRatio="none">
+                        <path d="M0,15 Q50,12 100,5 T200,8 T300,2" fill="none" stroke="var(--accent-primary)" stroke-width="1" stroke-linecap="round" />
+                    </svg>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+|]
+    where
+        l = agencyLocale lang
+        renderClients clients = foldMap (\c -> [lurk|
+            <div class="mockup-list-item">
+                <span class="mockup-list-name">{c.name}</span>
+                <span class="mockup-list-msg">{c.agent}</span>
+                <div class="priority-indicator {if c.status `elem` ["Active", "Activo", "활성"] then "priority-high" else "priority-low"}">
+                    <i class="priority-indicator-icon fa-solid fa-circle"></i>
+                </div>
+            </div>
+            |]) clients
