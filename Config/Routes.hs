@@ -15,6 +15,9 @@ data Route
     | Terms
     deriving (Eq)
 
+domain :: Text
+domain = "https://ruzaani.com"
+
 path :: Language -> Route -> Text
 path EN Home = "/"
 path ES Home = "/es/"

@@ -8,6 +8,7 @@ import Network.Wai.Middleware.Static (staticPolicy, addBase)
 
 routes :: ScottyM ()
 routes = do
+    middleware trailingSlash
     middleware $ staticPolicy (addBase "public")
 
     getRoute (path EN Home) $ homeAction EN
