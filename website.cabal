@@ -59,6 +59,9 @@ common extensions
                         TemplateHaskell
                         DuplicateRecordFields
                         ImplicitParams
+                        DataKinds
+                        TypeApplications
+                        ExtendedDefaultRules
 
 -- ============================================================
 -- Application Executable (this website project)
