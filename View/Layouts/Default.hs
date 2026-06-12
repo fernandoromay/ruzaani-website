@@ -25,9 +25,7 @@ defaultLayout lang seo viewContent = [lurk|
 <body>
     {navbar lang}
     
-    <main class="flex-grow-1">
-        {viewContent}
-    </main>
+    {viewContent}
 
     {footer lang}
 
