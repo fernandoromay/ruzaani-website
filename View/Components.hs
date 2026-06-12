@@ -93,3 +93,4 @@ footer lang = [lurk|
   where
     l = footerLocale lang
     nav = navbarLocale lang
+

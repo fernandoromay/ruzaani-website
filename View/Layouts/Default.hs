@@ -4,8 +4,7 @@ import View.Components (footer, navbar)
 import View.Prelude
 
 defaultLayout :: (?currentPath :: Text) => Language -> SEO -> Html -> Html
-defaultLayout lang seo viewContent =
-  [lurk|
+defaultLayout lang seo viewContent = [lurk|
 <!DOCTYPE html>
 <html lang="{show lang}">
 <head>
@@ -17,22 +16,23 @@ defaultLayout lang seo viewContent =
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{assetPath "css/common.css"}">
     <!-- Preconnect -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     {renderSEO seo}
-
 </head>
 <body>
     {navbar lang}
     
-    <main>
+    <main class="flex-grow-1">
         {viewContent}
     </main>
 
     {footer lang}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{assetPath "js/common.js"}"></script>
 </body>
 </html>
 |]

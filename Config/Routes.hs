@@ -10,6 +10,7 @@ data Route
     | UseCases
     | Agency
     | Pricing
+    | Access
     deriving (Eq)
 
 path :: Language -> Route -> Text
@@ -36,3 +37,7 @@ path KO Agency = "/ko/agency-program/"
 path EN Pricing = "/pricing/"
 path ES Pricing = "/es/precios/"
 path KO Pricing = "/ko/pricing/"
+
+path EN Access = "/access/"
+path ES Access = "/es/acceso/"
+path KO Access = "/ko/access/"
