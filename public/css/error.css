@@ -1,0 +1,14 @@
+@charset "UTF-8";
+@import "./common.css";
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
