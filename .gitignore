@@ -7,4 +7,5 @@ cabal.project.local
 *.dyn_o
 *.dyn_hi
 
+.vscode/
 legacy/
