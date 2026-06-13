@@ -13,7 +13,7 @@ navbar lang = [lurk|
       </a>
 
       <ul class="navbar-nav">
-        <li><a href="{l.homeLink}" class="{activeClass ?currentPath l.homeLink}">{l.homeText}</a></li>
+        <li><a href="{l.homeLink}" class="{if ?currentPath == l.homeLink then "active" else ""}">{l.homeText}</a></li>
         <li><a href="{l.productLink}" class="{activeClass ?currentPath l.productLink}">{l.productText}</a></li>
         <li><a href="{l.solutionsLink}" class="{activeClass ?currentPath l.solutionsLink}">{l.solutionsText}</a></li>
         <li><a href="{l.useCasesLink}" class="{activeClass ?currentPath l.useCasesLink}">{l.useCasesText}</a></li>

@@ -22,7 +22,7 @@ defaultLayout lang seo viewContent = [lurk|
 
     {renderSEO seo}
 </head>
-<body>
+<body class="overflow-x-hidden">
     {navbar lang}
     
     {viewContent}
