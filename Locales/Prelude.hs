@@ -1,13 +1,15 @@
 module Locales.Prelude
-    ( module Types.Language
-    , module Lurk.SEO
-    , module Data.Map.Strict
+    ( module Data.Map.Strict
     , module GHC.Generics
+    , module Lurk.SEO
+    , module Config.Routes
+    , module Types.Language
     , Text
     ) where
 
-import Types.Language
-import Lurk.SEO
 import Data.Map.Strict (Map, fromList)
 import GHC.Generics (Generic)
 import Data.Text (Text)
+import Lurk.SEO
+import Config.Routes
+import Types.Language

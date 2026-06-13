@@ -1,6 +1,5 @@
 module Locales.Common where
 
-import Config.Routes
 import Locales.Prelude
 
 data NavbarLocale = NavbarLocale

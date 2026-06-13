@@ -1,7 +1,6 @@
 module Locales.Home where
 
 import Lurk.Prelude (Html)
-import Config.Routes
 import Locales.Prelude
 
 data HomeLocale = HomeLocale
