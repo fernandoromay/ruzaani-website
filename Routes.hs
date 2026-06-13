@@ -15,4 +15,8 @@ routes = do
     getRoute (path ES Home) $ homeAction ES
     getRoute (path KO Home) $ homeAction KO
 
+    getRoute (path EN Pricing) $ pricingAction EN
+    getRoute (path ES Pricing) $ pricingAction ES
+    getRoute (path KO Pricing) $ pricingAction KO
+
     notFound notFoundAction

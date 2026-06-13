@@ -252,7 +252,6 @@
 
 .enterprise-wrap {
     position: relative;
-    z-index: 2;
 }
 
 .enterprise-tag {
@@ -509,7 +508,7 @@
 
 .discount-row {
     display: grid;
-    grid-template-columns: 1.5fr 120px 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
     align-items: center;
     gap: 1.5rem;
     padding: 1.25rem 1.75rem;

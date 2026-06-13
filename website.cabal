@@ -50,6 +50,7 @@ executable ruzaani-website
                      Locales.Components.Mockups,
                      Locales.Home,
                      Locales.Prelude,
+                     Locales.Pricing,
                      Routes,
                      Types,
                      Types.Language,
@@ -59,7 +60,8 @@ executable ruzaani-website
                      View.Error,
                      View.Home,
                      View.Layouts.Default,
-                     View.Prelude
+                     View.Prelude,
+                     View.Pricing
     build-depends:   base ^>=4.17.2.1,
                      lurk,
                      scotty,
