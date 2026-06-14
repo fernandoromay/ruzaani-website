@@ -1,37 +1,34 @@
 module Controller.Static where
 
-import Locales.Home qualified as Home
-import Locales.Pricing qualified as Pricing
-import Locales.Legal.Terms qualified as Terms
-import Locales.Legal.Privacy qualified as Privacy
+import Language
 import Lurk.Prelude
-import Network.HTTP.Types (status404)
-import Types.Language
-import Types.LegalDoc
 import View.Error
 import View.Home (homeView)
+import View.Legal (legalView)
 import View.Pricing (pricingView)
-import View.Legal
+import Network.HTTP.Types (status404)
 import Web.Scotty (status)
+import qualified Locales.Home as Home
+import qualified Locales.Pricing as Pricing
+import qualified Locales.Legal as Legal
 
-homeAction :: Language -> ActionM ()
-homeAction lang = do
-    let locale = Home.getLocale lang
-    renderView $ homeView lang locale
+data LegalPage = Terms | Privacy deriving (Eq)
 
-pricingAction :: Language -> ActionM ()
-pricingAction lang = do
-    let locale = Pricing.getLocale lang
-    renderView $ pricingView lang locale
+homeAction :: Language -> Action
+homeAction lang = render $ homeView lang locale
+    where locale = Home.getLocale lang
 
-legalAction :: Language -> LegalDoc -> ActionM ()
-legalAction lang doc = do
-    let locale = case doc of
-            TermsDoc   -> Terms.getLocale lang
-            PrivacyDoc -> Privacy.getLocale lang
-    renderView $ legalView lang locale
+pricingAction :: Language -> Action
+pricingAction lang = render $ pricingView lang locale
+    where locale = Pricing.getLocale lang
 
-notFoundAction :: ActionM ()
+legalAction :: Language -> LegalPage -> Action
+legalAction lang page = render $ legalView lang locale
+    where locale = case page of
+            Terms   -> Legal.getLocaleTerms lang
+            Privacy -> Legal.getLocalePrivacy lang
+
+notFoundAction :: Action
 notFoundAction = do
     status status404
-    renderView $ error404View EN
+    render (error404View EN)
