@@ -1,5 +1,5 @@
 module Locales.Legal.Privacy
-    ( getLocale
+    ( getLocalePrivacy
     , module Locales.Legal.Prelude
     ) where
 
@@ -10,8 +10,8 @@ effectiveDate EN = "April 25, 2026"
 effectiveDate ES = "25 de abril de 2026"
 effectiveDate KO = "2026년 4월 25일"
 
-getLocale :: Language -> LegalLocale
-getLocale EN = LegalLocale
+getLocalePrivacy :: Language -> LegalLocale
+getLocalePrivacy EN = LegalLocale
     { seo = defaultSEO
         { title = "Ruzaani's Privacy Policy"
         , metaTitle = "Privacy Policy | Ruzaani - AI Business Intelligence Platform"
@@ -100,7 +100,8 @@ getLocale EN = LegalLocale
         <p><strong>Responsible Entity:</strong> Fernando Alberto Ocampo Romay<br/><strong>Email:</strong> <a href='mailto:legal@ruzaani.com' target='_blank' class='url'>legal@ruzaani.com</a></p>
         |]
     }
-getLocale ES = LegalLocale
+
+getLocalePrivacy ES = LegalLocale
     { seo = defaultSEO
         { title = "Política de Privacidad de Ruzaani"
         , metaTitle = "Política de Privacidad | Ruzaani - Plataforma de inteligencia empresarial"
@@ -157,7 +158,7 @@ getLocale ES = LegalLocale
         <h2>6. Derechos y Opciones del Usuario</h2>
         <p>Como usuario o titular de los datos, tiene ciertos derechos con respecto a la información que recopilamos:</p>
         <ul>
-            <li><strong>Acceso a sus Datos:</strong> Puede solicitar acceso a los datos personales que tenemos sobre usted.</li>
+            <li><strong>Accesso a sus Datos:</strong> Puede solicitar acceso a los datos personales que tenemos sobre usted.</li>
             <li><strong>Corrección de sus Datos:</strong> Puede solicitar la corrección de datos inexactos.</li>
             <li><strong>Eliminación de sus Datos:</strong> Tiene el derecho de solicitar la eliminación de sus datos personales.</li>
             <li><strong>Exclusión Voluntaria (Opt-out):</strong> Puede optar por no participar en ciertas actividades de recopilación de datos ajustando la configuración de su navegador.</li>
@@ -189,7 +190,8 @@ getLocale ES = LegalLocale
         <p><strong>Entidad Responsable:</strong> Fernando Alberto Ocampo Romay<br/><strong>Correo Electrónico:</strong> <a href='mailto:legal@ruzaani.com' target='_blank' class='url'>legal@ruzaani.com</a></p>
         |]
     }
-getLocale KO = LegalLocale
+
+getLocalePrivacy KO = LegalLocale
     { seo = defaultSEO
         { title = "Ruzaani의 개인정보 처리방침"
         , metaTitle = "개인정보 처리방침 | Ruzaani - 인공지능 기반 비즈니스 인텔리전스 플랫폼"
@@ -234,7 +236,6 @@ getLocale KO = LegalLocale
             <li><strong>연동 플랫폼:</strong> 귀하가 연결한 플랫폼의 API를 통해 메시징 및 예약을 촉진하기 위한 경우.</li>
             <li><strong>법적 규정 준수:</strong> 법률에 의해 요구되거나 권리 및 안전을 보호하기 위한 경우.</li>
             <li><strong>비즈니스 이전:</strong> 합병, 인수 또는 자산 매각이 발생하는 경우 데이터가 인수 기관으로 이전될 수 있습니다.</li>
-
         </ul>
         <h2>5. 데이터 보안</h2>
         <p>당사는 무단 접근, 손실 또는 오용으로부터 데이터를 보호하기 위해 기술적 및 조직적 조치를 구현합니다:</p>
@@ -245,7 +246,7 @@ getLocale KO = LegalLocale
         </ul>
         <p><strong>데이터 유출 절차:</strong> 개인정보가 손상되는 보안 침해 사고가 발생할 경우, 당사는 영향을 받는 고객이 적절한 조치를 취하고 최종 사용자에게 통지할 수 있도록 72시간 이내에 통보합니다.</p>
         <h2>6. 사용자의 권리 및 선택권</h2>
-        <p>사용자 또는 정보 주체로서 귀하는 당사가 수집한 정보에 대해 다음과 같은 권리를 가집니다:</p>
+        <p>사용자 또는 정보 주체로서 귀하가 당사가 수집한 정보에 대해 다음과 같은 권리를 가집니다:</p>
         <ul>
             <li><strong>데이터 접근권:</strong> 귀하는 당사가 보유한 귀하의 개인정보에 대한 접근을 요청할 수 있습니다.</li>
             <li><strong>데이터 정정권:</strong> 귀하는 부정확한 데이터의 정정을 요청할 수 있습니다.</li>
@@ -257,7 +258,7 @@ getLocale KO = LegalLocale
         <h2>7. 데이터 보존</h2>
         <p>당사는 필요한 기간 동안만 개인정보를 보존합니다:</p>
         <ul>
-            <li><strong>계정 데이터:</strong> 귀하의 계정이 활성화되어 있는 동안 보존됩니다.</li>
+            <li><strong>계정 데이터:</strong> 귀하의 계정 활성화되어 있는 동안 보존됩니다.</li>
             <li><strong>대화 및 행동 데이터:</strong> 서비스 제공 및 AI 성능 개선에 필요한 기간 동안 보존되며, 귀하의 설정 및 삭제 요청에 따라 달라집니다.</li>
         </ul>
         <h2>8. 국외 이전</h2>

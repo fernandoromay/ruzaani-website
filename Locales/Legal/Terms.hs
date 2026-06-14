@@ -1,5 +1,5 @@
 module Locales.Legal.Terms
-    ( getLocale
+    ( getLocaleTerms
     , module Locales.Legal.Prelude
     ) where
 
@@ -10,8 +10,8 @@ effectiveDate EN = "April 25, 2026"
 effectiveDate ES = "25 de abril de 2026"
 effectiveDate KO = "2026년 4월 25일"
 
-getLocale :: Language -> LegalLocale
-getLocale EN = LegalLocale
+getLocaleTerms :: Language -> LegalLocale
+getLocaleTerms EN = LegalLocale
     { seo = defaultSEO
         { title = "Ruzaani's Terms of Service"
         , metaTitle = "Terms of Service | Ruzaani - AI Business Intelligence Platform"
@@ -90,7 +90,7 @@ getLocale EN = LegalLocale
         |]
     }
 
-getLocale ES = LegalLocale
+getLocaleTerms ES = LegalLocale
     { seo = defaultSEO
         { title = "Términos y Condiciones de Ruzaani"
         , metaTitle = "Términos y Condiciones | Ruzaani - Plataforma de inteligencia empresarial"
@@ -102,7 +102,7 @@ getLocale ES = LegalLocale
         <br><br>
         <p>Estos Términos y Condiciones ("Términos") rigen su acceso y uso del sitio web, la plataforma, las herramientas de inteligencia empresarial de IA y los servicios relacionados de Ruzaani (colectivamente, los "Servicios").</p>
         <p>A lo largo de estos Términos, "Ruzaani", "nosotros", "nos" o "nuestro" se refiere a la plataforma Ruzaani y a su entidad operadora. "Cliente", "usted" o "su" se refiere a la empresa, agencia o individuo que se registra y utiliza los Servicios.</p>
-        <p>Al registrar una cuenta o utilizar nuestros Servicios, usted acepta quedar vinculado por estos Términos. Si no está de acuerdo con estos Términos, no debe utilizar los Servicios.</p>
+        <p>Al registrar una cuenta o utilizar nuestros Servicios, usted acepta quedar vinculado por estos Términos. If you do not agree to these Terms, you must not use the Services.</p>
         <h2>1. Descripción de los Servicios</h2>
         <p>Ruzaani ofrece una plataforma B2B de inteligencia empresarial y comunicación impulsada por IA. Los Servicios incluyen, entre otros, agentes conversacionales de IA, un CRM unificado, integraciones con plataformas de mensajería (Meta, Telegram, Email) y rastreo web de comportamiento.</p>
         <h2>2. Registro de Cuenta y Seguridad</h2>
@@ -124,7 +124,7 @@ getLocale ES = LegalLocale
         <p>Como <strong>Responsable del Tratamiento de Datos</strong> de los datos de sus usuarios finales, usted es el único responsable de:</p>
         <ul>
             <li><strong>Consentimiento:</strong> Obtener todos los consentimientos legalmente requeridos de sus usuarios finales antes de implementar nuestro Web Tracker en su sitio web o comunicarse con ellos a través de nuestros agentes de IA.</li>
-            <li><strong>Cumplimiento con Terceros:</strong> Cumplir con los Términos de Servicio de cualquier integración de terceros que conecte a Ruzaani (por ejemplo, la Política de WhatsApp Business de Meta, los Términos de la Plataforma de Facebook). Nos reservamos el derecho de suspender su cuenta si su uso viola estos términos de terceros y pone en riesgo nuestro acceso a sus APIs.</li>
+            <li><strong>Cumplimiento con Terceros:</strong> Cumplir con los Términos de Servicio de cualquier integración de terceros que conecte a Ruzaani (por ejemplo, la Política de WhatsApp Business de Meta, los Té름의 플랫폼 약관). Nos reservamos el derecho de suspender su cuenta si su uso viola estos términos de terceros y pone en riesgo nuestro acceso a sus APIs.</li>
         </ul>
         <h2>5. Descargo de Responsabilidad sobre Inteligencia Artificial</h2>
         <p>Nuestros Servicios dependen de modelos avanzados de Inteligencia Artificial (IA). Si bien nos esforzamos por lograr alta precisión, usted reconoce que:</p>
@@ -154,22 +154,22 @@ getLocale ES = LegalLocale
         <p>LOS SERVICIOS SE PROPORCIONAN "TAL CUAL" Y "SEGÚN DISPONIBILIDAD". RENUNCIAMOS A TODAS LAS GARANTÍAS, EXPRESAS O IMPLÍCITAS, INCLUYENDO LAS GARANTÍAS DE COMERCIABILIDAD, IDONEIDAD PARA UN PROPÓSITO PARTICULAR Y NO INFRACCIÓN. NO GARANTIZAMOS QUE LOS SERVICIOS SEAN ININTERRUMPIDOS, LIBRES DE ERRORES O 100% SEGUROS.</p>
         <h2>11. Terminación</h2>
         <ul>
-            <li><strong>Por su parte:</strong> Puede cancelar su cuenta en cualquier momento a través del Panel de Administración.</li>
-            <li><strong>Por nuestra parte:</strong> Podemos suspender o cancelar su acceso a los Servicios en cualquier momento, con o sin previo aviso, si viola estos Términos o si sospechamos de actividad fraudulenta o ilegal.</li>
-            <li><strong>Efectos de la Terminación:</strong> Tras la terminación, su derecho a usar los Servicios cesará de inmediato, y podemos eliminar sus Datos de Cliente de acuerdo con nuestra Política de Privacidad.</li>
+            <li><strong>By You:</strong> You may terminate your account at any time via the Admin Dashboard.</li>
+            <li><strong>By Us:</strong> We may suspend or terminate your access to the Services at any time, with or without notice, if you violate these Terms or if we suspect fraudulent or illegal activity.</li>
+            <li><strong>Effect of Termination:</strong> Upon termination, your right to use the Services will immediately cease, and we may delete your Client Data in accordance with our Privacy Policy.</li>
         </ul>
         <h2>12. Ley Aplicable y Jurisdicción</h2>
-        <p>Estos Términos se regirán e interpretarán de acuerdo con las leyes de México. Cualquier disputa que surja de o esté relacionada con estos Términos o los Servicios estará sujeta a la jurisdicción exclusiva de los tribunales competentes en Ciudad de México, México.</p>
-        <h2>13. Cambios en estos Términos</h2>
-        <p>Podemos modificar estos Términos en cualquier momento. Le notificaremos sobre cambios importantes por correo electrónico o a través de la plataforma. Su uso continuado de los Servicios después de la fecha de vigencia de los Términos actualizados constituye su aceptación de los cambios.</p>
-        <h2>14. Entidad Legal e Información de Contacto</h2>
+        <p>Estos Términos se regirán e interpretarán de acuerdo con las leyes de México. Any disputes arising out of or relating to these Terms or the Services shall be subject to the exclusive jurisdiction of the competent courts in Ciudad de Mexico, Mexico.</p>
+        <h2>13. Changes to these Terms</h2>
+        <p>We may modify these Terms at any time. We will notify you of material changes by email or through the platform. Your continued use of the Services after the effective date of the updated Terms constitutes your acceptance of the changes.</p>
+        <h2>14. Legal Entity & Contact Information</h2>
         <p>"Ruzaani" es una marca comercial y un servicio operado por Fernando Alberto Ocampo Romay. Para fines de cumplimiento legal, Fernando Alberto Ocampo Romay es la entidad legalmente responsable que provee la plataforma Ruzaani.</p>
-        <p>Si tiene alguna pregunta o inquietud con respecto a estos Términos, por favor contáctenos en:</p>
-        <p><strong>Entidad Responsable:</strong> Fernando Alberto Ocampo Romay<br/><strong>Correo Electrónico:</strong> <a href='mailto:legal@ruzaani.com' target='_blank' class='url'>legal@ruzaani.com</a></p>
+        <p>If you have any questions or concerns regarding these Terms, please contact us at:</p>
+        <p><strong>Responsible Entity:</strong> Fernando Alberto Ocampo Romay<br/><strong>Email:</strong> <a href='mailto:legal@ruzaani.com' target='_blank' class='url'>legal@ruzaani.com</a></p>
         |]
     }
 
-getLocale KO = LegalLocale
+getLocaleTerms KO = LegalLocale
     { seo = defaultSEO
         { title = "Ruzaani의 이용약관"
         , metaTitle = "이용약관 | Ruzaani - 인공지능 기반 비즈니스 인텔리전스 플랫폼"
@@ -218,7 +218,6 @@ getLocale KO = LegalLocale
             <li><strong>고객 데이터:</strong> 귀하는 서비스에 입력하는 데이터, 연락처 및 콘텐츠에 대한 모든 소유권을 보유합니다. 귀하는 당사가 서비스를 제공하는 목적으로만 해당 데이터를 처리할 수 있는 제한적이고 비독점적인 라이선스를 당사에 부여합니다. <em>(당사는 귀하의 독점 고객 데이터를 파운데이션 모델 학습에 사용하지 않습니다).</em></li>
             <li><strong>집계 데이터:</strong> 당사는 추세 분석, 알고리즘 개선 및 시스템 성능 향상을 위해 플랫폼 전체의 사용 데이터를 집계 및 익명화할 권리를 보유합니다. 이 집계 데이터는 귀하, 귀하의 기관 또는 귀하의 최종 사용자를 식별하지 않습니다.</li>
             <li><strong>피드백:</strong> 서비스에 대한 피드백, 제안 또는 기능 요청을 제공하는 경우, 귀하는 당사가 해당 피드백을 플랫폼에 사용하고 통합할 수 있는 영구적, 취소 불가능한 무료 라이선스를 부여합니다. 이에 대한 어떠한 의무나 보상도 발생하지 않습니다.</li>
-
         </ul>
         <h2>7. 요금 및 결제</h2>
         <ul>
