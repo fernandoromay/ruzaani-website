@@ -1,6 +1,5 @@
 module Locales.Components.Animations where
 
-import Lurk.Prelude (Html)
 import Locales.Prelude
 
 webIntelligenceLocale :: Language -> Text

@@ -3,23 +3,23 @@ module Locales.Common where
 import Locales.Prelude
 
 data NavbarLocale = NavbarLocale
-  { homeText :: Text
-  , homeLink :: Text
-  , productText :: Text
-  , productLink :: Text
-  , solutionsText :: Text
-  , solutionsLink :: Text
-  , useCasesText :: Text
-  , useCasesLink :: Text
-  , agencyText :: Text
-  , agencyLink :: Text
-  , pricingText :: Text
-  , pricingLink :: Text
-  , loginText :: Text
-  , loginLink :: Text
-  , accessText :: Text
-  , accessLink :: Text
-  }
+    { homeText :: Text
+    , homeLink :: Text
+    , productText :: Text
+    , productLink :: Text
+    , solutionsText :: Text
+    , solutionsLink :: Text
+    , useCasesText :: Text
+    , useCasesLink :: Text
+    , agencyText :: Text
+    , agencyLink :: Text
+    , pricingText :: Text
+    , pricingLink :: Text
+    , loginText :: Text
+    , loginLink :: Text
+    , accessText :: Text
+    , accessLink :: Text
+    }
 
 data FooterLocale = FooterLocale
     { companyTitle :: Text
@@ -40,68 +40,65 @@ data FooterLocale = FooterLocale
     }
 
 navbarLocale :: Language -> NavbarLocale
-navbarLocale EN =
-  NavbarLocale
-    { homeText = "Home",
-      homeLink = path EN Home,
-      productText = "Product",
-      productLink = path EN Product,
-      solutionsText = "Solutions",
-      solutionsLink = path EN Solutions,
-      useCasesText = "Use Cases",
-      useCasesLink = path EN UseCases,
-      agencyText = "Agency Program",
-      agencyLink = path EN Agency,
-      pricingText = "Pricing",
-      pricingLink = path EN Pricing,
+navbarLocale EN = NavbarLocale
+    { homeText = "Home"
+    , homeLink = homePath EN
+    , productText = "Product"
+    , productLink = productPath EN
+    , solutionsText = "Solutions"
+    , solutionsLink = solutionsPath EN
+    , useCasesText = "Use Cases"
+    , useCasesLink = useCasesPath EN
+    , agencyText = "Agency Program"
+    , agencyLink = agencyPath EN
+    , pricingText = "Pricing"
+    , pricingLink = pricingPath EN
       -- , blogText = "Intelligence"
       -- , blogLink = "/intelligence/"
-      accessText = "Request Access",
-      accessLink = path EN Access,
-      loginText = "Login",
-      loginLink = "https://admin.ruzaani.com/"
+    , accessText = "Request Access"
+    , accessLink = accessPath EN
+    , loginText = "Login"
+    , loginLink = "https://admin.ruzaani.com/"
     }
-navbarLocale ES =
-  NavbarLocale
-    { homeText = "Inicio",
-      homeLink = path ES Home,
-      productText = "Producto",
-      productLink = path ES Product,
-      solutionsText = "Soluciones",
-      solutionsLink = path ES Solutions,
-      useCasesText = "Casos de Uso",
-      useCasesLink = path ES UseCases,
-      agencyText = "Programa Agencias",
-      agencyLink = path ES Agency,
-      pricingText = "Precios",
-      pricingLink = path ES Pricing,
+navbarLocale ES = NavbarLocale
+    { homeText = "Inicio"
+    , homeLink = homePath ES
+    , productText = "Producto"
+    , productLink = productPath ES
+    , solutionsText = "Soluciones"
+    , solutionsLink = solutionsPath ES
+    , useCasesText = "Casos de Uso"
+    , useCasesLink = useCasesPath ES
+    , agencyText = "Programa Agencias"
+    , agencyLink = agencyPath ES
+    , pricingText = "Precios"
+    , pricingLink = pricingPath ES
       -- , blogText = "Inteligencia"
       -- , blogLink = "/es/inteligencia/"
-      accessText = "Solicitar Acceso",
-      accessLink = path ES Access,
-      loginText = "Login",
-      loginLink = "https://admin.ruzaani.com/"
+    , accessText = "Solicitar Acceso"
+    , accessLink = accessPath ES
+    , loginText = "Login"
+    , loginLink = "https://admin.ruzaani.com/"
     }
-navbarLocale KO =
-  NavbarLocale
-    { homeText = "홈",
-      homeLink = path KO Home,
-      productText = "제품",
-      productLink = path KO Product,
-      solutionsText = "솔루션",
-      solutionsLink = path KO Solutions,
-      useCasesText = "사용 사례",
-      useCasesLink = path KO UseCases,
-      agencyText = "에이전시 프로그램",
-      agencyLink = path KO Agency,
-      pricingText = "가격",
-      pricingLink = path KO Pricing,
+navbarLocale KO = NavbarLocale
+    { homeText = "홈"
+    , homeLink = homePath KO
+    , productText = "제품"
+    , productLink = productPath KO
+    , solutionsText = "솔루션"
+    , solutionsLink = solutionsPath KO
+    , useCasesText = "사용 사례"
+    , useCasesLink = useCasesPath KO
+    , agencyText = "에이전시 프로그램"
+    , agencyLink = agencyPath KO
+    , pricingText = "가격"
+    , pricingLink = pricingPath KO
       -- , blogText = "인텔리전스"
-      -- , blogLink = "/ko/intelligence/",
-      accessText = "액세스 요청",
-      accessLink = path KO Access,
-      loginText = "로그인",
-      loginLink = "https://admin.ruzaani.com/"
+      -- , blogLink = "/ko/intelligence/"
+    , accessText = "액세스 요청"
+    , accessLink = accessPath KO
+    , loginText = "로그인"
+    , loginLink = "https://admin.ruzaani.com/"
     }
 
 footerLocale :: Language -> FooterLocale
@@ -110,9 +107,9 @@ footerLocale EN = FooterLocale
     , resourcesTitle = "Resources"
     , toolsTitle = "Access & Contact"
     , privacy = "Privacy Policy"
-    , privacyUrl = path EN Privacy
+    , privacyUrl = privacyPath EN
     , terms = "Terms of Service"
-    , termsUrl = path EN Terms
+    , termsUrl = termsPath EN
     , rights = "All rights reserved."
     , description = "AI Business Intelligence Suite"
     , contactText = "Contact Us"
@@ -127,9 +124,9 @@ footerLocale ES = FooterLocale
     , resourcesTitle = "Recursos"
     , toolsTitle = "Acceso y Contacto"
     , privacy = "Política de Privacidad"
-    , privacyUrl = path ES Privacy
+    , privacyUrl = privacyPath ES
     , terms = "Términos de Servicio"
-    , termsUrl = path ES Terms
+    , termsUrl = termsPath ES
     , rights = "Todos los derechos reservados."
     , description = "Suite de Inteligencia Empresarial de IA"
     , contactText = "Contáctanos"
@@ -139,15 +136,14 @@ footerLocale ES = FooterLocale
     , socialFacebook = "https://www.facebook.com/ruzaaniai"
     , socialInstagram = "https://www.instagram.com/ruzaaniai/"
     }
-
 footerLocale KO = FooterLocale
     { companyTitle = "회사"
     , resourcesTitle = "리소스"
     , toolsTitle = "액세스 및 연락처"
     , privacy = "개인정보 처리방침"
-    , privacyUrl = path KO Privacy
+    , privacyUrl = privacyPath KO
     , terms = "이용약관"
-    , termsUrl = path KO Terms
+    , termsUrl = termsPath KO
     , rights = "모든 권리 보유."
     , description = "AI 비즈니스 인텔리전스 스위트"
     , contactText = "문의"
