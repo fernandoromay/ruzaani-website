@@ -40,24 +40,26 @@ common extensions
 executable ruzaani-website
     import:          warnings, extensions
     main-is:         Main.hs
-    hs-source-dirs:  Application, .
+    hs-source-dirs:  .
     ghc-options:     -Wno-missing-home-modules -Wno-dodgy-exports -threaded -rtsopts -with-rtsopts=-N
     other-modules:
-                     Config.Routes,
+                     Config,
                      Controller.Static,
+                     Language,
+                     Locales,
                      Locales.Common,
                      Locales.Components.Animations,
                      Locales.Components.Mockups,
+                     Locales.Error,
                      Locales.Home,
+                     Locales.Legal,
                      Locales.Legal.Prelude,
                      Locales.Legal.Privacy,
                      Locales.Legal.Terms,
                      Locales.Prelude,
                      Locales.Pricing,
-                     Routes,
-                     Types,
-                     Types.Language,
-                     Types.LegalDoc,
+                     Paths,
+                     Router,
                      View.Components,
                      View.Components.Animations,
                      View.Components.Mockups,
@@ -71,8 +73,6 @@ executable ruzaani-website
                      lurk,
                      scotty,
                      text,
-                     hasql,
-                     hasql-pool,
                      wai,
                      warp,
                      containers,
@@ -81,5 +81,4 @@ executable ruzaani-website
                      http-types,
                      bytestring,
                      megaparsec,
-                     template-haskell,
-                     wai-middleware-static
+                     template-haskell
