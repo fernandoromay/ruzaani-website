@@ -1,0 +1,63 @@
+module Paths
+    ( domain
+    , homePath
+    , pricingPath
+    , privacyPath
+    , termsPath
+    , productPath
+    , solutionsPath
+    , useCasesPath
+    , agencyPath
+    , accessPath
+    ) where
+
+import Language (Language(..))
+import Data.Text (Text)
+
+domain :: Text
+domain = "https://ruzaani.com"
+
+homePath :: Language -> Text
+homePath EN = "/"
+homePath ES = "/es/"
+homePath KO = "/ko/"
+
+pricingPath :: Language -> Text
+pricingPath EN = "/pricing/"
+pricingPath ES = "/es/precios/"
+pricingPath KO = "/ko/pricing/"
+
+privacyPath :: Language -> Text
+privacyPath EN = "/privacy-policy/"
+privacyPath ES = "/es/politica-de-privacidad/"
+privacyPath KO = "/ko/privacy-policy/"
+
+termsPath :: Language -> Text
+termsPath EN = "/terms-of-service/"
+termsPath ES = "/es/terminos-y-condiciones/"
+termsPath KO = "/ko/terms-of-service/"
+
+productPath :: Language -> Text
+productPath EN = "/#agents/"
+productPath ES = "/es/#agentes/"
+productPath KO = "/ko/#agents/"
+
+solutionsPath :: Language -> Text
+solutionsPath EN = "/solutions/"
+solutionsPath ES = "/es/soluciones/"
+solutionsPath KO = "/ko/solutions/"
+
+useCasesPath :: Language -> Text
+useCasesPath EN = "/use-cases/"
+useCasesPath ES = "/es/casos-de-uso/"
+useCasesPath KO = "/ko/use-cases/"
+
+agencyPath :: Language -> Text
+agencyPath EN = "/agency-program/"
+agencyPath ES = "/es/agencias/"
+agencyPath KO = "/ko/agency-program/"
+
+accessPath :: Language -> Text
+accessPath EN = "/access/"
+accessPath ES = "/es/acceso/"
+accessPath KO = "/ko/access/"

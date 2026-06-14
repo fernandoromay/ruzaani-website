@@ -1,12 +1,13 @@
-module Types.Language 
+module Language
     ( Language(..)
     , allLanguages
     , toName
     ) where
+
 import Data.String (IsString(..))
 import Data.Text (Text)
 
-data Language = EN | ES | KO 
+data Language = EN | ES | KO
     deriving (Eq, Enum, Bounded)
 
 instance Show Language where
@@ -21,7 +22,7 @@ instance IsString Language where
     fromString "en" = EN
     fromString "es" = ES
     fromString "ko" = KO
-    fromString _    = EN 
+    fromString _    = EN
 
 toName :: Language -> Text
 toName EN = "English"
