@@ -1,11 +1,10 @@
 module View.Prelude
-  ( module Lurk.Prelude,
-    module Types.Language,
-    assetPath,
-  )
-where
+    ( module Lurk.Prelude
+    , module Language
+    , assetPath
+    ) where
 
 import Lurk.Prelude
-import Types.Language
+import Language
 
 mkAssetPath "public"
