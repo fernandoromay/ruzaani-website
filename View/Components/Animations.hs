@@ -18,12 +18,10 @@ renderWebIntelligence lang = [lurk|
     <!-- Center User Identity -->
     <div class="center-identity">
         JD
-        <span class="resolved-label">{identityResolved}</span>
+        <span class="resolved-label">{webIntelligenceLocale lang}</span>
     </div>
 </div>
 |]
-  where
-    identityResolved = webIntelligenceLocale lang
 
 renderKanbanCRM :: Language -> Html
 renderKanbanCRM lang = [lurk|
@@ -140,15 +138,15 @@ renderSalesPipeline lang = styleBlock <> [lurk|
 |]
   where
     l = salesPipelineLocale lang
-    styleBlock = preEscapedToHtml $ T.concat
-          [ "<style>\n",
+    styleBlock = preEscapedToHtml $ T.concat [
+            "<style>\n",
             "    .stage-text-loop::after {\n",
             "        animation: stageTextLoop_",
-            T.pack (show lang),
+            toText lang,
             " 12s infinite;\n",
             "    }\n",
             "    @keyframes stageTextLoop_",
-            T.pack (show lang),
+            toText lang,
             " {\n",
             "        0%, 50% { content: '",
             stageLead l,

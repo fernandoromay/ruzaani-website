@@ -6,7 +6,7 @@ import View.Prelude
 defaultLayout :: (?currentPath :: Text) => Language -> SEO -> Html -> Html
 defaultLayout lang seo viewContent = [lurk|
 <!DOCTYPE html>
-<html lang="{show lang}">
+<html lang="{toText lang}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

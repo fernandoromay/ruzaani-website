@@ -1,28 +1,15 @@
 module Language
     ( Language(..)
     , allLanguages
+    , fromText
+    , toText
     , toName
     ) where
 
-import Data.String (IsString(..))
-import Data.Text (Text)
+import Lurk.Language
 
 data Language = EN | ES | KO
-    deriving (Eq, Enum, Bounded)
-
-instance Show Language where
-    show EN = "en"
-    show ES = "es"
-    show KO = "ko"
-
-allLanguages :: [Language]
-allLanguages = [EN, ES, KO]
-
-instance IsString Language where
-    fromString "en" = EN
-    fromString "es" = ES
-    fromString "ko" = KO
-    fromString _    = EN
+    deriving (Eq, Enum, Bounded, Data)
 
 toName :: Language -> Text
 toName EN = "English"
