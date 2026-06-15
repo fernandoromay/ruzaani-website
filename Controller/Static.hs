@@ -19,8 +19,9 @@ homeAction lang = render $ homeView lang locale
     where locale = Home.getLocale lang
 
 pricingAction :: Language -> Action ()
-pricingAction lang = render $ pricingView lang locale
-    where locale = Pricing.getLocale lang
+pricingAction lang = do
+    country <- cfCountry
+    render $ pricingView lang (Pricing.getLocale lang country)
 
 legalAction :: Language -> LegalPage -> Action ()
 legalAction lang page = render $ legalView lang locale

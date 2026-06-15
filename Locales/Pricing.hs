@@ -88,8 +88,26 @@ data AgencyTier = AgencyTier
     , barSize :: Int
     }
 
-getLocale :: Language -> PricingLocale
-getLocale EN = PricingLocale
+data Currency = USD | EUR | KRW | MXN
+    deriving (Show, Eq)
+
+europeCodes :: [Text]
+europeCodes = ["ES", "FR", "DE", "IT", "PT", "BE", "NL", "AT", "IE", "SE", "PL", "CZ", "SK", "HU", "RO", "BG", "GR", "FI", "IS", "LI", "LU", "NO", "CH"]
+
+getCurrency :: Maybe Text -> Currency
+getCurrency (Just "MX") = MXN
+getCurrency (Just "KR") = KRW
+getCurrency (Just c)
+    | c `elem` europeCodes = EUR
+getCurrency _ = USD
+
+getSymbol :: Currency -> Text
+getSymbol EUR = "€"
+getSymbol KRW = "₩"
+getSymbol _   = "$"
+
+getLocale :: Language -> Maybe Text -> PricingLocale
+getLocale EN country = PricingLocale
     { seo = defaultSEO
         { title = "Ruzaani Pricing | Plans for Every Business"
         , metaTitle = "Ruzaani Pricing: Simple, Transparent Plans"
@@ -103,8 +121,12 @@ getLocale EN = PricingLocale
             { name = "Starter"
             , badge = Nothing
             , tagline = "For solopreneurs and independent professionals."
-            , price = ""
-            , currency = "USD"
+            , price = case getCurrency country of
+                EUR -> "129"
+                USD -> "199"
+                MXN -> "'1,699"
+                KRW -> "229,000"
+            , currency = getSymbol $ getCurrency country
             , period = "/mo"
             , channels = "1 channel"
             , convos = "Unlimited conversations*"
@@ -130,8 +152,12 @@ getLocale EN = PricingLocale
             { name = "Basic"
             , badge = Nothing
             , tagline = "For small teams and specialized practices."
-            , price = ""
-            , currency = "USD"
+            , price = case getCurrency country of
+                EUR -> "229"
+                USD -> "349"
+                MXN -> "'2,499"
+                KRW -> "399,000"
+            , currency = getSymbol $ getCurrency country
             , period = "/mo"
             , channels = "3 channels"
             , convos = "Unlimited conversations*"
@@ -157,8 +183,12 @@ getLocale EN = PricingLocale
             { name = "Growth"
             , badge = Just "Most popular"
             , tagline = "For expanding businesses and multi-location centers."
-            , price = ""
-            , currency = "USD"
+            , price = case getCurrency country of
+                EUR -> "349"
+                USD -> "599"
+                MXN -> "'4,499"
+                KRW -> "679,000"
+            , currency = getSymbol $ getCurrency country
             , period = "/mo"
             , channels = "5 channels"
             , convos = "Unlimited conversations*"
@@ -272,8 +302,8 @@ getLocale EN = PricingLocale
     , modalTrustLabel = "We respond within 24 hours—no automated replies."
     }
 
-getLocale ES = getLocale EN
-getLocale KO = getLocale EN
+getLocale ES country = getLocale EN country
+getLocale KO country = getLocale EN country
 
 mainPlans :: Language -> [PlanGroup]
 mainPlans lang =
