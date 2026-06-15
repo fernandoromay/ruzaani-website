@@ -9,3 +9,5 @@ cabal.project.local
 
 .vscode/
 legacy/
+AGENTS.md
+lib/lurk/AGENTS.md
