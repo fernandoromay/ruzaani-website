@@ -14,21 +14,21 @@ import qualified Locales.Legal as Legal
 
 data LegalPage = Terms | Privacy deriving (Eq)
 
-homeAction :: Language -> Action
+homeAction :: Language -> Action ()
 homeAction lang = render $ homeView lang locale
     where locale = Home.getLocale lang
 
-pricingAction :: Language -> Action
+pricingAction :: Language -> Action ()
 pricingAction lang = render $ pricingView lang locale
     where locale = Pricing.getLocale lang
 
-legalAction :: Language -> LegalPage -> Action
+legalAction :: Language -> LegalPage -> Action ()
 legalAction lang page = render $ legalView lang locale
     where locale = case page of
             Terms   -> Legal.getLocaleTerms lang
             Privacy -> Legal.getLocalePrivacy lang
 
-notFoundAction :: Action
+notFoundAction :: Action ()
 notFoundAction = do
     status status404
     render (error404View EN)
