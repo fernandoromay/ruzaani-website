@@ -2,7 +2,7 @@
 
 module View.Pricing where
 
-import Data.Maybe (isJust)
+import Data.Maybe (isJust, fromMaybe)
 import Locales.Pricing
 import View.Layouts.Default (defaultLayout)
 import View.Prelude
@@ -149,7 +149,7 @@ pricingView lang PricingLocale {..} = defaultLayout lang pricingSeo [lurk|
       <form class="modal-form" action="/src/backend/enterprise-request.php" method="POST">
         <input type="hidden" name="type" value="enterprise_inquiry">
         <input type="hidden" name="lang" value="{toText lang}">
-        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+        <input type="hidden" name="_token" value="{csrfToken}">
         
         <div class="row g-3">
           <div class="col-md-6 form-group">
@@ -177,7 +177,7 @@ pricingView lang PricingLocale {..} = defaultLayout lang pricingSeo [lurk|
           <input type="text" name="b_website" tabindex="-1" autocomplete="off">
         </div>
 
-        <input type="hidden" name="country" value="<?= $country ?>">
+        <input type="hidden" name="country" value="">
         
         <button type="submit" class="btn-primary py-3 mt-3">{modalSubmitLabel}</button>
         <p class="modal-trust"><i class="fa-solid fa-lock me-1"></i> {modalTrustLabel}</p>
@@ -193,6 +193,9 @@ pricingView lang PricingLocale {..} = defaultLayout lang pricingSeo [lurk|
             <link rel="stylesheet" href="{assetPath "css/pricing.css"}">
             |]
         }
+
+    csrfToken :: Text
+    csrfToken = fromMaybe "" (contextValue "csrfToken")
 
 renderPlans :: [Plan] -> Html
 renderPlans = foldMap ( \p -> [lurk|
