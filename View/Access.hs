@@ -2,6 +2,7 @@
 module View.Access where
 
 import Data.Text qualified as T
+import Data.Maybe (fromMaybe)
 import Lurk.Html (preEscapedToHtml)
 import Locales.Access
 import View.Layouts.Default
@@ -50,7 +51,7 @@ accessView lang AccessLocale {..} = defaultLayout lang accessSeo [lurk|
             <p class="text-secondary mb-4">{contactSubtitle}</p>
 
             <form class="contact-form text-start" id="audit-form" action="/src/backend/access-request.php" method="POST">
-              <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+              <input type="hidden" name="_token" value="{csrfToken}">
               <div class="mb-3">
                 <label
                   class="form-label small text-uppercase text-secondary fw-bold">{labelName}</label>
@@ -73,9 +74,8 @@ accessView lang AccessLocale {..} = defaultLayout lang accessSeo [lurk|
                 <input type="text" class="form-control p-3 bg-light border-0" id="contact-role" name="role" required>
               </div>
 
-              <input type="hidden" id="contact-country" name="country" value="<?= $country ?>">
-              <input type="hidden" id="contact-lang" name="lang" value="<?= $lang ?>">
-              <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+              <input type="hidden" id="contact-country" name="country" value="">
+              <input type="hidden" id="contact-lang" name="lang" value="{toText lang}">
 
               <!-- Honeypot -->
               <div style="display:none !important; visibility:hidden !important; pointer-events:none !important; position:absolute !important; left:-9999px !important;">
@@ -165,3 +165,6 @@ accessView lang AccessLocale {..} = defaultLayout lang accessSeo [lurk|
           </span>
         </label>
     |]) opts
+
+    csrfToken :: Text
+    csrfToken = fromMaybe "" (contextValue "csrfToken")
