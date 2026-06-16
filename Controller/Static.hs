@@ -1,20 +1,22 @@
 module Controller.Static where
 
+import Network.HTTP.Types (status404)
+import Web.Scotty (status)
 import Language
 import View.Prelude
 import View.Error
 import View.Home (homeView)
 import View.Product (productView)
-import View.Legal (legalView)
 import View.Agency
 import View.Pricing (pricingView)
-import Network.HTTP.Types (status404)
-import Web.Scotty (status)
+import View.Access
+import View.Legal
 import Locales.Home qualified as Home
 import Locales.Product qualified as Product
 import Locales.Pricing qualified as Pricing
 import Locales.Legal qualified as Legal
 import Locales.Agency qualified as Agency
+import Locales.Access qualified as Access
 
 data LegalPage = Terms | Privacy deriving (Eq)
 
@@ -34,6 +36,10 @@ pricingAction :: Language -> Action ()
 pricingAction lang = do
     country <- cfCountry
     render $ pricingView lang (Pricing.getLocale lang country)
+
+accessAction :: Language -> Action ()
+accessAction lang = render $ accessView lang locale
+    where locale = Access.getLocale lang
 
 legalAction :: Language -> LegalPage -> Action ()
 legalAction lang page = render $ legalView lang locale
