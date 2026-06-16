@@ -3,6 +3,7 @@ module View.Components where
 import View.Prelude
 import Locales.Common
 import Paths (langPaths)
+import Data.Text qualified as T
 
 navbar :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> Html
 navbar lang = [lurk|
@@ -100,7 +101,7 @@ navside lang = [lurk|
         else [lurk|<a class="nav-link access-link" href="{l.accessLink}">{l.accessText}</a>|]
 
     renderLangs = foldMap ( \(langCode, path) -> [lurk|
-        <a href="{path}" class="{if langCode == lang then "accented fw-bold" else ""}">{toText langCode}</a>
+        <a href="{path}" class="{if langCode == lang then "accented fw-bold" else ""}">{T.toUpper (toText langCode)}</a>
     |]) (langPaths ?currentPath)
 
 footer :: Language -> Html
