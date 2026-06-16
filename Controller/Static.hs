@@ -1,7 +1,7 @@
 module Controller.Static where
 
 import Language
-import Lurk.Prelude
+import View.Prelude
 import View.Error
 import View.Home (homeView)
 import View.Product (productView)
