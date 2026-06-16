@@ -10,8 +10,9 @@ router = do
     routeSettings [ TrailingSlashes, ServeStatic "public" ]
 
     getPages allLanguages homePath homeAction
-    getPages allLanguages pricingPath pricingAction
+    getPages allLanguages productPath productAction
     getPages allLanguages agencyPath agencyAction
+    getPages allLanguages pricingPath pricingAction
 
     getPages allLanguages termsPath (`legalAction` Terms)
     getPages allLanguages privacyPath (`legalAction` Privacy)

@@ -4,12 +4,14 @@ import Language
 import Lurk.Prelude
 import View.Error
 import View.Home (homeView)
+import View.Product (productView)
 import View.Legal (legalView)
 import View.Agency
 import View.Pricing (pricingView)
 import Network.HTTP.Types (status404)
 import Web.Scotty (status)
 import Locales.Home qualified as Home
+import Locales.Product qualified as Product
 import Locales.Pricing qualified as Pricing
 import Locales.Legal qualified as Legal
 import Locales.Agency qualified as Agency
@@ -19,6 +21,10 @@ data LegalPage = Terms | Privacy deriving (Eq)
 homeAction :: Language -> Action ()
 homeAction lang = render $ homeView lang locale
     where locale = Home.getLocale lang
+
+productAction :: Language -> Action ()
+productAction lang = render $ productView lang locale
+    where locale = Product.getLocale lang
 
 agencyAction :: Language -> Action ()
 agencyAction lang = render $ agencyView lang locale

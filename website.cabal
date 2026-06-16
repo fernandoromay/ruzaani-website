@@ -46,7 +46,6 @@ executable ruzaani-website
                      Config,
                      Controller.Static,
                      Language,
-                     Locales,
                      Locales.Agency,
                      Locales.Common,
                      Locales.Components.Animations,
@@ -59,6 +58,7 @@ executable ruzaani-website
                      Locales.Legal.Terms,
                      Locales.Prelude,
                      Locales.Pricing,
+                     Locales.Product,
                      Paths,
                      Router,
                      View.Agency,
@@ -70,7 +70,8 @@ executable ruzaani-website
                      View.Layouts.Default,
                      View.Legal,
                      View.Prelude,
-                     View.Pricing
+                     View.Pricing,
+                     View.Product
     build-depends:   base ^>=4.17.2.1,
                      lurk,
                      scotty,

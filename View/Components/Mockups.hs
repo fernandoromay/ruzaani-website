@@ -188,3 +188,68 @@ renderConversation lang = [lurk|
                 {m.message}
             </div>
     |]) (zip [0..] messages)
+
+renderProductMockup :: Language -> Html
+renderProductMockup lang = [lurk|
+<div class="hero-preview-card">
+    <div class="hero-preview-bar">
+        <span class="hero-dot dot-red"></span>
+        <span class="hero-dot dot-amber"></span>
+        <span class="hero-dot dot-green"></span>
+        <span class="mockup-title">
+            {l.title}
+        </span>
+    </div>
+
+    <div class="mockup-body p-4 d-flex flex-column gap-3">
+
+        <div class="mockup-stats-grid row g-3">
+            {renderStats l.stats}
+        </div>
+
+        <div class="mockup-panel p-3">
+            <div class="mockup-title">{l.graphTitle}</div>
+            <div class="mockup-bar-chart">
+                <div class="mockup-bar-1"></div>
+                <div class="mockup-bar-2"></div>
+                <div class="mockup-bar-3"></div>
+                <span class="mockup-bar-total">{l.graphLast}</span>
+            </div>
+            <div class="mockup-bar-labels">
+                {renderGraphLabels l.graphLabels}
+            </div>
+        </div>
+
+        <div class="mockup-panel p-3">
+            <div class="mockup-title">{l.listTitle}</div>
+            <div class="d-flex flex-column">
+                {renderConversations l.listData}
+            </div>
+        </div>
+
+    </div>
+</div>
+|]
+  where
+    l = productMockupLocale lang
+    renderStats stats = foldMap (\(i, stat) -> [lurk|
+        <div class="col-4">
+            <div class="mockup-stat-card p-3">
+                <div class="mockup-stat-val {if i == 1 then "primary" else ""}">{stat.value}</div>
+                <div class="mockup-stat-label">{stat.label}</div>
+            </div>
+        </div>
+    |]) (zip ([0..] :: [Int]) stats)
+
+    renderGraphLabels labels = foldMap (\label -> [lurk|
+        <span>{label}</span>
+    |]) labels
+
+    renderConversations convos = foldMap (\c -> [lurk|
+        <div class="mockup-list-item">
+            <i class="{c.icon}" style="color:{c.color};"></i>
+            <span class="mockup-list-name">{c.name}</span>
+            <span class="mockup-list-msg">{c.msg}</span>
+            <span class="mockup-list-score">{c.score}</span>
+        </div>
+    |]) convos

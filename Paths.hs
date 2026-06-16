@@ -38,9 +38,9 @@ termsPath ES = "/es/terminos-y-condiciones/"
 termsPath KO = "/ko/terms-of-service/"
 
 productPath :: Language -> Text
-productPath EN = "/#agents/"
-productPath ES = "/es/#agentes/"
-productPath KO = "/ko/#agents/"
+productPath EN = "/product/"
+productPath ES = "/es/producto/"
+productPath KO = "/ko/product/"
 
 solutionsPath :: Language -> Text
 solutionsPath EN = "/solutions/"

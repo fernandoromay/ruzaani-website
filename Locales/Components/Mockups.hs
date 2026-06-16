@@ -173,3 +173,75 @@ conversationLocale KO = ConversationLocale
     , response = "Response: 38s"
     , score = "Score: 87"
     }
+
+
+data ProductMockupLocale = ProductMockupLocale
+    { title :: Text
+    , stats :: [DashboardStat]
+    , graphTitle :: Text
+    , graphLast :: Text
+    , graphLabels :: [Text]
+    , listTitle :: Text
+    , listData :: [ProductMockupList]
+    }
+
+data ProductMockupList = ProductMockupList
+    { icon :: Text
+    , color :: Text
+    , name :: Text
+    , msg :: Text
+    , score :: Text
+    }
+
+productMockupLocale :: Language -> ProductMockupLocale
+productMockupLocale EN = ProductMockupLocale
+    { title = "Ruzaani — Live Intelligence View"
+    , stats = 
+        [ DashboardStat { label = "Active Leads", value = "28" }
+        , DashboardStat { label = "Resp. Rate", value = "94%" }
+        , DashboardStat { label = "ROAS", value = "4.1x" }
+        ]
+    , graphTitle = "Deal Pipeline"
+    , graphLast = "$42K pipeline"
+    , graphLabels = ["Qualified", "Proposal", "Won"]
+    , listTitle = "Live Conversations"
+    , listData = 
+        [ ProductMockupList { icon = "fa-brands fa-whatsapp", color = "#25D366", name = "Sarah J.", msg = "SDR → qualifying budget", score = "87" }
+        , ProductMockupList { icon = "fa-brands fa-instagram", color = "#E1306C", name = "Michael K.", msg = "Closer → handling objection", score = "142" }
+        , ProductMockupList { icon = "fa-solid fa-envelope", color = "#0AAD95", name = "Emily W.", msg = "Closer → booking confirmed", score = "210" }
+        ]
+    }
+productMockupLocale ES = ProductMockupLocale
+    { title = "Ruzaani — Vista de Inteligencia en Vivo"
+    , stats = 
+        [ DashboardStat { label = "Leads Activos", value = "28" }
+        , DashboardStat { label = "Tasa Resp.", value = "94%" }
+        , DashboardStat { label = "ROAS", value = "4.1x" }
+        ]
+    , graphTitle = "Pipeline de Tratos"
+    , graphLast = "$42K en pipeline"
+    , graphLabels = ["Calificado", "Propuesta", "Ganado"]
+    , listTitle = "Conversaciones en Vivo"
+    , listData = 
+        [ ProductMockupList { icon = "fa-brands fa-whatsapp", color = "#25D366", name = "Valentina R.", msg = "SDR → calificando presupuesto", score = "87" }
+        , ProductMockupList { icon = "fa-brands fa-instagram", color = "#E1306C", name = "Carlos M.", msg = "Closer → manejando objeción", score = "142" }
+        , ProductMockupList { icon = "fa-solid fa-envelope", color = "#0AAD95", name = "Sofia L.", msg = "Closer → reserva confirmada", score = "210" }
+        ]
+    }
+productMockupLocale KO = ProductMockupLocale
+    { title = "Ruzaani — 실시간 인텔리전스 뷰"
+    , stats = 
+        [ DashboardStat { label = "활성 리드", value = "28" }
+        , DashboardStat { label = "응답률", value = "94%" }
+        , DashboardStat { label = "ROAS", value = "4.1x" }
+        ]
+    , graphTitle = "딜 파이프라인"
+    , graphLast = "$42K 파이프라인"
+    , graphLabels = ["검증됨", "제안됨", "성공"]
+    , listTitle = "실시간 대화"
+    , listData = 
+        [ ProductMockupList { icon = "fa-brands fa-whatsapp", color = "#25D366", name = "김지원", msg = "SDR → 예산 검증 중", score = "87" }
+        , ProductMockupList { icon = "fa-brands fa-instagram", color = "#E1306C", name = "박상훈", msg = "Closer → 이의 제기 처리 중", score = "142" }
+        , ProductMockupList { icon = "fa-solid fa-envelope", color = "#0AAD95", name = "이서연", msg = "Closer → 예약 확정됨", score = "210" }
+        ]
+    }
