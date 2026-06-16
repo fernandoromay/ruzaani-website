@@ -1,9 +1,10 @@
 module View.Components where
 
-import Locales.Common
 import View.Prelude
+import Locales.Common
+import Paths (langPaths)
 
-navbar :: (?currentPath :: Text) => Language -> Html
+navbar :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> Html
 navbar lang = [lurk|
 <header>
   <nav class="navbar-top">
@@ -13,24 +14,13 @@ navbar lang = [lurk|
       </a>
 
       <ul class="navbar-nav">
-        <li><a href="{l.homeLink}" class="{if ?currentPath == l.homeLink then "active" else ""}">{l.homeText}</a></li>
-        <li><a href="{l.productLink}" class="{activeClass ?currentPath l.productLink}">{l.productText}</a></li>
-        <li><a href="{l.solutionsLink}" class="{activeClass ?currentPath l.solutionsLink}">{l.solutionsText}</a></li>
-        <li><a href="{l.useCasesLink}" class="{activeClass ?currentPath l.useCasesLink}">{l.useCasesText}</a></li>
-        <li><a href="{l.agencyLink}" class="{activeClass ?currentPath l.agencyLink}">{l.agencyText}</a></li>
-        <li><a href="{l.pricingLink}" class="{activeClass ?currentPath l.pricingLink}">{l.pricingText}</a></li>
-        <!-- if ($showLogin): ?>
-        <a href="l.loginLink}">
-          <li class="btn-navbar">
-            l.loginText}
-            <i class="bi bi-box-arrow-in-right me-1"></i>
-          </li>
-        </a>
-        < elseif (!$showLogin): ?>
-        <a href="l.accessLink}">
-          <li class="btn-navbar">l.accessText}</li>
-        </a>
-        <?php endif -->
+        <li><a href="{l.homeLink}" class="{isActive l.homeLink}">{l.homeText}</a></li>
+        <li><a href="{l.productLink}" class="{isActive l.productLink}">{l.productText}</a></li>
+        <!--li><a href="l.solutionsLink}" class="isActive l.solutionsLink}">l.solutionsText}</a></li>
+        <li><a href="l.useCasesLink}" class="isActive l.useCasesLink}">l.useCasesText}</a></li-->
+        <li><a href="{l.agencyLink}" class="{isActive l.agencyLink}">{l.agencyText}</a></li>
+        <li><a href="{l.pricingLink}" class="{isActive l.pricingLink}">{l.pricingText}</a></li>
+        {loginBtn}
       </ul>
     </div>
   </nav>
@@ -38,6 +28,80 @@ navbar lang = [lurk|
 |]
   where
     l = navbarLocale lang
+
+    loginBtn
+      | contextValue "showLogin" == Just "true" = [lurk|
+            <a href="{l.loginLink}">
+                <li class="btn-navbar">
+                    {l.loginText}
+                    <i class="bi bi-box-arrow-in-right me-1"></i>
+                </li>
+            </a>
+            |]
+      | otherwise = [lurk|
+            <a href="{l.accessLink}">
+                <li class="btn-navbar">{l.accessText}</li>
+            </a>
+            |]
+
+    isActive :: (?currentPath :: Text) => Text -> Text
+    isActive path
+      | ?currentPath == path = "active"
+      | ?currentPath `isSubpath` path = "active"
+      | otherwise = ""
+
+navside :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> Html
+navside lang = [lurk|
+<button class="menu-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#ruzaaniMenu"
+  aria-controls="ruzaaniMenu" aria-label="Open strategic navigation">
+  <div class="logo"></div>
+</button>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="ruzaaniMenu" aria-labelledby="ruzaaniMenuLabel">
+
+  <div class="offcanvas-header">
+    <div class="logo"></div>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+
+  <div class="offcanvas-body d-flex flex-column justify-content-between">
+
+    <!-- Primary Navigation -->
+    <nav class="nav flex-column gap-2">
+      <a class="nav-link" href="{l.homeLink}">{l.homeText}</a>
+      <a class="nav-link" href="{l.productLink}">{l.productText}</a>
+      <a class="nav-link" href="{l.agencyLink}">{l.agencyText}</a>
+      <a class="nav-link" href="{l.pricingLink}">{l.pricingText}</a>
+    </nav>
+
+    <hr>
+
+    {navsideLoginBtn}
+
+    <!-- Language -->
+    <div class="mt-4 language">
+      <div class="mb-2">
+        Language
+      </div>
+      <div class="d-flex gap-4 justify-content-center">
+        {renderLangs}
+      </div>
+    </div>
+
+  </div>
+</div>
+|]
+  where
+    l = navbarLocale lang
+
+    navsideLoginBtn =
+      if contextValue "showLogin" == Just "true"
+        then [lurk|<a class="nav-link access-link" href="{l.loginLink}">{l.loginText}</a>|]
+        else [lurk|<a class="nav-link access-link" href="{l.accessLink}">{l.accessText}</a>|]
+
+    renderLangs = foldMap ( \(langCode, path) -> [lurk|
+        <a href="{path}" class="{if langCode == lang then "accented fw-bold" else ""}">{toText langCode}</a>
+    |]) (langPaths ?currentPath)
 
 footer :: Language -> Html
 footer lang = [lurk|
@@ -93,4 +157,3 @@ footer lang = [lurk|
   where
     l = footerLocale lang
     nav = navbarLocale lang
-
