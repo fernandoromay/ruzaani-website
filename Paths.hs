@@ -1,18 +1,7 @@
-module Paths
-    ( domain
-    , homePath
-    , pricingPath
-    , privacyPath
-    , termsPath
-    , productPath
-    , solutionsPath
-    , useCasesPath
-    , agencyPath
-    , accessPath
-    ) where
+module Paths where
 
-import Language (Language(..))
-import Data.Text (Text)
+import Lurk.Prelude (Text)
+import Language (Language (..))
 
 domain :: Text
 domain = "https://ruzaani.com"
@@ -61,3 +50,13 @@ accessPath :: Language -> Text
 accessPath EN = "/access/"
 accessPath ES = "/es/acceso/"
 accessPath KO = "/ko/access/"
+
+langPaths :: Text -> [(Language, Text)]
+langPaths path = go pagePathFns
+  where
+    langs = [EN, ES, KO]
+    pagePathFns = [homePath, productPath, agencyPath, pricingPath, privacyPath, termsPath, accessPath]
+    go [] = [(lang, path) | lang <- langs]
+    go (fn : rest)
+        | any (\lang -> fn lang == path) langs = [(lang, fn lang) | lang <- langs]
+        | otherwise = go rest
