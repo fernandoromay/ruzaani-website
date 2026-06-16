@@ -1,9 +1,9 @@
 module View.Layouts.Default where
 
-import View.Components (footer, navbar)
 import View.Prelude
+import View.Components
 
-defaultLayout :: (?currentPath :: Text) => Language -> SEO -> Html -> Html
+defaultLayout :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> SEO -> Html -> Html
 defaultLayout lang seo viewContent = [lurk|
 <!DOCTYPE html>
 <html lang="{toText lang}">
@@ -24,6 +24,8 @@ defaultLayout lang seo viewContent = [lurk|
 </head>
 <body class="overflow-x-clip">
     {navbar lang}
+
+    {navside lang}
     
     {viewContent}
 
