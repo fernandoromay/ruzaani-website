@@ -153,3 +153,38 @@ renderAgency lang = [lurk|
                 </div>
             </div>
             |]) clients
+
+renderConversation :: Language -> Html
+renderConversation lang = [lurk|
+<div class="hero-preview-card">
+    <div class="hero-preview-bar">
+        <span class="hero-dot dot-red"></span>
+        <span class="hero-dot dot-amber"></span>
+        <span class="hero-dot dot-green"></span>
+        <span class="mockup-title ms-2">
+            {l.agent} — {l.live}
+        </span>
+    </div>
+
+    <div class="mockup-body p-3 d-flex flex-column gap-2">
+        
+        {renderMessages l.messages}
+
+        <div class="d-flex gap-2 mt-1">
+            <div class="mockup-list-score">⚡ {l.response}</div>
+            <div class="mockup-list-score">{l.score}</div>
+        </div>
+
+    </div>
+</div>
+|]
+  where
+    l = conversationLocale lang
+    renderMessages messages = foldMap (\(i, m) -> [lurk|    
+            <div class="mockup-msg {m.direction} sdr-msg-{i + 1}">
+                <div class="mockup-msg-sender">
+                    {m.sender}
+                </div>
+                {m.message}
+            </div>
+    |]) (zip [0..] messages)

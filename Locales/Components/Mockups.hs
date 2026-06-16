@@ -120,3 +120,56 @@ agencyLocale KO = AgencyLocale
     , reportTitle = "화이트라벨 리포트 미리보기"
     , reportBrand = "생성자: [에이전시 이름]"
     }
+
+
+data ConversationLocale = ConversationLocale
+    { agent :: Text
+    , live :: Text
+    , messages :: [ConversationMessage]
+    , response :: Text
+    , score :: Text
+    }
+
+data ConversationMessage = ConversationMessage
+    { direction :: Text
+    , sender :: Text
+    , message :: Html
+    }
+
+conversationLocale :: Language -> ConversationLocale
+conversationLocale EN = ConversationLocale
+    { agent = "SDR Agent"
+    , live = "Live"
+    , messages = 
+        [ ConversationMessage { direction = "receive", sender = "Lead", message = "Hi, how fast can you set up the AI for our agency?" } 
+        , ConversationMessage { direction = "send", sender = "SDR Agent", message = "Less than a week. How many clients are you managing right now?" } 
+        , ConversationMessage { direction = "receive", sender = "Lead", message = "About 12. We've been burning time on custom automation builds." } 
+        , ConversationMessage { direction = "send", sender = "SDR Agent", message = "Ok. Let me show you our dashboard for agencies: <span class=\"fw-semibold\">book a 20-min call ↗</span>" } 
+        ]
+    , response = "Response: 38s"
+    , score = "Score: 87"
+    }
+conversationLocale ES = ConversationLocale
+    { agent = "SDR Agent"
+    , live = "Live"
+    , messages = 
+        [ ConversationMessage { direction = "receive", sender = "Lead", message = "Hi, how fast can you set up the AI for our agency?" } 
+        , ConversationMessage { direction = "send", sender = "SDR Agent", message = "Less than a week. How many clients are you managing right now?" } 
+        , ConversationMessage { direction = "receive", sender = "Lead", message = "About 12. We've been burning time on custom automation builds." } 
+        , ConversationMessage { direction = "send", sender = "SDR Agent", message = "Ok. Let me show you our dashboard for agencies: <span class=\"fw-semibold\">book a 20-min call ↗</span>" } 
+        ]
+    , response = "Response: 38s"
+    , score = "Score: 87"
+    }
+conversationLocale KO = ConversationLocale
+    { agent = "SDR Agent"
+    , live = "Live"
+    , messages = 
+        [ ConversationMessage { direction = "receive", sender = "Lead", message = "Hi, how fast can you set up the AI for our agency?" } 
+        , ConversationMessage { direction = "send", sender = "SDR Agent", message = "Less than a week. How many clients are you managing right now?" } 
+        , ConversationMessage { direction = "receive", sender = "Lead", message = "About 12. We've been burning time on custom automation builds." } 
+        , ConversationMessage { direction = "send", sender = "SDR Agent", message = "Ok. Let me show you our dashboard for agencies: <span class=\"fw-semibold\">book a 20-min call ↗</span>" } 
+        ]
+    , response = "Response: 38s"
+    , score = "Score: 87"
+    }
