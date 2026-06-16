@@ -8,7 +8,7 @@ import View.Components.Mockups
 import View.Layouts.Default (defaultLayout)
 import View.Prelude
 
-homeView :: (?currentPath :: Text) => Language -> HomeLocale -> Html
+homeView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> HomeLocale -> Html
 homeView lang HomeLocale {..} = defaultLayout lang homeSeo [lurk|
 <main class="flex-grow-1">
   <!-- Hero -->

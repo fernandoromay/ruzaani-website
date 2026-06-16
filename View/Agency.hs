@@ -6,7 +6,7 @@ import View.Layouts.Default
 import View.Components.Mockups
 import View.Prelude
 
-agencyView :: (?currentPath :: Text) => Language -> AgencyLocale -> Html
+agencyView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> AgencyLocale -> Html
 agencyView lang AgencyLocale {..} = defaultLayout lang agencySeo [lurk|
   <main id="agency-program" class="flex-grow-1">
     <!--- Hero Section --->

@@ -7,7 +7,7 @@ import View.Components.Mockups
 import View.Layouts.Default
 import View.Prelude
 
-productView :: (?currentPath :: Text) => Language -> ProductLocale -> Html
+productView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> ProductLocale -> Html
 productView lang ProductLocale {..} = defaultLayout lang productSeo [lurk|
 <main id="product" class="flex-grow-1">
 
@@ -394,20 +394,20 @@ productView lang ProductLocale {..} = defaultLayout lang productSeo [lurk|
             </div>
         </div>
     |])
-        where
-            renderBullets = foldMap (\b -> [lurk|
-                <div class="d-flex align-items-start gap-3">
-                    <i class="fa-solid fa-check text-accent mt-1"></i>
-                    <span class="text-secondary">{b}</span>
-                </div>
-            |])
+      where
+        renderBullets = foldMap (\b -> [lurk|
+            <div class="d-flex align-items-start gap-3">
+                <i class="fa-solid fa-check text-accent mt-1"></i>
+                <span class="text-secondary">{b}</span>
+            </div>
+        |])
 
     renderScrollSteps = foldMap (\i -> [lurk|
         <div class="ai-scroll-step" data-step="{i}" style="height: 7.14%;"></div>
     |]) ([0..13] :: [Int])
 
     renderCrmFeatures features = foldMap (\(i, feature) -> [lurk|
-          <div class="col-md-6 editorial-item reveal" style="transition-delay:{i * 100}ms;">
+        <div class="col-md-6 editorial-item reveal" style="transition-delay:{i * 100}ms;">
             <div class="d-flex flex-column h-100">
               <div class="editorial-header d-flex align-items-center gap-3 mb-3">
                 <div class="crm-card-icon">
@@ -421,16 +421,16 @@ productView lang ProductLocale {..} = defaultLayout lang productSeo [lurk|
                 </p>
               </div>
             </div>
-          </div>
+        </div>
     |]) (zip ([0..] :: [Int]) features)
 
     renderChannels channels = foldMap renderChannel (channels ++ channels)
-        where
-            renderChannel c = [lurk|
+      where
+        renderChannel c = [lurk|
             <div class="marquee-item">
               <div class="d-flex align-items-center gap-3 z-1 position-relative">
                 <i class="{c.icon}"></i> <span class="marquee-name">{c.name}</span>
               </div>
               <div class="bento-glow"></div>
             </div>
-            |]
+        |]

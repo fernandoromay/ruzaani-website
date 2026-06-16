@@ -7,7 +7,7 @@ import Locales.Pricing
 import View.Layouts.Default (defaultLayout)
 import View.Prelude
 
-pricingView :: (?currentPath :: Text) => Language -> PricingLocale -> Html
+pricingView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> PricingLocale -> Html
 pricingView lang PricingLocale {..} = defaultLayout lang pricingSeo [lurk|
 <main id="pricing" class="flex-grow-1">
     <!-- Hero -->

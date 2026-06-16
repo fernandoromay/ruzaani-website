@@ -3,7 +3,7 @@ module View.Error where
 import View.Layouts.Default (defaultLayout)
 import View.Prelude
 
-error404View :: (?currentPath :: Text) => Language -> Html
+error404View :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> Html
 error404View lang = defaultLayout lang seo [lurk|
 <main class="flex-grow-1 d-flex align-items-center justify-content-center">
     <section class="container text-center">
