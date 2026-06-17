@@ -1,10 +1,10 @@
 # Ruzaani
 
-> Ruzaani is an AI business intelligence platform that unifies lead qualification, sales automation, and customer lifecycle management through a swarm of six specialized AI agents. It connects online behavior, ad attribution, conversations, and CRM data into a single Golden Record for each contact. Built for AI automation agencies, marketing agencies, and B2B enterprises.
+> Ruzaani is an AI business intelligence platform that unifies lead qualification, sales automation, customer lifecycle management, and process optimization through six specialized AI agents. It connects online behavior, ad attribution, conversations, and CRM data into a single Golden Record for each contact. Built for AI automation agencies, marketing agencies, and B2B enterprises.
 
 ## Platform
 
-- [Product Overview](https://ruzaani.com/product/): How Ruzaani's six-agent swarm (SDR, Closer, Sentinel, Analyst, Strategist, Curator) operates on shared contextual memory to automate the full sales pipeline.
+- [Product Overview](https://ruzaani.com/product/): How Ruzaani's six AI agents (SDR, Closer, Sentinel, Analyst, Strategist, Curator) operate on shared contextual memory to automate the full sales pipeline.
 - [Pricing & Plans](https://ruzaani.com/pricing/): Four tiers — Starter ($199/mo), Basic ($349/mo), Growth ($599/mo), Enterprise ($1,299/mo) — with multi-currency support (USD, EUR, MXN, KRW).
 - [Agency Program](https://ruzaani.com/agency-program/): Multi-tenant infrastructure for AI automation agencies to build, resell, and manage AI-ops at scale. Includes white-label reporting, SDR automation, and command center dashboards.
 
@@ -12,32 +12,31 @@
 
 - [Intelligent Lead Qualification](https://ruzaani.com/access/): Interactive 5-question assessment that scores inbound leads across business vertical, communication channel, daily volume, and handling method. Leads are classified as SQL (score >= 65), MQL (>= 40), or NQ (< 40).
 - [Enterprise Inquiries](https://ruzaani.com/pricing/): Direct contact channel for enterprise prospects requiring custom deployments, dedicated infrastructure, or volume-based pricing.
-
-## Core Capabilities
-
-- **The Swarm**: Six specialized AI agents — SDR (lead qualification), Closer (conversion), Sentinel (security/fraud), Analyst (data intelligence), Strategist (pipeline optimization), Curator (content/recommendations) — operating on shared contextual memory.
-- **Identity Resolution**: Stitching anonymous sessions to known contacts across 10+ signals including ad click IDs, form submissions, email engagement, and CRM field matches.
-- **Golden Record**: A unified contact profile that merges data from web interactions, conversations, CRM records, and third-party integrations into a single source of truth.
-- **Channel Integration**: Native connectors for WhatsApp, Instagram, web forms, phone, and email. Conversations are automatically logged and analyzed.
-- **Lead Scoring**: Weighted scoring engine that evaluates business vertical (up to 30 pts), communication channel (up to 20 pts), daily inquiry volume (up to 30 pts), and current handling method (up to 25 pts). Maximum score: 105.
-- **Pipeline Automation**: Automated follow-up sequences, appointment scheduling, and deal progression triggered by lead qualification scores and behavioral signals.
+They are
+- **Six AI Agents**: SDR (lead qualification and engagement), Closer (deal closing and objection handling), Sentinel (customer support and sentiment detection), Analyst (behavioral profiling and churn prediction), Strategist (ROAS optimization and budget allocation), Curator (content intelligence and topic modeling). All agents share a single PostgreSQL database as their intelligence ledger.
+- **Identity Resolution**: Stitching anonymous sessions to known contacts across 10+ signals — email, Facebook Click ID, Google Click ID, LinkedIn Click IDs, WhatsApp phone, Instagram handle, Messenger user ID, browser fingerprint (`anon_id`), and tracked link parameters (`cid`). No identity signal is discarded; records merge automatically when resolved.
+- **Golden Record**: A unified contact profile that merges behavioral data (page views, ad clicks, email opens), conversation history across all channels, CRM records (deals, appointments, notes), and AI-generated insights (pain points, lead score, lifecycle stage) into a single source of truth.
+- **Multi-Channel Messaging**: Native connectors for WhatsApp Business, Instagram DMs, Facebook Messenger, Email (IMAP/SMTP), and Telegram (human handoff bridge). All conversations are automatically logged, analyzed, and linked to the Golden Record.
+- **Native CRM**: Contacts, Companies, Deals Pipeline (Kanban), Calendar with dynamic booking slots, Unified Inbox (Growth+ tiers), and Trigger-based Automations via EventBus and WorkflowEngine.
+- **Lead Scoring**: Recency + Frequency + Channel Diversity algorithm. +5 points per message. Hot lead alerts at score >150. ML churn prediction using Logistic Regression.
+- **Web Tracker**: Lightweight JavaScript (~5kb) served from `tracker.ruzaani.com`. Captures behavioral events, ad click IDs, and session fingerprints. Public API: `window.Ruzaani.track()`.
 
 ## For Agencies
 
-- [Payload: Deploy](https://ruzaani.com/agency-program/): Rapid deployment tools for spinning up client instances with pre-configured agent swarms and channel integrations.
-- [Payload: SDR](https://ruzaani.com/agency-program/): Automated SDR workflows — lead capture, qualification, scoring, and handoff — fully managed by the AI swarm.
+- [Payload: Deploy](https://ruzaani.com/agency-program/): Rapid deployment tools for spinning up client instances with pre-configured agents and channel integrations.
+- [Payload: SDR](https://ruzaani.com/agency-program/): Automated SDR workflows — lead capture, qualification, scoring, and handoff — fully managed by the AI agents.
 - [Payload: Command](https://ruzaani.com/agency-program/): Centralized dashboard for monitoring all client accounts, agent performance metrics, and pipeline health.
 - [Payload: White Label](https://ruzaani.com/agency-program/): Rebrandable reporting and client-facing dashboards. Agencies present Ruzaani as their own proprietary platform.
 - [Scale Engine](https://ruzaani.com/agency-program/): Infrastructure for managing 50+ client accounts with automated onboarding, billing, and resource allocation.
 
 ## Security & Privacy
 
-- [Data Protection](https://ruzaani.com/privacy-policy/): All data is encrypted at rest and in transit. Customer data is never used for training public LLM models. GDPR and CCPA compliant.
+- [Data Protection](https://ruzaani.com/privacy-policy/): All data is encrypted at rest and in transit. Customer data is never used for training public LLM models. GDPR and CCPA compliant. Clients are data controllers; Ruzaani is the data processor.
 - [Terms of Service](https://ruzaani.com/terms-of-service/): Enterprise-grade SLA with 99.9% uptime guarantee, dedicated support, and custom data retention policies.
 
 ## Languages & Localization
 
-Ruzaani is natively trilingual. All pages, forms, and email notifications are fully localized:
+Ruzaani is natively trilingual. All pages, forms, and email notifications are fully localized. More languages to come as it enters new markets:
 
 | Language | URL Prefix | Coverage |
 |----------|-----------|----------|
@@ -58,12 +57,15 @@ Ruzaani is natively trilingual. All pages, forms, and email notifications are fu
 
 ## Technical Architecture
 
-- **Backend**: Haskell web application using the Lurk framework (Scotty-based). Server-side rendered HTML with quasi-quoter-based templates.
-- **Session Management**: File-backed sessions with CSRF protection (synchronizer token pattern). 24-hour TTL with automatic cleanup.
-- **Form Security**: Honeypot fields, time-to-submit validation (minimum 3 seconds), DNS MX record verification on email domains, CSRF token enforcement on all POST endpoints.
-- **Email**: SMTP delivery via TLS (port 465) with UTF-8 base64 encoding. Supports all Unicode characters across EN/ES/KO including Korean Hangul and Spanish diacritics.
-- **Lead Logging**: JSONL append-only logs for access requests and enterprise inquiries. Includes timestamps, qualification scores, and IP addresses.
-- **Static Assets**: Bootstrap 5.3.8, Font Awesome 6.5.1, Google Fonts (Ubuntu, Inter). All mockups and animations are pure CSS/JS — no image dependencies beyond brand logos.
+The Ruzaani platform is a multi-tenant SaaS built on three runtimes:
+
+- **Core Application**: REST API and webhook handlers for WhatsApp, Instagram, Messenger, Facebook, Telegram, Email, and external CRM integrations. Background services include WorkflowEngine (event-driven automations), MeetingReminderService, and IMAPListenerService (polls client inboxes every 30s).
+- **Intelligence Agents**: Cron-scheduled analytics — Analyst (hourly: lead scoring, churn prediction, Golden Record construction), Strategist (daily: ROAS optimization, CPA anomaly detection, revenue forecasting), Curator (weekly: LDA topic modeling, keyword extraction from social conversations).
+- **Admin panel**: Multi-tenant management panel with superadmin controls for package/pricing/client management. TenantScope automatically segregates client data by `client_id`.
+
+**Shared Data Layer**: Single database with tables for contacts, conversations, touchpoints, deals, agent_logs, agent_insights, vector_memory, ad_campaigns, ad_metrics, email_campaigns, and business_hours. All agents read/write the same data — inter-agent communication happens via shared database state, not direct messaging.
+
+**Identity Resolution**: 10+ stitching methods resolve anonymous sessions to known contacts. When two identity signals resolve to the same contact, records merge automatically and all historical events are reassigned.
 
 ## Contact
 

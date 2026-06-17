@@ -16,3 +16,4 @@ DEPLOYMENT-GAPS.md
 LURK-ANALYSIS.md
 .env
 .lurk-sessions/
+logs/
