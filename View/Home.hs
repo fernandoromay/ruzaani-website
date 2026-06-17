@@ -9,7 +9,7 @@ import View.Layouts.Default (defaultLayout)
 import View.Prelude
 
 homeView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> HomeLocale -> Html
-homeView lang HomeLocale {..} = defaultLayout lang homeSeo [lurk|
+homeView lang HomeLocale {..} = defaultLayout lang seo [lurk|
 <main class="flex-grow-1">
   <!-- Hero -->
   <section class="hero-section py-5">
@@ -178,14 +178,6 @@ homeView lang HomeLocale {..} = defaultLayout lang homeSeo [lurk|
 <script src="{assetPath "js/home.js"}"></script>
 |]
   where
-    homeSeo = seo
-        { customTags = [lurk|
-            <link rel="stylesheet" href="{assetPath "css/home.css"}">
-            <link rel="stylesheet" href="{assetPath "css/home-animations.css"}">
-            <link rel="stylesheet" href="{assetPath "css/mockups.css"}">
-        |]
-        }
-
     renderStatBar = foldMap (\stat -> [lurk|
         <div class="col-6 col-md-3 stat-item">
           <div class="stat-number">{stat.number}</div>

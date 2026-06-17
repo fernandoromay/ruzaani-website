@@ -9,7 +9,7 @@ import View.Layouts.Default (defaultLayout)
 import View.Prelude
 
 pricingView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> PricingLocale -> Html
-pricingView lang PricingLocale {..} = defaultLayout lang pricingSeo [lurk|
+pricingView lang PricingLocale {..} = defaultLayout lang seo [lurk|
 <main id="pricing" class="flex-grow-1">
     <!-- Hero -->
     <section class="pricing-hero">
@@ -189,12 +189,6 @@ pricingView lang PricingLocale {..} = defaultLayout lang pricingSeo [lurk|
   <script src="{assetPath "js/pricing.js"}"></script>
 |]
   where
-    pricingSeo = seo
-        { customTags = [lurk|
-            <link rel="stylesheet" href="{assetPath "css/pricing.css"}">
-            |]
-        }
-
     csrfToken :: Text
     csrfToken = fromMaybe "" (contextValue "csrfToken")
 

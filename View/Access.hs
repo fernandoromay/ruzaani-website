@@ -9,7 +9,7 @@ import View.Layouts.Default
 import View.Prelude
 
 accessView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> AccessLocale -> Html
-accessView lang AccessLocale {..} = defaultLayout lang accessSeo [lurk|
+accessView lang AccessLocale {..} = defaultLayout lang seo [lurk|
 <main id="evaluation">
 
     <!-- Hero -->
@@ -103,12 +103,6 @@ accessView lang AccessLocale {..} = defaultLayout lang accessSeo [lurk|
 |]
   <> renderScripts
   where
-    accessSeo = seo
-        { customTags = [lurk|
-            <link rel="stylesheet" href="{assetPath "css/interactive-form.css"}">
-            |]
-        }
-
     totalQuestions :: Int
     totalQuestions = length questions
 

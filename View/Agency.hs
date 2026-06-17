@@ -7,7 +7,7 @@ import View.Components.Mockups
 import View.Prelude
 
 agencyView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> AgencyLocale -> Html
-agencyView lang AgencyLocale {..} = defaultLayout lang agencySeo [lurk|
+agencyView lang AgencyLocale {..} = defaultLayout lang seo [lurk|
   <main id="agency-program" class="flex-grow-1">
     <!--- Hero Section --->
     <section class="hero-section agency-hero text-center position-relative overflow-hidden pb-5">
@@ -184,13 +184,6 @@ agencyView lang AgencyLocale {..} = defaultLayout lang agencySeo [lurk|
   <script src="{assetPath "js/agency-program.js"}"></script>
 |]
   where
-    agencySeo = seo
-        { customTags = [lurk|
-            <link rel="stylesheet" href="{assetPath "css/agency-program.css"}">
-            <link rel="stylesheet" href="{assetPath "css/mockups.css"}">
-        |]
-        }
-
     renderHeroTrust = foldMap (\t -> [lurk|
         <div class="trust-badge d-flex align-items-center gap-2 px-4 py-2">
           <i class="fa-solid {t.icon} text-accent"></i>

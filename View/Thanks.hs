@@ -7,7 +7,7 @@ import View.Layouts.Default
 import View.Prelude
 
 thanksView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> ThanksLocale -> Html
-thanksView lang ThanksLocale{..} = defaultLayout lang thanksSeo [lurk|
+thanksView lang ThanksLocale{..} = defaultLayout lang seo [lurk|
 <main class="flex-grow-1 d-flex align-items-center justify-content-center min-vh-100">
     <div class="container">
         <div class="row justify-content-center">
@@ -32,9 +32,3 @@ thanksView lang ThanksLocale{..} = defaultLayout lang thanksSeo [lurk|
     </div>
 </main>
 |]
-  where 
-    thanksSeo = seo
-        { customTags = [lurk|
-            <link rel="stylesheet" href="{assetPath "css/common.css"}">
-        |]
-        }

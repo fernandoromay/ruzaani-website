@@ -8,7 +8,7 @@ import View.Layouts.Default
 import View.Prelude
 
 productView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> ProductLocale -> Html
-productView lang ProductLocale {..} = defaultLayout lang productSeo [lurk|
+productView lang ProductLocale {..} = defaultLayout lang seo [lurk|
 <main id="product" class="flex-grow-1">
 
     <!--- Hero Section --->
@@ -356,14 +356,6 @@ productView lang ProductLocale {..} = defaultLayout lang productSeo [lurk|
 <script src="{assetPath "js/product.js"}"></script>
 |]
   where
-    productSeo = seo
-        { customTags = [lurk|
-            <link rel="stylesheet" href="{assetPath "css/product.css"}">
-            <link rel="stylesheet" href="{assetPath "css/home-animations.css"}">
-            <link rel="stylesheet" href="{assetPath "css/mockups.css"}">
-            |]
-        }
-
     renderValuePoints points = foldMap (\(i, p) -> [lurk|
           <div class="col-md-6 {if (i == 0 || i == 3) then "col-lg-7" else "col-lg-5"} reveal" style="transition-delay:{i * 80}ms;">
             <div class="bento-card h-100 position-relative overflow-hidden tilt-effect">
