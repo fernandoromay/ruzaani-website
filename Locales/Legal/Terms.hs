@@ -3,7 +3,18 @@ module Locales.Legal.Terms
     , module Locales.Legal.Prelude
     ) where
 
+import Locales.Prelude (assetPath)
 import Locales.Legal.Prelude
+
+commonSEO :: SEO
+commonSEO = defaultSEO
+    { alternates =
+        [ Alternate {hreflang = "en", href = domain <> termsPath EN}
+        , Alternate {hreflang = "es", href = domain <> termsPath ES}
+        , Alternate {hreflang = "ko", href = domain <> termsPath KO}
+        , Alternate {hreflang = "x-default", href = domain <> termsPath EN}
+        ]
+    , customTags = [lurk|<link rel="stylesheet" href="{assetPath "css/legal.css"}">|]}
 
 effectiveDate :: Language -> Text
 effectiveDate EN = "April 25, 2026"
@@ -12,10 +23,11 @@ effectiveDate KO = "2026년 4월 25일"
 
 getLocaleTerms :: Language -> LegalLocale
 getLocaleTerms EN = LegalLocale
-    { seo = defaultSEO
+    { seo = commonSEO
         { title = "Ruzaani's Terms of Service"
         , metaTitle = "Terms of Service | Ruzaani - AI Business Intelligence Platform"
         , metaDescription = "Read Ruzaani's Terms of Service to learn about the terms of service, acceptable use policy, and your rights and responsibilities when using our AI Business Intelligence Platform."
+        , canonical = Just $ domain <> termsPath EN
         }
     , content = [lurk|
         <h1>Terms of Service</h1>
@@ -91,10 +103,11 @@ getLocaleTerms EN = LegalLocale
     }
 
 getLocaleTerms ES = LegalLocale
-    { seo = defaultSEO
+    { seo = commonSEO
         { title = "Términos y Condiciones de Ruzaani"
         , metaTitle = "Términos y Condiciones | Ruzaani - Plataforma de inteligencia empresarial"
         , metaDescription = "Lee los Términos y Condiciones de Ruzaani para conocer los términos del servicio, la política de uso aceptable y tus derechos y responsabilidades al usar nuestra plataforma de inteligencia empresarial de IA."
+        , canonical = Just $ domain <> termsPath ES
         }
     , content = [lurk|
         <h1>Términos y Condiciones</h1>
@@ -170,10 +183,11 @@ getLocaleTerms ES = LegalLocale
     }
 
 getLocaleTerms KO = LegalLocale
-    { seo = defaultSEO
+    { seo = commonSEO
         { title = "Ruzaani의 이용약관"
         , metaTitle = "이용약관 | Ruzaani - 인공지능 기반 비즈니스 인텔리전스 플랫폼"
         , metaDescription = "Ruzaani의 서비스 이용 약관, 허용 가능한 사용 정책 및 AI 비즈니스 인텔리전스 플랫폼 사용에 따른 귀하의 권리와 책임에 대해 알아보려면 Ruzaani의 이용 약관을 읽어보십시오."
+        , canonical = Just $ domain <> termsPath KO
         }
     , content = [lurk|
         <h1>이용약관</h1>

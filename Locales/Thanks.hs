@@ -14,29 +14,40 @@ data ThanksLocale = ThanksLocale
     , goBackLink :: Text
     }
 
+commonSEO :: SEO
+commonSEO = defaultSEO
+    { robots = Just "noindex,follow"
+    , customTags = [lurk|
+        <link rel="stylesheet" href="{assetPath "css/common.css"}">
+        |]
+    }
+
 getLocale :: Language -> ThanksLocale
 getLocale lang = ThanksLocale
     { seo = case lang of
-        EN -> defaultSEO
+        EN -> commonSEO
             { title = "Thanks for your interest in Ruzaani"
             , metaTitle = "Thanks for your interest in Ruzaani - AI Business Intelligence Platform"
             , metaDescription = "Thanks for your interest in Ruzaani. We will get back to you as soon as possible."
             , ogTitle = Just "Thanks for your interest in Ruzaani"
             , ogDescription = Just "Thanks for your interest in Ruzaani. We will get back to you as soon as possible."
+            , canonical = Just $ domain <> thanksPath EN
             }
-        ES -> defaultSEO
+        ES -> commonSEO
             { title = "Gracias por tu interés en Ruzaani"
             , metaTitle = "Gracias por tu interés en Ruzaani - Plataforma de Inteligencia Empresarial con IA"
             , metaDescription = "Gracias por tu interés en Ruzaani. Te contactaremos lo antes posible."
             , ogTitle = Just "Gracias por tu interés en Ruzaani"
             , ogDescription = Just "Gracias por tu interés en Ruzaani. Te contactaremos lo antes posible."
+            , canonical = Just $ domain <> thanksPath ES
             }
-        KO -> defaultSEO
+        KO -> commonSEO
             { title = "Ruzaani에 관심을 가져주셔서 감사합니다"
             , metaTitle = "Ruzaani에 관심을 가져주셔서 감사합니다 - AI 비즈니스 인텔리전스 플랫폼"
             , metaDescription = "Ruzaani에 관심을 가져주셔서 감사합니다. 최대한 빨리 연락드리겠습니다."
             , ogTitle = Just "Ruzaani에 관심을 가져주셔서 감사합니다"
             , ogDescription = Just "Ruzaani에 관심을 가져주셔서 감사합니다. 최대한 빨리 연락드리겠습니다."
+            , canonical = Just $ domain <> thanksPath KO
             }
     , header = case lang of
         EN -> "Access Request Received"

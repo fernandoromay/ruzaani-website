@@ -34,12 +34,26 @@ data AuditOption = AuditOption
     , value :: Text
     }
 
+commonSeo :: SEO
+commonSeo = defaultSEO
+    { alternates =
+        [ Alternate {hreflang = "en", href = domain <> accessPath EN}
+        , Alternate {hreflang = "es", href = domain <> accessPath ES}
+        , Alternate {hreflang = "ko", href = domain <> accessPath KO}
+        , Alternate {hreflang = "x-default", href = domain <> accessPath EN}
+        ]
+    , customTags = [lurk|
+        <link rel="stylesheet" href="{assetPath "css/interactive-form.css"}">
+        |]
+    }
+
 getLocale :: Language -> AccessLocale
 getLocale EN = AccessLocale
-    { seo = defaultSEO
+    { seo = commonSeo
         { title = "Request Access to Ruzaani"
         , metaTitle = "Request Access to Ruzaani - AI Business Intelligence Platform"
         , metaDescription = "Request access to Ruzaani. Tell us about your business to get started."
+        , canonical = Just $ domain <> accessPath EN
         }
     , heroTitle = "Request Platform Access"
     , heroSubtitle = "Tell us about your business so we can tailor your experience."
@@ -110,10 +124,11 @@ getLocale EN = AccessLocale
     }
 
 getLocale ES = AccessLocale
-    { seo = defaultSEO
+    { seo = commonSeo
         { title = "Solicitar Acceso a Ruzaani"
         , metaTitle = "Solicitar Acceso a Ruzaani - Plataforma de Inteligencia Empresarial con IA"
         , metaDescription = "Solicita acceso a Ruzaani. Cuéntanos sobre tu negocio para comenzar."
+        , canonical = Just $ domain <> accessPath ES
         }
     , heroTitle = "Solicitar Acceso a la Plataforma"
     , heroSubtitle = "Cuéntanos sobre tu negocio para poder adaptar tu experiencia."
@@ -184,10 +199,11 @@ getLocale ES = AccessLocale
     }
 
 getLocale KO = AccessLocale
-    { seo = defaultSEO
+    { seo = commonSeo
         { title = "Ruzaani 액세스 신청"
         , metaTitle = "Ruzaani 액세스 신청 - AI 비즈니스 인텔리전스 플랫폼"
         , metaDescription = "Ruzaani 액세스를 신청하세요. 비즈니스에 대해 알려주시면 시작할 수 있습니다."
+        , canonical = Just $ domain <> accessPath KO
         }
     , heroTitle = "플랫폼 액세스 신청"
     , heroSubtitle = "맞춤형 환경을 제공해 드릴 수 있도록 비즈니스에 대해 알려주세요."

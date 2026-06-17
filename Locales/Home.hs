@@ -51,12 +51,28 @@ data PointWithIcon = PointWithIcon
     , description :: Text
     }
 
+commonSeo :: SEO
+commonSeo = defaultSEO
+    { alternates =
+        [ Alternate {hreflang = "en", href = domain <> homePath EN}
+        , Alternate {hreflang = "es", href = domain <> homePath ES}
+        , Alternate {hreflang = "ko", href = domain <> homePath KO}
+        , Alternate {hreflang = "x-default", href = domain <> homePath EN}
+        ]
+    , customTags = [lurk|
+        <link rel="stylesheet" href="{assetPath "css/home.css"}">
+        <link rel="stylesheet" href="{assetPath "css/home-animations.css"}">
+        <link rel="stylesheet" href="{assetPath "css/mockups.css"}">
+        |]
+    }
+
 getLocale :: Language -> HomeLocale
 getLocale EN = HomeLocale
-    { seo = defaultSEO
+    { seo = commonSeo
         { title = "Ruzaani | AI Business Intelligence Platform"
         , metaTitle = "Ruzaani - AI Business Intelligence Engine"
         , metaDescription = "Powered by an AI Agent Layer of six specialized agents. Connect online behavior, ad attribution, conversations, and CRM data into a single, continuously-updated picture."
+        , canonical = Just $ domain <> homePath EN
         }
     , heroTitle = "The Intelligence Layer for Your Business"
     , heroSubtitle = "A business intelligence engine powered by six AI agents. Connect online behavior, ad attribution, conversations, and CRM data into a single, continuously-updated picture of every contact."
@@ -189,10 +205,11 @@ getLocale EN = HomeLocale
     }
 
 getLocale ES = HomeLocale
-    { seo = defaultSEO
+    { seo = commonSeo
         { title = "Ruzaani | Plataforma de Inteligencia de Negocios basada en IA"
         , metaTitle = "Ruzaani - Motor de Inteligencia de Negocios basada en IA"
         , metaDescription = "Impulsado por una capa de agentes de IA especializados. Conecta el comportamiento online, la atribución publicitaria, conversaciones y los datos de CRM en una sola visión continuamente actualizada.'"
+        , canonical = Just $ domain <> homePath ES
         }
     , heroTitle = "La Capa de Inteligencia para tu Negocio"
     , heroSubtitle = "Un motor de inteligencia empresarial impulsado por seis agentes de IA. Conecta comportamiento online, atribución, conversaciones y CRM en una visión única y continuamente actualizada de cada contacto."
@@ -325,10 +342,11 @@ getLocale ES = HomeLocale
     }
 
 getLocale KO = HomeLocale
-    { seo = defaultSEO
+    { seo = commonSeo
         { title = "Ruzaani | AI 비즈니스 인텔리전스 플랫폼"
         , metaTitle = "Ruzaani - AI 비즈니스 인텔리전스 엔진"
         , metaDescription = "6개의 전문 AI 에이전트로 구성된 AI 에이전트 레이어로 구동됩니다. 온라인 행동, 광고 어트리뷰션, 대화, CRM 데이터를 하나의 지속적으로 업데이트되는 통합 뷰로 연결합니다."
+        , canonical = Just $ domain <> homePath KO
         }
     , heroTitle = "비즈니스를 위한 인텔리전스 레이어"
     , heroSubtitle = "6개의 AI 에이전트로 구동되는 비즈니스 인텔리전스 엔진. 온라인 행동, 광고 어트리뷰션, 대화, CRM 데이터를 하나의 지속적으로 업데이트되는 통합 컨텍스트로 연결합니다."
