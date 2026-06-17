@@ -22,7 +22,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: # OS to run on. E.g., ubuntu-24.04, windows-2022, etc.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -65,7 +65,7 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H $VPS_IP >> ~/.ssh/known_hosts
 
-           # Execute Lurk Deployment
-           cd lib/lurk
-           cp ../lurk.yaml .
-           cabal run lurk -- deploy
+          # Execute Lurk Deployment
+          cp ../lurk.yaml .
+          cd lib/lurk
+          cabal run lurk -- deploy
