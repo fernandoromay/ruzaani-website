@@ -25,6 +25,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       # --- Infrastructure Setup ---
       - uses: haskell-actions/setup@v2
@@ -37,10 +39,7 @@ jobs:
 
       # --- Build the Lurk CLI and Binary ---
       - name: Build
-        run: |
-          cd lib/lurk
-          cabal update
-          cabal build lurk --minimize
+        run: cabal build lurk --minimize
 
       # --- Secrets Injection & Deployment ---
       - name: Deploy
@@ -66,6 +65,4 @@ jobs:
           ssh-keyscan -H $VPS_IP >> ~/.ssh/known_hosts
 
           # Execute Lurk Deployment
-          cp ../lurk.yaml .
-          cd lib/lurk
           cabal run lurk -- deploy
