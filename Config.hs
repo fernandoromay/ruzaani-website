@@ -14,7 +14,7 @@ data Config = Config
     }
 
 defaultPort :: Int
-defaultPort = 3000
+defaultPort = 3003
 
 loadConfig :: IO Config
 loadConfig = do

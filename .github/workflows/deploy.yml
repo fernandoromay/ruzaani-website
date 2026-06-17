@@ -3,9 +3,15 @@
 #
 # This workflow is triggered on every push to 'main'.
 #
-# WHAT TO MODIFY:
-# 1. Update the 'runs-on' field below to match your runner OS.
-# 2. Map the secrets in the 'env' section below.
+# REQUIRED GITHUB SECRETS:
+# - LURK_YAML:    The full content of your lurk.yaml file.
+# - Provider Secrets:
+#     - SSH:    DEPLOY_SSH_KEY, VPS_IP
+#     - Docker: DOCKER_USERNAME, DOCKER_PASSWORD
+# - App Secrets:  Any keys defined in your lurk.yaml 'env_vars' mapping.
+#
+# WHAT TO MODIFY IN THIS FILE:
+# - 'runs-on': Update to match your required runner OS (e.g., ubuntu-latest).
 # -----------------------------------------------------------------------------
 
 name: Deploy Lurk Project
@@ -26,6 +32,9 @@ jobs:
           ghc-version: '9.4.8'
           cabal-version: '3.12.1.0'
 
+      - name: Create Lurk Config
+        run: echo "${{ secrets.LURK_YAML }}" > lurk.yaml
+
       # --- Build the Lurk CLI and Binary ---
       - name: Build
         run: |
@@ -42,6 +51,7 @@ jobs:
           SMTP_RZST_PORT: ${{ secrets.SMTP_RZST_PORT }}
           SMTP_RZST_SECR: ${{ secrets.SMTP_RZST_SECR }}
           SMTP_RZST_USER: ${{ secrets.SMTP_RZST_USER }}
+
           # -----------------------------------------------
           
           # Internal deployment key for SSH auth
