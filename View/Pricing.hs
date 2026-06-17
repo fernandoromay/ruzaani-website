@@ -146,7 +146,7 @@ pricingView lang PricingLocale {..} = defaultLayout lang pricingSeo [lurk|
       <h3 class="modal-title">{modalTitle}</h3>
       <p class="modal-subtitle">{modalSubtitle}</p>
       
-      <form class="modal-form" action="/src/backend/enterprise-request.php" method="POST">
+      <form class="modal-form" action="{enterprisePostPath}" method="POST">
         <input type="hidden" name="type" value="enterprise_inquiry">
         <input type="hidden" name="lang" value="{toText lang}">
         <input type="hidden" name="_token" value="{csrfToken}">
@@ -196,6 +196,12 @@ pricingView lang PricingLocale {..} = defaultLayout lang pricingSeo [lurk|
 
     csrfToken :: Text
     csrfToken = fromMaybe "" (contextValue "csrfToken")
+
+    enterprisePostPath :: Text
+    enterprisePostPath = case lang of
+        EN -> "/enterprise/"
+        ES -> "/es/enterprise/"
+        KO -> "/ko/enterprise/"
 
 renderPlans :: [Plan] -> Html
 renderPlans = foldMap ( \p -> [lurk|

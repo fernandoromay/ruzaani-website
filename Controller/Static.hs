@@ -10,6 +10,7 @@ import View.Product (productView)
 import View.Agency
 import View.Pricing (pricingView)
 import View.Access
+import View.Thanks (thanksView)
 import View.Legal
 import Locales.Home qualified as Home
 import Locales.Product qualified as Product
@@ -17,6 +18,8 @@ import Locales.Pricing qualified as Pricing
 import Locales.Legal qualified as Legal
 import Locales.Agency qualified as Agency
 import Locales.Access qualified as Access
+import Locales.Thanks qualified as Thanks
+import Controller.Forms (setFormLoadTime)
 
 data LegalPage = Terms | Privacy deriving (Eq)
 
@@ -38,8 +41,14 @@ pricingAction lang = do
     render $ pricingView lang (Pricing.getLocale lang country)
 
 accessAction :: Language -> Action ()
-accessAction lang = render $ accessView lang locale
+accessAction lang = do
+    setFormLoadTime
+    render $ accessView lang locale
     where locale = Access.getLocale lang
+
+thanksAction :: Language -> Action ()
+thanksAction lang = render $ thanksView lang locale
+    where locale = Thanks.getLocale lang
 
 legalAction :: Language -> LegalPage -> Action ()
 legalAction lang page = render $ legalView lang locale

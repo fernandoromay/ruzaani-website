@@ -53,7 +53,7 @@ accessView lang AccessLocale {..} = defaultLayout lang accessSeo [lurk|
             <h3 class="mb-3">{contactTitle}</h3>
             <p class="text-secondary mb-4">{contactSubtitle}</p>
 
-            <form class="contact-form text-start" id="audit-form" action="/src/backend/access-request.php" method="POST">
+            <form class="contact-form text-start" id="audit-form" action="{?currentPath}" method="POST">
               <input type="hidden" name="_token" value="{csrfToken}">
               <div class="mb-3">
                 <label
@@ -114,7 +114,13 @@ accessView lang AccessLocale {..} = defaultLayout lang accessSeo [lurk|
 
     renderScripts :: Html
     renderScripts =
-        preEscapedToHtml ("<script>window.auditTotalQuestions = " <> T.pack (show totalQuestions) <> "; window.langStrings = { processing: 'Processing...', error: 'An error occurred.' };</script><script src=\"" <> assetPath "js/access.js" <> "\"></script><script src=\"" <> assetPath "js/interactive-form.js" <> "\"></script><script>if (typeof window.startAudit === 'function') { window.startAudit(); }</script>" :: Text)
+        preEscapedToHtml ("<script>window.auditTotalQuestions = " <> 
+            T.pack (show totalQuestions) <> 
+            "; window.langStrings = { processing: 'Processing...', error: 'An error occurred.' };</script><script src=\"" <> 
+            assetPath "js/access.js" <> 
+            "\"></script><script src=\"" <> 
+            assetPath "js/interactive-form.js" <> 
+            "\"></script><script>if (typeof window.startAudit === 'function') { window.startAudit(); }</script>" :: Text)
 
     renderProgressSteps :: Html
     renderProgressSteps = foldMap (\i -> [lurk|

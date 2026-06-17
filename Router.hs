@@ -1,9 +1,10 @@
 module Router where
 
-import Language (allLanguages)
+import Language (allLanguages, Language(..))
 import Lurk.Prelude
 import Paths
 import Controller.Static
+import Controller.Forms
 
 router :: LurkApp
 router = do
@@ -18,5 +19,13 @@ router = do
 
     getPages allLanguages termsPath (`legalAction` Terms)
     getPages allLanguages privacyPath (`legalAction` Privacy)
+
+    postAction (accessPath EN) (accessPostAction EN)
+    postAction (accessPath ES) (accessPostAction ES)
+    postAction (accessPath KO) (accessPostAction KO)
+
+    postAction "/enterprise/" (enterprisePostAction EN)
+    postAction "/es/enterprise/" (enterprisePostAction ES)
+    postAction "/ko/enterprise/" (enterprisePostAction KO)
 
     notFound notFoundAction
