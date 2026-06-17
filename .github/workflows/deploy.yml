@@ -22,7 +22,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-24.04
+    runs-on: # OS to run on. E.g., ubuntu-24.04, windows-2022, etc.
     steps:
       - uses: actions/checkout@v4
 
@@ -33,7 +33,7 @@ jobs:
           cabal-version: '3.12.1.0'
 
       - name: Create Lurk Config
-        run: echo "${{ secrets.LURK_YAML }}" > lib/lurk/lurk.yaml
+        run: echo "${{ secrets.LURK_YAML }}" > lurk.yaml
 
       # --- Build the Lurk CLI and Binary ---
       - name: Build
@@ -65,6 +65,7 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H $VPS_IP >> ~/.ssh/known_hosts
 
-          # Execute Lurk Deployment
-          cd lib/lurk
-          cabal run lurk -- deploy
+           # Execute Lurk Deployment
+           cd lib/lurk
+           cp ../lurk.yaml .
+           cabal run lurk -- deploy
