@@ -431,5 +431,5 @@ getLocale KO = AgencyLocale
     , finalTitle = "취약한 봇 대신 강력한 성장 시스템을 배포하세요."
     , finalSubtitle = "기술적 운영 비용 증가 없이 포트폴리오를 확장하세요. 대규모 에이전시를 위해 설계된 표준화된 성장 엔진을 도입하세요."
     , finalCta = "에이전시 프로그램 가입하기"
-    , finalCtaLink = accessPath EN
+    , finalCtaLink = accessPath KO
     }

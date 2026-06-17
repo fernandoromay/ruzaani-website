@@ -17,8 +17,6 @@ navbar lang = [lurk|
       <ul class="navbar-nav">
         <li><a href="{l.homeLink}" class="{if ?currentPath == l.homeLink then "active" else ""}">{l.homeText}</a></li>
         <li><a href="{l.productLink}" class="{isActive l.productLink}">{l.productText}</a></li>
-        <!--li><a href="l.solutionsLink}" class="isActive l.solutionsLink}">l.solutionsText}</a></li>
-        <li><a href="l.useCasesLink}" class="isActive l.useCasesLink}">l.useCasesText}</a></li-->
         <li><a href="{l.agencyLink}" class="{isActive l.agencyLink}">{l.agencyText}</a></li>
         <li><a href="{l.pricingLink}" class="{isActive l.pricingLink}">{l.pricingText}</a></li>
         {loginBtn}

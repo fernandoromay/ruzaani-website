@@ -24,9 +24,9 @@ error404View lang = defaultLayout lang seo [lurk|
         }
 
     errorTitle :: Language -> Text
-    errorTitle EN = "Page Not Found | LURK"
-    errorTitle ES = "Página No Encontrada | LURK"
-    errorTitle KO = "페이지를 찾을 수 없습니다 | LURK"
+    errorTitle EN = "Page Not Found | Ruzaani"
+    errorTitle ES = "Página No Encontrada | Ruzaani"
+    errorTitle KO = "페이지를 찾을 수 없습니다 | Ruzaani"
 
     pageNotFound :: Language -> Text
     pageNotFound EN = "Oops! The page you're looking for doesn't exist."
