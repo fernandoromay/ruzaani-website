@@ -116,7 +116,7 @@ accessView lang AccessLocale {..} = defaultLayout lang accessSeo [lurk|
     renderScripts =
         preEscapedToHtml ("<script>window.auditTotalQuestions = " <> 
             T.pack (show totalQuestions) <> 
-            "; window.langStrings = { processing: 'Processing...', error: 'An error occurred.' };</script><script src=\"" <> 
+            "; window.langStrings = { processing: '" <> processingMsg <> "', error: '" <> errorMsg <> "' };</script><script src=\"" <> 
             assetPath "js/access.js" <> 
             "\"></script><script src=\"" <> 
             assetPath "js/interactive-form.js" <> 

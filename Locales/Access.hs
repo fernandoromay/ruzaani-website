@@ -20,6 +20,8 @@ data AccessLocale = AccessLocale
     , labelRole :: Text
     , btnSubmit :: Text
     , contactPrivacy :: Text
+    , processingMsg :: Text
+    , errorMsg :: Text
     }
 
 data Question = Question
@@ -103,6 +105,8 @@ getLocale EN = AccessLocale
     , labelRole = "Your Role"
     , btnSubmit = "Request Access"
     , contactPrivacy = "Your information is secure."
+    , processingMsg = "Processing..."
+    , errorMsg = "An error occurred."
     }
 
 getLocale ES = AccessLocale
@@ -175,6 +179,8 @@ getLocale ES = AccessLocale
     , labelRole = "Tu Puesto"
     , btnSubmit = "Solicitar Acceso"
     , contactPrivacy = "Tu información está segura."
+    , processingMsg = "Procesando..."
+    , errorMsg = "Ocurrió un error."
     }
 
 getLocale KO = AccessLocale
@@ -247,4 +253,6 @@ getLocale KO = AccessLocale
     , labelRole = "직책"
     , btnSubmit = "액세스 신청"
     , contactPrivacy = "귀하의 정보는 안전하게 보호됩니다."
+    , processingMsg = "처리 중..."
+    , errorMsg = "오류가 발생했습니다."
     }
