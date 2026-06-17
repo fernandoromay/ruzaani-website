@@ -1,0 +1,58 @@
+# -----------------------------------------------------------------------------
+# Lurk Framework - Automated Deployment Pipeline
+#
+# This workflow is triggered on every push to 'main'.
+#
+# WHAT TO MODIFY:
+# 1. Update the 'runs-on' field below to match your runner OS.
+# 2. Map the secrets in the 'env' section below.
+# -----------------------------------------------------------------------------
+
+name: Deploy Lurk Project
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      # --- Infrastructure Setup ---
+      - uses: haskell/actions/setup@v2
+        with:
+          ghc-version: '9.4.8'
+          cabal-version: '3.12.1.0'
+
+      # --- Build the Lurk CLI and Binary ---
+      - name: Build
+        run: |
+          cabal update
+          cabal build lurk --minimize
+
+      # --- Secrets Injection & Deployment ---
+      - name: Deploy
+        env:
+          # --- PROJECT SPECIFIC: Map your secrets here ---
+          SMTP_RZST_ADMIN_EMAIL: ${{ secrets.SMTP_RZST_ADMIN_EMAIL }}
+          SMTP_RZST_HOST: ${{ secrets.SMTP_RZST_HOST }}
+          SMTP_RZST_PASS: ${{ secrets.SMTP_RZST_PASS }}
+          SMTP_RZST_PORT: ${{ secrets.SMTP_RZST_PORT }}
+          SMTP_RZST_SECR: ${{ secrets.SMTP_RZST_SECR }}
+          SMTP_RZST_USER: ${{ secrets.SMTP_RZST_USER }}
+          # -----------------------------------------------
+          
+          # Internal deployment key for SSH auth
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          VPS_IP: ${{ secrets.VPS_IP }}
+        run: |
+          # Initialize SSH Agent for secure transfer
+          eval "$(ssh-agent -s)"
+          echo "$DEPLOY_SSH_KEY" | tr -d '\r' | ssh-add -
+          mkdir -p ~/.ssh
+          ssh-keyscan -H $VPS_IP >> ~/.ssh/known_hosts
+
+          # Execute Lurk Deployment
+          cabal run lurk -- deploy
