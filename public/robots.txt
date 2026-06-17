@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+
+# LLM Crawler Support
+# See https://llmstxt.org/
+llms: https://ruzaani.com/llms.txt
+
+Sitemap: https://ruzaani.com/sitemap.xml
