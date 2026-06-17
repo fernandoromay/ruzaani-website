@@ -11,3 +11,6 @@ cabal.project.local
 legacy/
 AGENTS.md
 lib/lurk/AGENTS.md
+# Analysis docs
+DEPLOYMENT-GAPS.md
+LURK-ANALYSIS.md
