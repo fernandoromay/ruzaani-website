@@ -4,6 +4,7 @@ module View.Pricing where
 
 import Data.Maybe (isJust, fromMaybe)
 import Locales.Pricing
+import Paths (enterprisePath)
 import View.Layouts.Default (defaultLayout)
 import View.Prelude
 
@@ -198,10 +199,7 @@ pricingView lang PricingLocale {..} = defaultLayout lang pricingSeo [lurk|
     csrfToken = fromMaybe "" (contextValue "csrfToken")
 
     enterprisePostPath :: Text
-    enterprisePostPath = case lang of
-        EN -> "/enterprise/"
-        ES -> "/es/enterprise/"
-        KO -> "/ko/enterprise/"
+    enterprisePostPath = enterprisePath lang
 
 renderPlans :: [Plan] -> Html
 renderPlans = foldMap ( \p -> [lurk|
