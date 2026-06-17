@@ -25,18 +25,21 @@ accessView lang AccessLocale {..} = defaultLayout lang accessSeo [lurk|
     </section>
 
     <!-- Efficiency Evaluation -->
-    <section class="row justify-content-center py-5">
-      <div class="col-lg-8">
-        <div class="efficiency-audit">
-          <!-- Progress Bar -->
-          <div class="audit-progress" id="audit-progress">
-            {renderProgressSteps}
+    <section class="py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="efficiency-audit">
+              <!-- Progress Bar -->
+              <div class="audit-progress" id="audit-progress">
+                {renderProgressSteps}
+              </div>
+              <!-- Questions -->
+              {renderQuestions}
+            </div>
           </div>
-          <!-- Questions -->
-          {renderQuestions}
         </div>
       </div>
-
     </section>
 
     <!-- Contact Modal -->
@@ -101,10 +104,6 @@ accessView lang AccessLocale {..} = defaultLayout lang accessSeo [lurk|
   <> renderScripts
   where
     accessSeo = seo
-        { customTags = [lurk|
-            <link rel="stylesheet" href="{assetPath "css/interactive-form.css"}">
-            |]
-        }
         { customTags = [lurk|
             <link rel="stylesheet" href="{assetPath "css/interactive-form.css"}">
             |]
