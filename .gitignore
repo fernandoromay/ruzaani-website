@@ -15,3 +15,4 @@ lib/lurk/AGENTS.md
 DEPLOYMENT-GAPS.md
 LURK-ANALYSIS.md
 .env
+.lurk-sessions/

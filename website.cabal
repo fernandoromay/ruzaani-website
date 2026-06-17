@@ -44,7 +44,7 @@ executable ruzaani-website
     ghc-options:     -Wno-missing-home-modules -Wno-dodgy-exports -threaded -rtsopts -with-rtsopts=-N
     other-modules:
                      Config,
-                     Controller.Forms,
+                     Controller.Form,
                      Controller.Static,
                      Language,
                      Locales.Access,
@@ -93,4 +93,5 @@ executable ruzaani-website
                      directory,
                      process,
                      time,
-                     network
+                     network,
+                     connection

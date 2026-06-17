@@ -19,7 +19,7 @@ import Locales.Legal qualified as Legal
 import Locales.Agency qualified as Agency
 import Locales.Access qualified as Access
 import Locales.Thanks qualified as Thanks
-import Controller.Forms (setFormLoadTime)
+import Controller.Form (setFormLoadTime)
 
 data LegalPage = Terms | Privacy deriving (Eq)
 

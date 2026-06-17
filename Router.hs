@@ -4,7 +4,7 @@ import Language (allLanguages, Language(..))
 import Lurk.Prelude
 import Paths
 import Controller.Static
-import Controller.Forms
+import Controller.Form
 
 router :: LurkApp
 router = do

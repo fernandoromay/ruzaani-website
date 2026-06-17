@@ -1,4 +1,4 @@
-module Controller.Forms
+module Controller.Form
     ( accessPostAction
     , enterprisePostAction
     , setFormLoadTime
@@ -7,8 +7,8 @@ module Controller.Forms
 import Control.Exception (bracket, try, SomeException)
 import Control.Monad (unless)
 import Data.Aeson qualified as Aeson
+import Data.ByteString qualified as BS
 import Data.ByteString.Lazy qualified as LBS
-import Data.Char (ord)
 import Data.Map.Strict qualified as Map
 import Data.Maybe (fromMaybe)
 import Data.Text qualified as T
@@ -17,14 +17,13 @@ import Data.Text.Lazy qualified as TL
 import Data.Time.Clock (getCurrentTime, diffUTCTime)
 import Data.Time.Format (formatTime, defaultTimeLocale)
 import Data.Word (Word8)
-import Network.Socket qualified as Socket
-import Network.Socket.ByteString qualified as SocketBS
+import Network.Connection qualified as Conn
 import Network.Wai (requestHeaders)
 import System.Directory (createDirectoryIfMissing)
 import System.Environment (lookupEnv)
 import System.Exit (ExitCode(..))
 import System.Process (readProcessWithExitCode)
-
+import System.Timeout (timeout)
 import Lurk.Session qualified as Session
 import Paths (thanksPath)
 import View.Prelude
@@ -127,16 +126,17 @@ checkTimeToSubmit minSeconds _params = do
 -- DNS MX VERIFICATION
 ----------------------------------------------------------------------
 
--- | Check if an email domain has valid MX records
+-- | Check if an email domain has valid MX records (2-second timeout)
 checkMxRecord :: Text -> IO Bool
 checkMxRecord domain = do
     let domainStr = T.unpack domain
-    result <- try $ readProcessWithExitCode "host" ["-t", "MX", domainStr] ""
+    result <- timeout 2000000 $ try $ readProcessWithExitCode "host" ["-t", "MX", domainStr] ""
     case result of
-        Left (_ :: SomeException) -> pure True
-        Right (ExitSuccess, out, _) ->
+        Nothing -> pure True  -- timeout, allow submission
+        Just (Left (_ :: SomeException)) -> pure True
+        Just (Right (ExitSuccess, out, _)) ->
             pure $ not (null out)
-        Right (ExitFailure _, _, _) -> pure True
+        Just (Right (ExitFailure _, _, _)) -> pure True
 
 -- | Extract domain from email address
 emailDomain :: Text -> Text
@@ -254,63 +254,79 @@ logEnterpriseSubmission params ip = do
 ----------------------------------------------------------------------
 
 accessNotificationHtml :: [(Text, Text)] -> Qualification -> Int -> Text
-accessNotificationHtml params qual score = T.unlines
-    [ "<!DOCTYPE html><html><head><style>"
-    , "body { font-family: 'Helvetica', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }"
-    , ".header { border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px; }"
-    , ".status-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 14px; }"
-    , ".status-sql { background-color: #d4edda; color: #155724; }"
-    , ".status-mql { background-color: #fff3cd; color: #856404; }"
-    , ".status-nq { background-color: #f8d7da; color: #721c24; }"
-    , "</style></head><body>"
-    , "<div class=\"header\"><h1>New Access Request</h1></div>"
-    , "<div class=\"content\">"
-    , "<p>A new access request has been submitted and qualified.</p>"
-    , "<p><strong>Status:</strong> <span class=\"status-badge " <> badgeClass <> "\">" <> qualLabel qual <> "</span></p>"
-    , "<p><strong>Score:</strong> " <> T.pack (show score) <> " / 95</p>"
-    , "<h3>Contact Details</h3>"
-    , "<p><strong>Name:</strong> " <> lookupParam "name" params <> "<br>"
-    , "<strong>Email:</strong> " <> lookupParam "email" params <> "<br>"
-    , "<strong>Company:</strong> " <> lookupParam "company" params <> "<br>"
-    , "<strong>Role:</strong> " <> lookupParam "role" params <> "</p>"
-    , "<h3>Profile Data</h3>"
-    , "<p><strong>Vertical:</strong> " <> lookupParam "question-2" params <> "<br>"
-    , "<strong>Channel:</strong> " <> lookupParam "question-3" params <> "<br>"
-    , "<strong>Volume:</strong> " <> lookupParam "question-4" params <> "<br>"
-    , "<strong>Handling:</strong> " <> lookupParam "question-5" params <> "</p>"
-    , "</div></body></html>"
-    ]
+accessNotificationHtml params qual score = renderHtml [lurk|
+<!DOCTYPE html>
+<html><head></head>
+<body style="font-family: Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
+  <div style="border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px;">
+    <h1>New Access Request</h1>
+  </div>
+  <div>
+    <p>A new access request has been submitted and qualified.</p>
+    <p><strong>Status:</strong> <span style="display: inline-block; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 14px; {badgeStyle}">{qualText}</span></p>
+    <p><strong>Score:</strong> {scoreText} / {maxScoreText}</p>
+    <h3>Contact Details</h3>
+    <p><strong>Name:</strong> {name}<br>
+    <strong>Email:</strong> {email}<br>
+    <strong>Company:</strong> {company}<br>
+    <strong>Role:</strong> {role}</p>
+    <h3>Profile Data</h3>
+    <p><strong>Vertical:</strong> {vertical}<br>
+    <strong>Channel:</strong> {channel}<br>
+    <strong>Volume:</strong> {volume}<br>
+    <strong>Handling:</strong> {handling}</p>
+  </div>
+</body></html>
+|]
   where
-    badgeClass = case qual of
-        SQL -> "status-sql"
-        MQL -> "status-mql"
-        NQ  -> "status-nq"
+    maxScore :: Int
+    maxScore = 105
+    badgeStyle :: Text
+    badgeStyle = case qual of
+        SQL -> "background-color: #d4edda; color: #155724;"
+        MQL -> "background-color: #fff3cd; color: #856404;"
+        NQ  -> "background-color: #f8d7da; color: #721c24;"
+    qualText = qualLabel qual
+    scoreText = T.pack (show score)
+    maxScoreText = T.pack (show maxScore)
+    name = lookupParam "name" params
+    email = lookupParam "email" params
+    company = lookupParam "company" params
+    role = lookupParam "role" params
+    vertical = lookupParam "question-2" params
+    channel = lookupParam "question-3" params
+    volume = lookupParam "question-4" params
+    handling = lookupParam "question-5" params
 
 accessConfirmationHtml :: Language -> Text -> Text
-accessConfirmationHtml lang name = T.unlines
-    [ "<!DOCTYPE html><html><head><style>"
-    , "body { font-family: 'Helvetica', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }"
-    , ".header { border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px; }"
-    , "</style></head><body>"
-    , "<div class=\"header\"><h1>Ruzaani</h1></div>"
-    , "<div class=\"content\">"
-    , "<p>" <> greeting <> " " <> name <> ",</p>"
-    , "<p>" <> thanks <> "</p>"
-    , "<p>" <> review <> "</p>"
-    , "<p><strong>" <> nextSteps <> "</strong></p>"
-    , "<ul><li>" <> step1 <> "</li><li>" <> step2 <> "</li></ul>"
-    , "<p>" <> signoff <> "</p>"
-    , "</div></body></html>"
-    ]
+accessConfirmationHtml lang name = renderHtml [lurk|
+<!DOCTYPE html>
+<html><head></head>
+<body style="font-family: Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
+  <div style="border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px;">
+    <h1>Ruzaani</h1>
+  </div>
+  <div>
+    <p>{greeting} {name},</p>
+    <p>{thanks}</p>
+    <p>{review}</p>
+    <p><strong>{nextSteps}</strong></p>
+    <ul><li>{step1}</li><li>{step2}</li></ul>
+    <p>{signoffLine1}<br>{signoffLine2}</p>
+  </div>
+</body></html>
+|]
   where
-    (greeting, thanks, review, nextSteps, step1, step2, signoff) = case lang of
+    localeTexts :: (Text, Text, Text, Text, Text, Text, Text, Text)
+    localeTexts = case lang of
         ES -> ( "Hola"
               , "Gracias por solicitar acceso a la plataforma Ruzaani."
               , "Nuestro equipo de soporte está revisando tu perfil para asegurarnos de configurar el entorno adecuado para tu negocio."
               , "Siguientes pasos:"
               , "De ser aprobado, te daremos acceso en menos de 24 horas."
               , "Si necesitamos más información, nos pondremos en contacto contigo directamente."
-              , "Saludos cordiales,<br>El equipo de soporte de Ruzaani"
+              , "Saludos cordiales,"
+              , "El equipo de soporte de Ruzaani"
               )
         KO -> ( "안녕하세요"
               , "Ruzaani 플랫폼 액세스를 신청해 주셔서 감사합니다."
@@ -318,7 +334,8 @@ accessConfirmationHtml lang name = T.unlines
               , "다음 단계:"
               , "승인될 경우 24시간 이내에 액세스 권한이 부여됩니다."
               , "추가 정보가 필요한 경우 직접 연락드리겠습니다."
-              , "감사합니다.<br>Ruzaani 지원팀 드림"
+              , "감사합니다."
+              , "Ruzaani 지원팀 드림"
               )
         _ -> ( "Hello"
              , "Thank you for requesting access to the Ruzaani platform."
@@ -326,54 +343,70 @@ accessConfirmationHtml lang name = T.unlines
              , "Next Steps:"
              , "If approved, we will grant you access within 24 hours."
              , "If we need more information, we will contact you directly."
-             , "Best regards,<br>The Ruzaani Support Team"
+             , "Best regards,"
+             , "The Ruzaani Support Team"
              )
+    greeting, thanks, review, nextSteps, step1, step2, signoffLine1, signoffLine2 :: Text
+    (greeting, thanks, review, nextSteps, step1, step2, signoffLine1, signoffLine2) = localeTexts
 
 enterpriseNotificationHtml :: [(Text, Text)] -> Text
-enterpriseNotificationHtml params = T.unlines
-    [ "<!DOCTYPE html><html><head><style>"
-    , "body { font-family: 'Helvetica', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }"
-    , ".header { border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px; }"
-    , "</style></head><body>"
-    , "<div class=\"header\"><h1>New Enterprise Inquiry</h1></div>"
-    , "<div class=\"content\">"
-    , "<p>A new enterprise contact request has been submitted from the pricing page.</p>"
-    , "<h3>Contact Details</h3>"
-    , "<p><strong>Name:</strong> " <> lookupParam "name" params <> "<br>"
-    , "<strong>Email:</strong> " <> lookupParam "email" params <> "<br>"
-    , "<strong>Company:</strong> " <> lookupParam "business" params <> "<br>"
-    , "<strong>Country:</strong> " <> T.toUpper (lookupParam "country" params) <> "</p>"
-    , "<h3>Message</h3>"
-    , "<p style=\"background: #f9f9f9; padding: 15px; border-left: 3px solid #ccc;\">"
-    , lookupParam "message" params
-    , "</p></div></body></html>"
-    ]
+enterpriseNotificationHtml params = renderHtml [lurk|
+<!DOCTYPE html>
+<html><head></head>
+<body style="font-family: Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
+  <div style="border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px;">
+    <h1>New Enterprise Inquiry</h1>
+  </div>
+  <div>
+    <p>A new enterprise contact request has been submitted from the pricing page.</p>
+    <h3>Contact Details</h3>
+    <p><strong>Name:</strong> {entName}<br>
+    <strong>Email:</strong> {entEmail}<br>
+    <strong>Company:</strong> {entBusiness}<br>
+    <strong>Country:</strong> {entCountry}</p>
+    <h3>Message</h3>
+    <p style="background: #f9f9f9; padding: 15px; border-left: 3px solid #ccc;">
+    {entMessage}
+    </p>
+  </div>
+</body></html>
+|]
+  where
+    entName = lookupParam "name" params
+    entEmail = lookupParam "email" params
+    entBusiness = lookupParam "business" params
+    entCountry = T.toUpper (lookupParam "country" params)
+    entMessage = lookupParam "message" params
 
 enterpriseConfirmationHtml :: Language -> Text -> Text
-enterpriseConfirmationHtml lang name = T.unlines
-    [ "<!DOCTYPE html><html><head><style>"
-    , "body { font-family: 'Helvetica', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }"
-    , ".header { border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px; }"
-    , "</style></head><body>"
-    , "<div class=\"header\"><h1>Ruzaani</h1></div>"
-    , "<div class=\"content\">"
-    , "<p>" <> greeting <> " " <> name <> ",</p>"
-    , "<p>" <> thanks <> "</p>"
-    , "<p>" <> review <> "</p>"
-    , "<p><strong>" <> nextSteps <> "</strong></p>"
-    , "<ul><li>" <> step1 <> "</li><li>" <> step2 <> "</li></ul>"
-    , "<p>" <> signoff <> "</p>"
-    , "</div></body></html>"
-    ]
+enterpriseConfirmationHtml lang name = renderHtml [lurk|
+<!DOCTYPE html>
+<html><head></head>
+<body style="font-family: Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
+  <div style="border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px;">
+    <h1>Ruzaani</h1>
+  </div>
+  <div>
+    <p>{greeting} {name},</p>
+    <p>{thanks}</p>
+    <p>{review}</p>
+    <p><strong>{nextSteps}</strong></p>
+    <ul><li>{step1}</li><li>{step2}</li></ul>
+    <p>{signoffLine1}<br>{signoffLine2}</p>
+  </div>
+</body></html>
+|]
   where
-    (greeting, thanks, review, nextSteps, step1, step2, signoff) = case lang of
+    localeTexts :: (Text, Text, Text, Text, Text, Text, Text, Text)
+    localeTexts = case lang of
         ES -> ( "Hola"
               , "Gracias por ponerte en contacto sobre un acuerdo Enterprise con Ruzaani."
               , "Nuestro equipo de ventas ha recibido tu consulta y está revisando los detalles de tu negocio."
               , "Siguientes pasos:"
               , "Un especialista enterprise te contactará en menos de 24 horas."
               , "Prepararemos una propuesta personalizada basada en tus requerimientos específicos."
-              , "Saludos cordiales,<br>El equipo Enterprise de Ruzaani"
+              , "Saludos cordiales,"
+              , "El equipo Enterprise de Ruzaani"
               )
         KO -> ( "안녕하세요"
               , "Ruzaani 엔터프라이즈 협약에 관해 문의해 주셔서 감사합니다."
@@ -381,7 +414,8 @@ enterpriseConfirmationHtml lang name = T.unlines
               , "다음 단계:"
               , "엔터프라이즈 전문가가 24시간 이내에 연락하여 상담 전화를 예약할 것입니다."
               , "귀하의 특정 요구 사항에 맞춘 맞춤형 제안서를 준비하겠습니다."
-              , "감사합니다.<br>Ruzaani 엔터프라이즈 팀 드림"
+              , "감사합니다."
+              , "Ruzaani 엔터프라이즈 팀 드림"
               )
         _ -> ( "Hello"
              , "Thank you for reaching out regarding an Enterprise agreement with Ruzaani."
@@ -389,8 +423,11 @@ enterpriseConfirmationHtml lang name = T.unlines
              , "Next Steps:"
              , "An enterprise specialist will contact you within 24 hours to schedule a discovery call."
              , "We will prepare a custom proposal based on your specific requirements."
-             , "Best regards,<br>The Ruzaani Enterprise Team"
+             , "Best regards,"
+             , "The Ruzaani Enterprise Team"
              )
+    greeting, thanks, review, nextSteps, step1, step2, signoffLine1, signoffLine2 :: Text
+    (greeting, thanks, review, nextSteps, step1, step2, signoffLine1, signoffLine2) = localeTexts
 
 ----------------------------------------------------------------------
 -- SMTP EMAIL SENDING
@@ -404,83 +441,139 @@ sendEmail config toAddr subject htmlBody = do
     let user = T.unpack (smtpUsername config)
     let pass = T.unpack (smtpPassword config)
     let to = T.unpack toAddr
-    result <- try (smtpSend host port from user pass to toAddr subject htmlBody config)
+    smtpLog $ "SMTP sending to " ++ to ++ " via " ++ host ++ ":" ++ show port ++ " as " ++ user
+    result <- timeout 30000000 $ try (smtpSend host port from user pass to toAddr subject htmlBody config)
     case result of
-        Left (e :: SomeException) ->
-            putStrLn $ "Email send error: " ++ show e
-        Right _ ->
-            putStrLn $ "Email sent to " ++ to ++ ": " ++ T.unpack subject
+        Nothing ->
+            smtpLog $ "SMTP TIMEOUT to " ++ to
+        Just (Left (e :: SomeException)) ->
+            smtpLog $ "SMTP ERROR to " ++ to ++ ": " ++ show e
+        Just (Right _) ->
+            smtpLog $ "SMTP OK to " ++ to ++ ": " ++ T.unpack subject
+
+smtpLog :: String -> IO ()
+smtpLog msg = do
+    ensureLogDir
+    now <- getCurrentTime
+    let ts = formatTime defaultTimeLocale "%Y-%m-%d %H:%M:%S" now
+    appendFile "logs/smtp.log" $ "[" ++ ts ++ "] " ++ msg ++ "\n"
 
 smtpSend :: String -> Int -> String -> String -> String -> String -> Text -> Text -> Text -> SmtpConfig -> IO ()
 smtpSend host port from user pass to toAddr subject htmlBody config = do
-    addrInfo <- Socket.getAddrInfo
-        (Just Socket.defaultHints { Socket.addrSocketType = Socket.Stream })
-        (Just host)
-        (Just (show port))
-    case addrInfo of
-        [] -> error $ "Could not resolve " ++ host
-        (ai:_) -> bracket
-            (Socket.openSocket ai)
-            Socket.close
-            (\sock -> do
-                Socket.connect sock (Socket.addrAddress ai)
-                _ <- SocketBS.recv sock 4096
-                SocketBS.sendAll sock "EHLO localhost\r\n"
-                _ <- SocketBS.recv sock 4096
-                SocketBS.sendAll sock "AUTH LOGIN\r\n"
-                _ <- SocketBS.recv sock 4096
-                SocketBS.sendAll sock (TE.encodeUtf8 (T.pack (base64Encode user)) <> "\r\n")
-                _ <- SocketBS.recv sock 4096
-                SocketBS.sendAll sock (TE.encodeUtf8 (T.pack (base64Encode pass)) <> "\r\n")
-                _ <- SocketBS.recv sock 4096
-                SocketBS.sendAll sock ("MAIL FROM:<" <> TE.encodeUtf8 (T.pack from) <> ">\r\n")
-                _ <- SocketBS.recv sock 4096
-                SocketBS.sendAll sock ("RCPT TO:<" <> TE.encodeUtf8 (T.pack to) <> ">\r\n")
-                _ <- SocketBS.recv sock 4096
-                SocketBS.sendAll sock "DATA\r\n"
-                _ <- SocketBS.recv sock 4096
-                let emailBody = "From: " <> TE.encodeUtf8 (smtpFromName config <> " <" <> smtpFrom config <> ">")
-                             <> "\r\nTo: " <> TE.encodeUtf8 toAddr
-                             <> "\r\nSubject: =?UTF-8?B?" <> TE.encodeUtf8 (T.pack (base64Encode (T.unpack subject))) <> "?="
-                             <> "\r\nMIME-Version: 1.0"
-                             <> "\r\nContent-Type: text/html; charset=UTF-8"
-                             <> "\r\nContent-Transfer-Encoding: base64"
-                             <> "\r\n\r\n" <> TE.encodeUtf8 (T.pack (base64Encode (T.unpack htmlBody)))
-                             <> "\r\n.\r\n"
-                SocketBS.sendAll sock emailBody
-                _ <- SocketBS.recv sock 4096
-                SocketBS.sendAll sock "QUIT\r\n"
-                pure ()
-            )
+    let useTls = port == 465
+    smtpLog $ "smtpSend: connecting to " ++ host ++ ":" ++ show port ++ " (TLS=" ++ show useTls ++ ")"
+    ctx <- Conn.initConnectionContext
+    let tlsSettings = Conn.TLSSettingsSimple
+            { Conn.settingDisableCertificateValidation = True
+            , Conn.settingDisableSession = False
+            , Conn.settingUseServerName = False
+            }
+    let connParams = Conn.ConnectionParams
+            { Conn.connectionHostname = host
+            , Conn.connectionPort = fromIntegral port
+            , Conn.connectionUseSecure = if useTls then Just tlsSettings else Nothing
+            , Conn.connectionUseSocks = Nothing
+            }
+    bracket
+        (Conn.connectTo ctx connParams)
+        Conn.connectionClose
+        (\conn -> do
+            -- Read multi-line banner (220-... continuation lines, ends with 220 space)
+            banner <- Conn.connectionGetLine 4096 conn
+            smtpLog $ "Banner line: " ++ show banner
+            remainingBanner <- recvContinuation conn
+            smtpLog $ "Banner rest: " ++ show remainingBanner
 
--- | Simple Base64 encoding
-base64Encode :: String -> String
-base64Encode = go
+            sendSMTPLine conn "EHLO localhost"
+            ehloResp <- recvAllEhlo conn
+            smtpLog $ "EHLO: " ++ show (BS.take 200 ehloResp)
+
+            unless useTls $ do
+                sendSMTPLine conn "STARTTLS"
+                stlsResp <- Conn.connectionGetLine 4096 conn
+                smtpLog $ "STARTTLS: " ++ show stlsResp
+                Conn.connectionSetSecure ctx conn tlsSettings
+                smtpLog "TLS enabled"
+                sendSMTPLine conn "EHLO localhost"
+                ehloResp2 <- recvAllEhlo conn
+                smtpLog $ "EHLO2: " ++ show (BS.take 200 ehloResp2)
+
+            sendSMTPLine conn "AUTH LOGIN"
+            r1 <- Conn.connectionGetLine 4096 conn
+            smtpLog $ "AUTH: " ++ show r1
+
+            sendSMTPLine conn (base64EncodeBS (TE.encodeUtf8 (T.pack user)))
+            r2 <- Conn.connectionGetLine 4096 conn
+            smtpLog $ "USER: " ++ show r2
+
+            sendSMTPLine conn (base64EncodeBS (TE.encodeUtf8 (T.pack pass)))
+            r3 <- Conn.connectionGetLine 4096 conn
+            smtpLog $ "PASS: " ++ show r3
+
+            sendSMTPLine conn ("MAIL FROM:<" <> TE.encodeUtf8 (T.pack from) <> ">")
+            r4 <- Conn.connectionGetLine 4096 conn
+            smtpLog $ "MAIL: " ++ show r4
+
+            sendSMTPLine conn ("RCPT TO:<" <> TE.encodeUtf8 (T.pack to) <> ">")
+            r5 <- Conn.connectionGetLine 4096 conn
+            smtpLog $ "RCPT: " ++ show r5
+
+            sendSMTPLine conn "DATA"
+            r6 <- Conn.connectionGetLine 4096 conn
+            smtpLog $ "DATA: " ++ show r6
+
+            let emailBody = "From: " <> TE.encodeUtf8 (smtpFromName config <> " <" <> smtpFrom config <> ">")
+                         <> "\r\nTo: " <> TE.encodeUtf8 toAddr
+                         <> "\r\nSubject: =?UTF-8?B?" <> base64EncodeBS (TE.encodeUtf8 subject) <> "?="
+                         <> "\r\nMIME-Version: 1.0"
+                         <> "\r\nContent-Type: text/html; charset=UTF-8"
+                         <> "\r\nContent-Transfer-Encoding: base64"
+                         <> "\r\n\r\n" <> base64EncodeBS (TE.encodeUtf8 htmlBody)
+                         <> "\r\n.\r\n"
+            sendSMTPLine conn emailBody
+            r7 <- Conn.connectionGetLine 4096 conn
+            smtpLog $ "SEND: " ++ show r7
+
+            sendSMTPLine conn "QUIT"
+            pure ()
+        )
   where
-    go [] = []
-    go s =
-        let (chunk, rest) = splitAt 3 s
-            len = length chunk
-            padded = chunk ++ replicate (3 - len) '\0'
-            b1 = fromIntegral (ord (head padded)) :: Word8
-            b2 = fromIntegral (ord (padded !! 1)) :: Word8
-            b3 = fromIntegral (ord (padded !! 2)) :: Word8
-            encoded = [encodeChar (b1 `div` 4)
-                      , encodeChar ((b1 `mod` 4) * 16 + b2 `div` 16)
-                      , encodeChar ((b2 `mod` 16) * 4 + b3 `div` 64)
-                      , encodeChar (b3 `mod` 64)]
-            padding = case len of
-                1 -> "=="
-                2 -> "="
-                _ -> ""
-        in take (4 - length padding) encoded ++ padding ++ go rest
+    sendSMTPLine conn bs = Conn.connectionPut conn (BS.append bs "\r\n")
 
-    encodeChar n
-        | n < 26    = toEnum (fromIntegral n + 65)
-        | n < 52    = toEnum (fromIntegral n + 71)
-        | n < 62    = toEnum (fromIntegral n - 4)
-        | n == 62   = '+'
-        | otherwise = '/'
+    recvContinuation conn = do
+        chunk <- Conn.connectionGetLine 4096 conn
+        if BS.length chunk > 3 && BS.index chunk 3 == 45 -- '-' continuation
+            then BS.append chunk . ("\r\n" <>) <$> recvContinuation conn
+            else pure chunk
+
+    recvAllEhlo = recvContinuation
+
+-- | Base64 encode a ByteString to a ByteString (UTF-8 safe)
+base64EncodeBS :: BS.ByteString -> BS.ByteString
+base64EncodeBS bs
+    | BS.null bs = BS.empty
+    | otherwise =
+        let (chunk, rest) = BS.splitAt 3 bs
+            len = BS.length chunk
+            b1 = fromIntegral (BS.index chunk 0) :: Int
+            b2 = if len > 1 then fromIntegral (BS.index chunk 1) :: Int else 0
+            b3 = if len > 2 then fromIntegral (BS.index chunk 2) :: Int else 0
+            chars = [ encodeByte (b1 `div` 4)
+                    , encodeByte ((b1 `mod` 4) * 16 + b2 `div` 16)
+                    , encodeByte ((b2 `mod` 16) * 4 + b3 `div` 64)
+                    , encodeByte (b3 `mod` 64)
+                    ]
+            takeLen = (len * 4 + 2) `div` 3
+            pad = replicate (4 - takeLen) (61 :: Word8)  -- '='
+        in BS.pack (take takeLen chars ++ pad) <> base64EncodeBS rest
+  where
+    encodeByte :: Int -> Word8
+    encodeByte n
+        | n < 26    = fromIntegral (n + 65)
+        | n < 52    = fromIntegral (n + 71)
+        | n < 62    = fromIntegral (n - 4)
+        | n == 62   = 43  -- '+'
+        | otherwise = 47  -- '/'
 
 ----------------------------------------------------------------------
 -- HANDLERS
@@ -523,7 +616,7 @@ accessPostAction lang = do
                 let confirmBody = accessConfirmationHtml lang (lookupParam "name" params)
                 sendEmail config email confirmSubject confirmBody
         Nothing ->
-            liftIO $ putStrLn "SMTP not configured, skipping email"
+            liftIO $ smtpLog "SMTP not configured, skipping email"
 
     let dest = TL.fromStrict (thanksPath lang)
     redirect dest
@@ -563,7 +656,7 @@ enterprisePostAction lang = do
                 let confirmBody = enterpriseConfirmationHtml lang (lookupParam "name" params)
                 sendEmail config email confirmSubject confirmBody
         Nothing ->
-            liftIO $ putStrLn "SMTP not configured, skipping email"
+            liftIO $ smtpLog "SMTP not configured, skipping enterprise email"
 
     let dest = TL.fromStrict (thanksPath lang)
     redirect dest
