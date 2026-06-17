@@ -27,17 +27,18 @@ jobs:
       - uses: actions/checkout@v4
 
       # --- Infrastructure Setup ---
-      - uses: haskell/actions/setup@v2
+      - uses: haskell-actions/setup@v2
         with:
           ghc-version: '9.4.8'
           cabal-version: '3.12.1.0'
 
       - name: Create Lurk Config
-        run: echo "${{ secrets.LURK_YAML }}" > lurk.yaml
+        run: echo "${{ secrets.LURK_YAML }}" > lib/lurk/lurk.yaml
 
       # --- Build the Lurk CLI and Binary ---
       - name: Build
         run: |
+          cd lib/lurk
           cabal update
           cabal build lurk --minimize
 
@@ -65,4 +66,5 @@ jobs:
           ssh-keyscan -H $VPS_IP >> ~/.ssh/known_hosts
 
           # Execute Lurk Deployment
+          cd lib/lurk
           cabal run lurk -- deploy
