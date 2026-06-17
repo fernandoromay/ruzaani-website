@@ -60,6 +60,7 @@ executable ruzaani-website
                      Locales.Prelude,
                      Locales.Pricing,
                      Locales.Product,
+                     Locales.Thanks,
                      Paths,
                      Router,
                      View.Access,
@@ -73,7 +74,8 @@ executable ruzaani-website
                      View.Legal,
                      View.Prelude,
                      View.Pricing,
-                     View.Product
+                     View.Product,
+                     View.Thanks
     build-depends:   base ^>=4.17.2.1,
                      lurk,
                      scotty,

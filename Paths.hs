@@ -51,11 +51,16 @@ accessPath EN = "/access/"
 accessPath ES = "/es/acceso/"
 accessPath KO = "/ko/access/"
 
+thanksPath :: Language -> Text
+thanksPath EN = "/thanks/"
+thanksPath ES = "/es/gracias/"
+thanksPath KO = "/ko/thanks/"
+
 langPaths :: Text -> [(Language, Text)]
 langPaths path = go pagePathFns
   where
     langs = [EN, ES, KO]
-    pagePathFns = [homePath, productPath, agencyPath, pricingPath, privacyPath, termsPath, accessPath]
+    pagePathFns = [homePath, productPath, agencyPath, pricingPath, privacyPath, termsPath, accessPath, thanksPath]
     go [] = [(lang, path) | lang <- langs]
     go (fn : rest)
         | any (\lang -> fn lang == path) langs = [(lang, fn lang) | lang <- langs]

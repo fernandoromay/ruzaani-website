@@ -14,6 +14,7 @@ router = do
     getPages allLanguages agencyPath agencyAction
     getPages allLanguages pricingPath pricingAction
     getPages allLanguages accessPath accessAction
+    getPages allLanguages thanksPath thanksAction
 
     getPages allLanguages termsPath (`legalAction` Terms)
     getPages allLanguages privacyPath (`legalAction` Privacy)
