@@ -15,7 +15,7 @@ navbar lang = [lurk|
       </a>
 
       <ul class="navbar-nav">
-        <li><a href="{l.homeLink}" class="{isActive l.homeLink}">{l.homeText}</a></li>
+        <li><a href="{l.homeLink}" class="{if ?currentPath == l.homeLink then "active" else ""}">{l.homeText}</a></li>
         <li><a href="{l.productLink}" class="{isActive l.productLink}">{l.productText}</a></li>
         <!--li><a href="l.solutionsLink}" class="isActive l.solutionsLink}">l.solutionsText}</a></li>
         <li><a href="l.useCasesLink}" class="isActive l.useCasesLink}">l.useCasesText}</a></li-->
@@ -47,8 +47,7 @@ navbar lang = [lurk|
 
     isActive :: (?currentPath :: Text) => Text -> Text
     isActive path
-      | ?currentPath == path = "active"
-      | ?currentPath `isSubpath` path = "active"
+      | (path `isSubpath` ?currentPath) && (path /= "/") = "active"
       | otherwise = ""
 
 navside :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> Html
