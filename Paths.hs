@@ -51,6 +51,11 @@ accessPath EN = "/access/"
 accessPath ES = "/es/acceso/"
 accessPath KO = "/ko/access/"
 
+enterprisePath :: Language -> Text
+enterprisePath EN = "/enterprise/"
+enterprisePath ES = "/es/empresas/"
+enterprisePath KO = "/ko/enterprise/"
+
 thanksPath :: Language -> Text
 thanksPath EN = "/thanks/"
 thanksPath ES = "/es/gracias/"

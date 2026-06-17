@@ -11,7 +11,6 @@ import Data.ByteString.Lazy qualified as LBS
 import Data.Char (ord)
 import Data.Map.Strict qualified as Map
 import Data.Maybe (fromMaybe)
-import Data.Text (Text)
 import Data.Text qualified as T
 import Data.Text.Encoding qualified as TE
 import Data.Text.Lazy qualified as TL
@@ -26,7 +25,6 @@ import System.Environment (lookupEnv)
 import System.Exit (ExitCode(..))
 import System.Process (readProcessWithExitCode)
 
-import Language (Language(..))
 import Lurk.Session qualified as Session
 import Paths (thanksPath)
 import View.Prelude
@@ -34,12 +32,13 @@ import Web.Scotty (redirect, request)
 
 -- | SMTP configuration
 data SmtpConfig = SmtpConfig
-    { smtpHost     :: Text
-    , smtpPort     :: Int
-    , smtpUsername :: Text
-    , smtpPassword :: Text
-    , smtpFrom     :: Text
-    , smtpFromName :: Text
+    { smtpHost      :: Text
+    , smtpPort      :: Int
+    , smtpUsername  :: Text
+    , smtpPassword  :: Text
+    , smtpFrom      :: Text
+    , smtpFromName  :: Text
+    , smtpAdminEmail :: Text
     }
 
 -- | Load SMTP configuration from environment
@@ -49,16 +48,19 @@ loadSmtpConfig = do
     mPort <- lookupEnv "SMTP_RZST_PORT"
     mUser <- lookupEnv "SMTP_RZST_USER"
     mPass <- lookupEnv "SMTP_RZST_PASS"
-    case (mHost, mPort, mUser, mPass) of
-        (Just h, Just p, Just u, Just pw) -> do
+    mAdmin <- lookupEnv "SMTP_RZST_ADMIN_EMAIL"
+    let mFromName = Just "Ruzaani Support Team"
+    case (mHost, mPort, mUser, mPass, mAdmin) of
+        (Just h, Just p, Just u, Just pw, Just admin) -> do
             let port = case reads p of [(n, "")] -> n; _ -> 587
             pure $ Just SmtpConfig
-                { smtpHost     = T.pack h
-                , smtpPort     = port
-                , smtpUsername = T.pack u
-                , smtpPassword = T.pack pw
-                , smtpFrom     = T.pack u
-                , smtpFromName = "Ruzaani Support Team"
+                { smtpHost      = T.pack h
+                , smtpPort      = port
+                , smtpUsername  = T.pack u
+                , smtpPassword  = T.pack pw
+                , smtpFrom      = T.pack u
+                , smtpFromName  = maybe "Ruzaani Support Team" T.pack mFromName
+                , smtpAdminEmail = T.pack admin
                 }
         _ -> pure Nothing
 
@@ -69,15 +71,11 @@ getClientIp = do
     let headers = requestHeaders req
     pure $ case lookup "X-Forwarded-For" headers of
         Just v -> TE.decodeUtf8 v
-        Nothing -> case lookup "X-Real-IP" headers of
-            Just v -> TE.decodeUtf8 v
-            Nothing -> "unknown"
+        Nothing -> maybe "unknown" TE.decodeUtf8 (lookup "X-Real-IP" headers)
 
 -- | Extract session ID from request
 getSid :: Action (Maybe SessionId)
-getSid = do
-    req <- request
-    pure $ getSessionIdFromHeaders req
+getSid = do getSessionIdFromHeaders <$> request
 
 -- | Read cached form params for current request
 readFormParams :: Action [(Text, Text)]
@@ -464,7 +462,7 @@ base64Encode = go
         let (chunk, rest) = splitAt 3 s
             len = length chunk
             padded = chunk ++ replicate (3 - len) '\0'
-            b1 = fromIntegral (ord (padded !! 0)) :: Word8
+            b1 = fromIntegral (ord (head padded)) :: Word8
             b2 = fromIntegral (ord (padded !! 1)) :: Word8
             b3 = fromIntegral (ord (padded !! 2)) :: Word8
             encoded = [encodeChar (b1 `div` 4)
@@ -512,11 +510,10 @@ accessPostAction lang = do
     mConfig <- liftIO loadSmtpConfig
     case mConfig of
         Just config -> liftIO $ do
-            let adminEmail = "fernando.romay@ruzaani.com"
             let subj = "New Access Request: " <> lookupParam "company" params
                     <> " (" <> qualLabel qual <> " - Score: " <> T.pack (show score) <> ")"
             let body = accessNotificationHtml params qual score
-            sendEmail config adminEmail subj body
+            sendEmail config (smtpAdminEmail config) subj body
 
             unless (T.null email) $ do
                 let confirmSubject = case lang of
@@ -553,11 +550,10 @@ enterprisePostAction lang = do
     mConfig <- liftIO loadSmtpConfig
     case mConfig of
         Just config -> liftIO $ do
-            let adminEmail = "fernando.romay@ruzaani.com"
             let subj = "Enterprise Inquiry: " <> lookupParam "business" params
                     <> " (" <> lookupParam "name" params <> ")"
             let body = enterpriseNotificationHtml params
-            sendEmail config adminEmail subj body
+            sendEmail config (smtpAdminEmail config) subj body
 
             unless (T.null email) $ do
                 let confirmSubject = case lang of

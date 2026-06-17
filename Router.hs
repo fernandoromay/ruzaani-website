@@ -24,8 +24,8 @@ router = do
     postAction (accessPath ES) (accessPostAction ES)
     postAction (accessPath KO) (accessPostAction KO)
 
-    postAction "/enterprise/" (enterprisePostAction EN)
-    postAction "/es/enterprise/" (enterprisePostAction ES)
-    postAction "/ko/enterprise/" (enterprisePostAction KO)
+    postAction (enterprisePath EN) (enterprisePostAction EN)
+    postAction (enterprisePath ES) (enterprisePostAction ES)
+    postAction (enterprisePath KO) (enterprisePostAction KO)
 
     notFound notFoundAction
