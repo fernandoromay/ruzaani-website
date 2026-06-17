@@ -17,3 +17,4 @@ LURK-ANALYSIS.md
 .env
 .lurk-sessions/
 logs/
+lurk.yaml
