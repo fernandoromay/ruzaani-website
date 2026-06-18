@@ -263,18 +263,18 @@ accessNotificationHtml params qual score = renderHtml [lurk|
   </div>
   <div>
     <p>A new access request has been submitted and qualified.</p>
-    <p><strong>Status:</strong> <span style="display: inline-block; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 14px; {badgeStyle}">{qualText}</span></p>
-    <p><strong>Score:</strong> {scoreText} / {maxScoreText}</p>
+    <p><strong>Status:</strong> <span style="display: inline-block; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 14px; {{badgeStyle}}">{{qualText}}</span></p>
+    <p><strong>Score:</strong> {{scoreText}} / {{maxScoreText}}</p>
     <h3>Contact Details</h3>
-    <p><strong>Name:</strong> {name}<br>
-    <strong>Email:</strong> {email}<br>
-    <strong>Company:</strong> {company}<br>
-    <strong>Role:</strong> {role}</p>
+    <p><strong>Name:</strong> {{name}}<br>
+    <strong>Email:</strong> {{email}}<br>
+    <strong>Company:</strong> {{company}}<br>
+    <strong>Role:</strong> {{role}}</p>
     <h3>Profile Data</h3>
-    <p><strong>Vertical:</strong> {vertical}<br>
-    <strong>Channel:</strong> {channel}<br>
-    <strong>Volume:</strong> {volume}<br>
-    <strong>Handling:</strong> {handling}</p>
+    <p><strong>Vertical:</strong> {{vertical}}<br>
+    <strong>Channel:</strong> {{channel}}<br>
+    <strong>Volume:</strong> {{volume}}<br>
+    <strong>Handling:</strong> {{handling}}</p>
   </div>
 </body></html>
 |]
@@ -307,12 +307,12 @@ accessConfirmationHtml lang name = renderHtml [lurk|
     <h1>Ruzaani</h1>
   </div>
   <div>
-    <p>{greeting} {name},</p>
-    <p>{thanks}</p>
-    <p>{review}</p>
-    <p><strong>{nextSteps}</strong></p>
-    <ul><li>{step1}</li><li>{step2}</li></ul>
-    <p>{signoffLine1}<br>{signoffLine2}</p>
+    <p>{{greeting}} {{name}},</p>
+    <p>{{thanks}}</p>
+    <p>{{review}}</p>
+    <p><strong>{{nextSteps}}</strong></p>
+    <ul><li>{{step1}}</li><li>{{step2}}</li></ul>
+    <p>{{signoffLine1}}<br>{{signoffLine2}}</p>
   </div>
 </body></html>
 |]
@@ -360,13 +360,13 @@ enterpriseNotificationHtml params = renderHtml [lurk|
   <div>
     <p>A new enterprise contact request has been submitted from the pricing page.</p>
     <h3>Contact Details</h3>
-    <p><strong>Name:</strong> {entName}<br>
-    <strong>Email:</strong> {entEmail}<br>
-    <strong>Company:</strong> {entBusiness}<br>
-    <strong>Country:</strong> {entCountry}</p>
+    <p><strong>Name:</strong> {{entName}}<br>
+    <strong>Email:</strong> {{entEmail}}<br>
+    <strong>Company:</strong> {{entBusiness}}<br>
+    <strong>Country:</strong> {{entCountry}}</p>
     <h3>Message</h3>
     <p style="background: #f9f9f9; padding: 15px; border-left: 3px solid #ccc;">
-    {entMessage}
+    {{entMessage}}
     </p>
   </div>
 </body></html>
@@ -387,12 +387,12 @@ enterpriseConfirmationHtml lang name = renderHtml [lurk|
     <h1>Ruzaani</h1>
   </div>
   <div>
-    <p>{greeting} {name},</p>
-    <p>{thanks}</p>
-    <p>{review}</p>
-    <p><strong>{nextSteps}</strong></p>
-    <ul><li>{step1}</li><li>{step2}</li></ul>
-    <p>{signoffLine1}<br>{signoffLine2}</p>
+    <p>{{greeting}} {{name}},</p>
+    <p>{{thanks}}</p>
+    <p>{{review}}</p>
+    <p><strong>{{nextSteps}}</strong></p>
+    <ul><li>{{step1}}</li><li>{{step2}}</li></ul>
+    <p>{{signoffLine1}}<br>{{signoffLine2}}</p>
   </div>
 </body></html>
 |]

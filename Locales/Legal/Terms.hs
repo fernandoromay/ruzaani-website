@@ -14,7 +14,7 @@ commonSEO = defaultSEO
         , Alternate {hreflang = "ko", href = domain <> termsPath KO}
         , Alternate {hreflang = "x-default", href = domain <> termsPath EN}
         ]
-    , customTags = [lurk|<link rel="stylesheet" href="{assetPath "css/legal.css"}">|]}
+    , customTags = [lurk|<link rel="stylesheet" href="{{assetPath "css/legal.css"}}">|]}
 
 effectiveDate :: Language -> Text
 effectiveDate EN = "April 25, 2026"
@@ -31,7 +31,7 @@ getLocaleTerms EN = LegalLocale
         }
     , content = [lurk|
         <h1>Terms of Service</h1>
-        <p><strong>Effective Date:</strong> {effectiveDate EN}</p>
+        <p><strong>Effective Date:</strong> {{effectiveDate EN}}</p>
         <br><br>
         <p>These Terms of Service ("Terms") govern your access to and use of the Ruzaani website, platform, AI business intelligence tools, and related services (collectively, the "Services"). </p>
         <p>Throughout these Terms, "Ruzaani", "we," "us," or "our" refers to the Ruzaani platform and its operating entity. "Client," "you," or "your" refers to the business, agency, or individual registering for and using the Services.</p>
@@ -111,7 +111,7 @@ getLocaleTerms ES = LegalLocale
         }
     , content = [lurk|
         <h1>Términos y Condiciones</h1>
-        <p><strong>Fecha de vigencia:</strong> {effectiveDate ES}</p>
+        <p><strong>Fecha de vigencia:</strong> {{effectiveDate ES}}</p>
         <br><br>
         <p>Estos Términos y Condiciones ("Términos") rigen su acceso y uso del sitio web, la plataforma, las herramientas de inteligencia empresarial de IA y los servicios relacionados de Ruzaani (colectivamente, los "Servicios").</p>
         <p>A lo largo de estos Términos, "Ruzaani", "nosotros", "nos" o "nuestro" se refiere a la plataforma Ruzaani y a su entidad operadora. "Cliente", "usted" o "su" se refiere a la empresa, agencia o individuo que se registra y utiliza los Servicios.</p>
@@ -191,7 +191,7 @@ getLocaleTerms KO = LegalLocale
         }
     , content = [lurk|
         <h1>이용약관</h1>
-        <p><strong>시행일:</strong> {effectiveDate KO}</p>
+        <p><strong>시행일:</strong> {{effectiveDate KO}}</p>
         <br><br>
         <p>본 이용약관("약관")은 귀하의 Ruzaani 웹사이트, 플랫폼, AI 비즈니스 인텔리전스 도구 및 관련 서비스(이하 "서비스")에 대한 접근 및 이용을 규율합니다.</p>
         <p>본 약관 전체에서 "Ruzaani", "당사", "우리"는 Ruzaani 플랫폼 및 그 운영 주체를 의미합니다. "고객", "귀하"는 서비스에 등록하여 이용하는 기업, 기관 또는 개인을 의미합니다.</p>

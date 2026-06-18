@@ -60,9 +60,9 @@ commonSeo = defaultSEO
         , Alternate {hreflang = "x-default", href = domain <> homePath EN}
         ]
     , customTags = [lurk|
-        <link rel="stylesheet" href="{assetPath "css/home.css"}">
-        <link rel="stylesheet" href="{assetPath "css/home-animations.css"}">
-        <link rel="stylesheet" href="{assetPath "css/mockups.css"}">
+        <link rel="stylesheet" href="{{assetPath "css/home.css"}}">
+        <link rel="stylesheet" href="{{assetPath "css/home-animations.css"}}">
+        <link rel="stylesheet" href="{{assetPath "css/mockups.css"}}">
         |]
     }
 

@@ -18,7 +18,7 @@ commonSEO :: SEO
 commonSEO = defaultSEO
     { robots = Just "noindex,follow"
     , customTags = [lurk|
-        <link rel="stylesheet" href="{assetPath "css/common.css"}">
+        <link rel="stylesheet" href="{{assetPath "css/common.css"}}">
         |]
     }
 

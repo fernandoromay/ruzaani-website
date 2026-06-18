@@ -18,7 +18,7 @@ renderWebIntelligence lang = [lurk|
     <!-- Center User Identity -->
     <div class="center-identity">
         JD
-        <span class="resolved-label">{webIntelligenceLocale lang}</span>
+        <span class="resolved-label">{{webIntelligenceLocale lang}}</span>
     </div>
 </div>
 |]
@@ -28,7 +28,7 @@ renderKanbanCRM lang = [lurk|
 <div class="kanban-board">
     <!-- Column 1 -->
     <div class="kanban-col">
-        <div class="kanban-header">{l.colQualified}</div>
+        <div class="kanban-header">{{l.colQualified}}</div>
         <div class="kanban-items">
             <div class="kanban-card">
                 <div class="card-title">Microsoft Corp</div>
@@ -40,7 +40,7 @@ renderKanbanCRM lang = [lurk|
                 <div class="card-meta">$12,000</div>
                 <div class="card-agent-label">
                     <i class="fa-solid fa-robot me-1" style="color: var(--accent-primary);"></i>
-                    <span class="text-white">{l.agentWorking}</span>
+                    <span class="text-white">{{l.agentWorking}}</span>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@ renderKanbanCRM lang = [lurk|
 
     <!-- Column 2 -->
     <div class="kanban-col">
-        <div class="kanban-header">{l.colProposal}</div>
+        <div class="kanban-header">{{l.colProposal}}</div>
         <div class="kanban-items">
             <div class="kanban-card">
                 <div class="card-title">Stripe Inc</div>
@@ -61,7 +61,7 @@ renderKanbanCRM lang = [lurk|
 
     <!-- Column 3 -->
     <div class="kanban-col d-none d-md-block">
-        <div class="kanban-header">{l.colClosing}</div>
+        <div class="kanban-header">{{l.colClosing}}</div>
         <div class="kanban-items">
             <div class="kanban-card">
                 <div class="card-title">WPP Group</div>
@@ -75,8 +75,8 @@ renderKanbanCRM lang = [lurk|
 <div class="telegram-toast">
     <div class="tg-icon"><i class="fa-brands fa-telegram"></i></div>
     <div class="tg-content">
-        <div class="tg-title">{l.toastTitle}</div>
-        <div class="tg-text">{l.toastText}</div>
+        <div class="tg-title">{{l.toastTitle}}</div>
+        <div class="tg-text">{{l.toastText}}</div>
     </div>
     <div class="tg-close"><i class="fa-solid fa-xmark"></i></div>
 </div>
@@ -100,17 +100,17 @@ renderSalesPipeline lang = styleBlock <> [lurk|
         <div class="viz-info-row">
             <span class="viz-stage-box stage-text-loop"></span>
             <div class="viz-score-box">
-                <span class="small text-white">{l.score}:</span> <span class="score-value-loop"></span><span class="small text-white">/100</span>
+                <span class="small text-white">{{l.score}}:</span> <span class="score-value-loop"></span><span class="small text-white">/100</span>
             </div>
         </div>
 
         <div class="viz-info-row mt-3">
-            <span class="text-white">{l.touchPoints}</span>
+            <span class="text-white">{{l.touchPoints}}</span>
             <span class="fw-bold touchpoints-count text-white"></span>
         </div>
 
         <div class="viz-info-row">
-            <span class="text-white">{l.platforms}</span>
+            <span class="text-white">{{l.platforms}}</span>
             <div class="platform-icons">
                 <i class="fa-brands fa-instagram"></i>
                 <i class="fa-solid fa-globe"></i>
@@ -122,16 +122,16 @@ renderSalesPipeline lang = styleBlock <> [lurk|
     <!-- Scrolling Code Log -->
     <div class="agent-code-scroll">
         <div class="code-list">
-            <span>{l.logNewLead}</span>
-            <span>{l.logSdrAnalyzing}</span>
-            <span>{l.logSdrQual}</span>
-            <span>{l.logSysQual}</span>
-            <span>{l.logAnalystScore}</span>
-            <span>{l.logAnalystRes}</span>
-            <span>{l.logCloserDraft}</span>
-            <span>{l.logCloserSend}</span>
-            <span>{l.logSysCust}</span>
-            <span>{l.logSysRestart}</span>
+            <span>{{l.logNewLead}}</span>
+            <span>{{l.logSdrAnalyzing}}</span>
+            <span>{{l.logSdrQual}}</span>
+            <span>{{l.logSysQual}}</span>
+            <span>{{l.logAnalystScore}}</span>
+            <span>{{l.logAnalystRes}}</span>
+            <span>{{l.logCloserDraft}}</span>
+            <span>{{l.logCloserSend}}</span>
+            <span>{{l.logSysCust}}</span>
+            <span>{{l.logSysRestart}}</span>
         </div>
     </div>
 </div>
@@ -197,32 +197,32 @@ renderenterpriseIntel lang = [lurk|
         <!-- 1. Enterprise Intelligence (Left) -->
         <g transform="translate(100, 300)">
             <rect x="-40" y="-20" width="80" height="40" rx="8" fill="#1a1f26" stroke="#0AAD95" stroke-opacity="0.5" />
-            <text x="0" y="5" font-family="Arial" font-size="10" fill="white" text-anchor="middle" font-weight="bold">{l.enterpriseIntel}</text>
+            <text x="0" y="5" font-family="Arial" font-size="10" fill="white" text-anchor="middle" font-weight="bold">{{l.enterpriseIntel}}</text>
             <circle cx="0" cy="0" r="45" stroke="#0AAD95" stroke-opacity="0.1" />
         </g>
 
         <!-- 2. Lead Scoring (Top Left) -->
         <g transform="translate(150, 120)">
             <rect x="-40" y="-20" width="80" height="40" rx="8" fill="#1a1f26" stroke="#0AAD95" stroke-opacity="0.5" />
-            <text x="0" y="5" font-family="Arial" font-size="10" fill="white" text-anchor="middle" font-weight="bold">{l.leadScoring}</text>
+            <text x="0" y="5" font-family="Arial" font-size="10" fill="white" text-anchor="middle" font-weight="bold">{{l.leadScoring}}</text>
         </g>
 
         <!-- 3. Contextual Memory (Top Right) -->
         <g transform="translate(450, 120)">
             <rect x="-40" y="-20" width="80" height="40" rx="8" fill="#1a1f26" stroke="#0AAD95" stroke-opacity="0.5" />
-            <text x="0" y="5" font-family="Arial" font-size="10" fill="white" text-anchor="middle" font-weight="bold">{l.contextualMemory}</text>
+            <text x="0" y="5" font-family="Arial" font-size="10" fill="white" text-anchor="middle" font-weight="bold">{{l.contextualMemory}}</text>
         </g>
 
         <!-- 4. RevOps (Right) -->
         <g transform="translate(500, 300)">
             <rect x="-40" y="-20" width="80" height="40" rx="8" fill="#1a1f26" stroke="#0AAD95" stroke-opacity="0.5" />
-            <text x="0" y="5" font-family="Arial" font-size="10" fill="white" text-anchor="middle" font-weight="bold">{l.revOps}</text>
+            <text x="0" y="5" font-family="Arial" font-size="10" fill="white" text-anchor="middle" font-weight="bold">{{l.revOps}}</text>
         </g>
 
         <!-- 5. Revenue Forecasting (Bottom) -->
         <g transform="translate(300, 420)">
             <rect x="-40" y="-20" width="80" height="40" rx="8" fill="#1a1f26" stroke="#0AAD95" stroke-opacity="0.5" />
-            <text x="0" y="5" font-family="Arial" font-size="10" fill="white" text-anchor="middle" font-weight="bold">{l.revenue}</text>
+            <text x="0" y="5" font-family="Arial" font-size="10" fill="white" text-anchor="middle" font-weight="bold">{{l.revenue}}</text>
         </g>
     </svg>
 </div>

@@ -6,12 +6,12 @@ import View.Components
 defaultLayout :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> SEO -> Html -> Html
 defaultLayout lang seo viewContent = [lurk|
 <!DOCTYPE html>
-<html lang="{toText lang}">
+<html lang="{{toText lang}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light dark">
-    <link rel="icon" type="image/svg+xml" href="{assetPath "img/brand/iso_w_inv_round.svg"}">
+    <link rel="icon" type="image/svg+xml" href="{{assetPath "img/brand/iso_w_inv_round.svg"}}">
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
@@ -20,19 +20,19 @@ defaultLayout lang seo viewContent = [lurk|
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    {renderSEO seo}
+    {{renderSEO seo}}
 </head>
 <body>
-    {navbar lang}
+    {{navbar lang}}
 
-    {navside lang}
+    {{navside lang}}
     
-    {viewContent}
+    {{viewContent}}
 
-    {footer lang}
+    {{footer lang}}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{assetPath "js/common.js"}"></script>
+    <script src="{{assetPath "js/common.js"}}"></script>
 </body>
 </html>
 |]

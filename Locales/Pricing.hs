@@ -115,7 +115,7 @@ commonSEO = defaultSEO
         , Alternate {hreflang = "x-default", href = domain <> pricingPath EN}
         ]
     , customTags = [lurk|
-        <link rel="stylesheet" href="{assetPath "css/pricing.css"}">
+        <link rel="stylesheet" href="{{assetPath "css/pricing.css"}}">
         |]
     }
 

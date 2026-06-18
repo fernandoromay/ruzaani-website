@@ -14,7 +14,7 @@ commonSEO = defaultSEO
         , Alternate {hreflang = "ko", href = domain <> privacyPath KO}
         , Alternate {hreflang = "x-default", href = domain <> privacyPath EN}
         ]
-    , customTags = [lurk|<link rel="stylesheet" href="{assetPath "css/legal.css"}">|]}
+    , customTags = [lurk|<link rel="stylesheet" href="{{assetPath "css/legal.css"}}">|]}
 
 effectiveDate :: Language -> Text
 effectiveDate EN = "April 25, 2026"
@@ -31,7 +31,7 @@ getLocalePrivacy EN = LegalLocale
         }
     , content = [lurk|
         <h1>Privacy Policy</h1>
-        <p><strong>Effective Date:</strong> {effectiveDate EN}</p>
+        <p><strong>Effective Date:</strong> {{effectiveDate EN}}</p>
         <br>
         <h2>1. Introduction</h2>
         <p>We value the privacy and security of our users. This Privacy Policy outlines how Ruzaani ("we," "us," or "our") collects, uses, and protects your information when you use our website, platform, AI business intelligence tools, and related services (collectively, the "Services").</p>
@@ -122,7 +122,7 @@ getLocalePrivacy ES = LegalLocale
         }
     , content = [lurk|
         <h1>Política de Privacidad</h1>
-        <p><strong>Fecha de publicación:</strong> {effectiveDate ES}</p>
+        <p><strong>Fecha de publicación:</strong> {{effectiveDate ES}}</p>
         <br>
         <h2>1. Introducción</h2>
         <p>Valoramos la privacidad y seguridad de nuestros usuarios. Esta Política de Privacidad describe cómo Ruzaani ("nosotros", "nos" o "nuestro") recopila, utiliza y protege su información cuando utiliza nuestro sitio web, plataforma, herramientas de inteligencia empresarial de IA y servicios relacionados (colectivamente, los "Servicios").</p>
@@ -213,7 +213,7 @@ getLocalePrivacy KO = LegalLocale
         }
     , content = [lurk|
         <h1>개인정보 처리방침</h1>
-        <p><strong>시행일:</strong> {effectiveDate KO}</p>
+        <p><strong>시행일:</strong> {{effectiveDate KO}}</p>
         <br>
         <h2>1. 개요</h2>
         <p>우리는 사용자의 개인정보와 보안을 중요하게 생각합니다. 본 개인정보 처리방침은 귀하가 당사의 웹사이트, 플랫폼, AI 비즈니스 인텔리전스 도구 및 관련 서비스(이하 "서비스")를 사용할 때 Ruzaani(이하 "당사")가 귀하의 정보를 수집, 사용 및 보호하는 방법을 설명합니다.</p>
