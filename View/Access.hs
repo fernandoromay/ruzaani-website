@@ -12,6 +12,8 @@ accessView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> A
 accessView lang AccessLocale {..} = defaultLayout lang seo [lurk|
 <main id="evaluation">
 
+    {renderBanner}
+
     <!-- Hero -->
     <section class="hero-section d-flex align-items-center">
       <div class="container">
@@ -106,13 +108,19 @@ accessView lang AccessLocale {..} = defaultLayout lang seo [lurk|
     totalQuestions :: Int
     totalQuestions = length questions
 
+    renderBanner :: Html
+    renderBanner = [lurk|
+        <section class="banner-top">
+          {bannerLoginText}
+          <a href="https://admin.ruzaani.com/" class="login-link fw-bold">{bannerLoginCTA}</a>
+        </section>
+        |]
+
     renderScripts :: Html
     renderScripts =
         preEscapedToHtml ("<script>window.auditTotalQuestions = " <> 
             T.pack (show totalQuestions) <> 
             "; window.langStrings = { processing: '" <> processingMsg <> "', error: '" <> errorMsg <> "' };</script><script src=\"" <> 
-            assetPath "js/access.js" <> 
-            "\"></script><script src=\"" <> 
             assetPath "js/interactive-form.js" <> 
             "\"></script><script>if (typeof window.startAudit === 'function') { window.startAudit(); }</script>" :: Text)
 
