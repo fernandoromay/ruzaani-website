@@ -7,5 +7,5 @@ import Router (router)
 main :: IO ()
 main = do
     cfg <- loadConfig
-    putStrLn $ "Starting on port " <> show (port cfg) <> "..."
+    putStrLn $ "Starting on http://localhost:" ++ show (port cfg)
     runLurk (port cfg) router

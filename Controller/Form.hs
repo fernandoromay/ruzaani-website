@@ -20,7 +20,6 @@ import Data.Word (Word8)
 import Network.Connection qualified as Conn
 import Network.Wai (requestHeaders)
 import System.Directory (createDirectoryIfMissing)
-import System.Environment (lookupEnv)
 import System.Exit (ExitCode(..))
 import System.Process (readProcessWithExitCode)
 import System.Timeout (timeout)
@@ -43,23 +42,24 @@ data SmtpConfig = SmtpConfig
 -- | Load SMTP configuration from environment
 loadSmtpConfig :: IO (Maybe SmtpConfig)
 loadSmtpConfig = do
-    mHost <- lookupEnv "SMTP_RZST_HOST"
-    mPort <- lookupEnv "SMTP_RZST_PORT"
-    mUser <- lookupEnv "SMTP_RZST_USER"
-    mPass <- lookupEnv "SMTP_RZST_PASS"
-    mAdmin <- lookupEnv "SMTP_RZST_ADMIN_EMAIL"
-    let mFromName = Just "Ruzaani Support Team"
+    env <- getAppEnv
+    let mHost = getEnv env "SMTP_RZST_HOST"
+        mPort = getEnv env "SMTP_RZST_PORT"
+        mUser = getEnv env "SMTP_RZST_USER"
+        mPass = getEnv env "SMTP_RZST_PASS"
+        mAdmin = getEnv env "SMTP_RZST_ADMIN_EMAIL"
+        mFromName = Just "Ruzaani Support Team"
     case (mHost, mPort, mUser, mPass, mAdmin) of
         (Just h, Just p, Just u, Just pw, Just admin) -> do
-            let port = case reads p of [(n, "")] -> n; _ -> 587
+            let port = case reads (T.unpack p) of [(n, "")] -> n; _ -> 587
             pure $ Just SmtpConfig
-                { smtpHost      = T.pack h
+                { smtpHost      = h
                 , smtpPort      = port
-                , smtpUsername  = T.pack u
-                , smtpPassword  = T.pack pw
-                , smtpFrom      = T.pack u
-                , smtpFromName  = maybe "Ruzaani Support Team" T.pack mFromName
-                , smtpAdminEmail = T.pack admin
+                , smtpUsername  = u
+                , smtpPassword  = pw
+                , smtpFrom      = u
+                , smtpFromName  = fromMaybe "Ruzaani Support Team" mFromName
+                , smtpAdminEmail = admin
                 }
         _ -> pure Nothing
 
