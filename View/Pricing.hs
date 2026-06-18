@@ -187,8 +187,6 @@ pricingView lang PricingLocale {..} = defaultLayout lang seo [lurk|
   </div>
 
   <script src="{assetPath "js/pricing.js"}"></script>
-  <script>window.langStrings = { processing: '{modalSubmitLabel}' };</script>
-  <script src="{assetPath "js/common.js"}"></script>
 |]
   where
     csrfToken :: Text
