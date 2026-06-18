@@ -6,6 +6,8 @@ data AccessLocale = AccessLocale
     { seo :: SEO
     , heroTitle :: Text
     , heroSubtitle :: Text
+    , bannerLoginText :: Text
+    , bannerLoginCTA :: Text
     , txtQuestion :: Text
     , txtOf :: Text
     , questions :: [Question]
@@ -57,6 +59,8 @@ getLocale EN = AccessLocale
         }
     , heroTitle = "Request Platform Access"
     , heroSubtitle = "Tell us about your business so we can tailor your experience."
+    , bannerLoginText = "Already have an account?"
+    , bannerLoginCTA = "Log in here"
     , txtQuestion = "Step"
     , txtOf = "of"
     , questions =
@@ -132,6 +136,8 @@ getLocale ES = AccessLocale
         }
     , heroTitle = "Solicitar Acceso a la Plataforma"
     , heroSubtitle = "Cuéntanos sobre tu negocio para poder adaptar tu experiencia."
+    , bannerLoginText = "¿Ya tienes cuenta?"
+    , bannerLoginCTA = "Inicia sesión aquí"
     , txtQuestion = "Paso"
     , txtOf = "de"
     , questions =
@@ -207,6 +213,8 @@ getLocale KO = AccessLocale
         }
     , heroTitle = "플랫폼 액세스 신청"
     , heroSubtitle = "맞춤형 환경을 제공해 드릴 수 있도록 비즈니스에 대해 알려주세요."
+    , bannerLoginText = "이미 계정이 있으신가요?"
+    , bannerLoginCTA = "여기에서 로그인하세요"
     , txtQuestion = "단계"
     , txtOf = "/"
     , questions =
