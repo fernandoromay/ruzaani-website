@@ -86,7 +86,7 @@ accessView lang AccessLocale {..} = defaultLayout lang seo [lurk|
               </div>
 
               <div class="text-center mt-4">
-                <button type="button" class="btn-primary w-100 py-3" onclick="submitAudit()" disabled
+                <button type="submit" class="btn-primary w-100 py-3" disabled
                   id="btn-final-submit">
                   {btnSubmit}
                 </button>
@@ -112,6 +112,8 @@ accessView lang AccessLocale {..} = defaultLayout lang seo [lurk|
             T.pack (show totalQuestions) <> 
             "; window.langStrings = { processing: '" <> processingMsg <> "', error: '" <> errorMsg <> "' };</script><script src=\"" <> 
             assetPath "js/access.js" <> 
+            "\"></script><script src=\"" <> 
+            assetPath "js/common.js" <> 
             "\"></script><script src=\"" <> 
             assetPath "js/interactive-form.js" <> 
             "\"></script><script>if (typeof window.startAudit === 'function') { window.startAudit(); }</script>" :: Text)

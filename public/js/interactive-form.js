@@ -70,7 +70,8 @@
       modal.show();
   };
 
-  window.submitAudit = function () {
+  // Inject hidden inputs for questions before submission
+  document.getElementById('audit-form')?.addEventListener('submit', function (e) {
     // --- Granular Tracking Start ---
     if (window.RuzaaniTracker) {
         window.RuzaaniTracker.track('evaluation_submit_start', {
@@ -79,24 +80,9 @@
     }
     // --- Granular Tracking End ---
 
-    // Show loading state
-    const submitBtn = document.getElementById('btn-final-submit');
-    if (!submitBtn) return;
-    
-    // basic double-submit protection
-    if (submitBtn.getAttribute('data-submitting') === 'true') return;
-    submitBtn.setAttribute('data-submitting', 'true');
+    const form = e.target;
 
-    const originalText = submitBtn.textContent;
-    submitBtn.disabled = true;
-    submitBtn.textContent = window.langStrings?.processing || 'Processing...';
-
-    const form = document.getElementById('audit-form');
-
-    // Inject hidden inputs for questions (stored in 'answers' object)
     for (const [key, value] of Object.entries(answers)) {
-        // Prevent injecting contact info if it somehow got in there, 
-        // though strictly speaking 'answers' should only have question-x at this point
         if (key.startsWith('question-')) {
             const input = document.createElement('input');
             input.type = 'hidden';
@@ -105,10 +91,7 @@
             form.appendChild(input);
         }
     }
-
-    // Submit the form
-    form.submit();
-  };
+  });
 
   // Contact Form Validation
   const contactInputs = document.querySelectorAll('.contact-form input');

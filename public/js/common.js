@@ -108,3 +108,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     mutationObs.observe(document.body, { childList: true, subtree: true });
 });
+
+/**
+ * Global form submission feedback
+ * Automatically handles button state and text when forms are submitted
+ */
+document.addEventListener('submit', function (e) {
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    
+    if (submitBtn) {
+        // Prevent double submissions
+        if (submitBtn.getAttribute('data-submitting') === 'true') {
+            e.preventDefault();
+            return;
+        }
+
+        submitBtn.setAttribute('data-submitting', 'true');
+        
+        // Update button state
+        submitBtn.disabled = true;
+        
+        // Use localized string if available, otherwise fallback
+        const processingText = window.langStrings?.processing || 'Processing...';
+        submitBtn.textContent = processingText;
+    }
+});
