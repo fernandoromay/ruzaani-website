@@ -2,9 +2,9 @@
 
 module View.Thanks where
 
-import Locales.Thanks
-import View.Layouts.Default
 import View.Prelude
+import View.Layout.Default
+import Locale.Thanks
 
 thanksView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> ThanksLocale -> Html
 thanksView lang ThanksLocale{..} = defaultLayout lang seo [lurk|

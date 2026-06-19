@@ -1,11 +1,11 @@
-module Locales.Legal.Prelude
+module Locale.Legal.Prelude
     ( LegalLocale(..) 
     , module Lurk.Prelude
-    , module Locales.Prelude
+    , module Locale.Prelude
      ) where
 
 import Lurk.Prelude
-import Locales.Prelude hiding (assetPath)
+import Locale.Prelude hiding (assetPath)
 
 data LegalLocale = LegalLocale
     { seo :: SEO

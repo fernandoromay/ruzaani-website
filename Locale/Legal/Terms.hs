@@ -1,10 +1,10 @@
-module Locales.Legal.Terms
+module Locale.Legal.Terms
     ( getLocaleTerms
-    , module Locales.Legal.Prelude
+    , module Locale.Legal.Prelude
     ) where
 
-import Locales.Prelude (assetPath)
-import Locales.Legal.Prelude
+import Locale.Prelude (assetPath)
+import Locale.Legal.Prelude
 
 commonSEO :: SEO
 commonSEO = defaultSEO

@@ -1,4 +1,4 @@
-module Locales.Error where
+module Locale.Error where
 
 import Language (Language(..))
 import Data.Text (Text)

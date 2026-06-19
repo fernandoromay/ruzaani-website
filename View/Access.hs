@@ -1,12 +1,13 @@
 {-# LANGUAGE RecordWildCards #-}
 module View.Access where
 
-import Data.Text qualified as T
+
 import Data.Maybe (fromMaybe)
+import Data.Text qualified as T
 import Lurk.Html (preEscapedToHtml)
-import Locales.Access
-import View.Layouts.Default
 import View.Prelude
+import View.Layout.Default
+import Locale.Access
 
 accessView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> AccessLocale -> Html
 accessView lang AccessLocale {..} = defaultLayout lang seo [lurk|

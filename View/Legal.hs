@@ -2,8 +2,9 @@
 
 module View.Legal where
 
-import Locales.Legal.Prelude
-import View.Layouts.Default
+import View.Prelude
+import View.Layout.Default
+import Locale.Legal.Prelude
 
 legalView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> LegalLocale -> Html
 legalView lang LegalLocale {..} = defaultLayout lang seo [lurk|

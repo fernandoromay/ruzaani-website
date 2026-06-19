@@ -1,6 +1,6 @@
-module Locales.Agency where
+module Locale.Agency where
 
-import Locales.Prelude
+import Locale.Prelude
 
 data AgencyLocale = AgencyLocale
     { seo :: SEO

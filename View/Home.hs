@@ -2,11 +2,11 @@
 
 module View.Home where
 
-import Locales.Home
-import View.Components.Animations
-import View.Components.Mockups
-import View.Layouts.Default
 import View.Prelude
+import View.Layout.Default
+import View.Partial.Animations
+import View.Partial.Mockups
+import Locale.Home
 
 homeView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> HomeLocale -> Html
 homeView lang HomeLocale {..} = defaultLayout lang seo [lurk|

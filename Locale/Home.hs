@@ -1,6 +1,6 @@
-module Locales.Home where
+module Locale.Home where
 
-import Locales.Prelude
+import Locale.Prelude
 
 data HomeLocale = HomeLocale
     { seo :: SEO
