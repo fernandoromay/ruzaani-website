@@ -2,10 +2,10 @@
 
 module View.Product where
 
-import Locales.Product
-import View.Components.Mockups
-import View.Layouts.Default
 import View.Prelude
+import View.Layout.Default
+import View.Partial.Mockups
+import Locale.Product
 
 productView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> ProductLocale -> Html
 productView lang ProductLocale {..} = defaultLayout lang seo [lurk|

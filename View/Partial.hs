@@ -1,9 +1,9 @@
-module View.Components where
+module View.Partial where
 
-import View.Prelude
-import Locales.Common
-import Paths (langPaths)
 import Data.Text qualified as T
+import Paths (langPaths)
+import View.Prelude
+import Locale.Common
 
 navbar :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> Html
 navbar lang = [lurk|

@@ -1,4 +1,4 @@
-module Locales.Prelude
+module Locale.Prelude
     ( module Data.Map.Strict
     , module GHC.Generics
     , module Lurk.SEO

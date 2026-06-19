@@ -1,7 +1,5 @@
 module Controller.Static where
 
-import Network.HTTP.Types (status404)
-import Web.Scotty (status)
 import Language
 import View.Prelude
 import View.Error
@@ -12,13 +10,13 @@ import View.Pricing
 import View.Access
 import View.Thanks
 import View.Legal
-import Locales.Home qualified as Home
-import Locales.Product qualified as Product
-import Locales.Pricing qualified as Pricing
-import Locales.Legal qualified as Legal
-import Locales.Agency qualified as Agency
-import Locales.Access qualified as Access
-import Locales.Thanks qualified as Thanks
+import Locale.Home    qualified as Home
+import Locale.Product qualified as Product
+import Locale.Pricing qualified as Pricing
+import Locale.Legal   qualified as Legal
+import Locale.Agency  qualified as Agency
+import Locale.Access  qualified as Access
+import Locale.Thanks  qualified as Thanks
 import Controller.Form (setFormLoadTime)
 
 data LegalPage = Terms | Privacy deriving (Eq)
@@ -57,6 +55,4 @@ legalAction lang page = render $ legalView lang locale
             Privacy -> Legal.getLocalePrivacy lang
 
 notFoundAction :: Action ()
-notFoundAction = do
-    status status404
-    render (error404View EN)
+notFoundAction = render (error404View EN)

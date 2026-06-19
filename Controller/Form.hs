@@ -4,10 +4,8 @@ module Controller.Form
     , setFormLoadTime
     ) where
 
-import Control.Exception (bracket, try, SomeException)
 import Control.Monad (unless)
 import Data.Aeson qualified as Aeson
-import Data.ByteString qualified as BS
 import Data.ByteString.Lazy qualified as LBS
 import Data.Map.Strict qualified as Map
 import Data.Maybe (fromMaybe)
@@ -16,28 +14,17 @@ import Data.Text.Encoding qualified as TE
 import Data.Text.Lazy qualified as TL
 import Data.Time.Clock (getCurrentTime, diffUTCTime)
 import Data.Time.Format (formatTime, defaultTimeLocale)
-import Data.Word (Word8)
-import Network.Connection qualified as Conn
 import Network.Wai (requestHeaders)
 import System.Directory (createDirectoryIfMissing)
 import System.Exit (ExitCode(..))
 import System.Process (readProcessWithExitCode)
 import System.Timeout (timeout)
+import Control.Exception (try, SomeException)
 import Lurk.Session qualified as Session
 import Paths (thanksPath)
 import View.Prelude
+import Lurk.Email.SMTP
 import Web.Scotty (redirect, request)
-
--- | SMTP configuration
-data SmtpConfig = SmtpConfig
-    { smtpHost      :: Text
-    , smtpPort      :: Int
-    , smtpUsername  :: Text
-    , smtpPassword  :: Text
-    , smtpFrom      :: Text
-    , smtpFromName  :: Text
-    , smtpAdminEmail :: Text
-    }
 
 -- | Load SMTP configuration from environment
 loadSmtpConfig :: IO (Maybe SmtpConfig)
@@ -47,21 +34,24 @@ loadSmtpConfig = do
         mPort = getEnv env "SMTP_RZST_PORT"
         mUser = getEnv env "SMTP_RZST_USER"
         mPass = getEnv env "SMTP_RZST_PASS"
-        mAdmin = getEnv env "SMTP_RZST_ADMIN_EMAIL"
-        mFromName = Just "Ruzaani Support Team"
-    case (mHost, mPort, mUser, mPass, mAdmin) of
-        (Just h, Just p, Just u, Just pw, Just admin) -> do
+    case (mHost, mPort, mUser, mPass) of
+        (Just h, Just p, Just u, Just pw) -> do
             let port = case reads (T.unpack p) of [(n, "")] -> n; _ -> 587
             pure $ Just SmtpConfig
-                { smtpHost      = h
-                , smtpPort      = port
-                , smtpUsername  = u
-                , smtpPassword  = pw
-                , smtpFrom      = u
-                , smtpFromName  = fromMaybe "Ruzaani Support Team" mFromName
-                , smtpAdminEmail = admin
+                { smtpHost     = h
+                , smtpPort     = port
+                , smtpUsername = u
+                , smtpPassword = pw
+                , smtpFrom     = u
+                , smtpFromName = "Ruzaani Support Team"
                 }
         _ -> pure Nothing
+
+-- | Load admin email from environment
+loadAdminEmail :: IO (Maybe Text)
+loadAdminEmail = do
+    env <- getAppEnv
+    pure $ getEnv env "SMTP_RZST_ADMIN_EMAIL"
 
 -- | Get client IP from request headers
 getClientIp :: Action Text
@@ -253,8 +243,8 @@ logEnterpriseSubmission params ip = do
 -- EMAIL TEMPLATES
 ----------------------------------------------------------------------
 
-accessNotificationHtml :: [(Text, Text)] -> Qualification -> Int -> Text
-accessNotificationHtml params qual score = renderHtml [lurk|
+accessNotificationHtml :: [(Text, Text)] -> Qualification -> Int -> Text -> Text -> Text
+accessNotificationHtml params qual score ip langText = renderHtml [lurk|
 <!DOCTYPE html>
 <html><head></head>
 <body style="font-family: Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
@@ -269,12 +259,19 @@ accessNotificationHtml params qual score = renderHtml [lurk|
     <p><strong>Name:</strong> {{name}}<br>
     <strong>Email:</strong> {{email}}<br>
     <strong>Company:</strong> {{company}}<br>
-    <strong>Role:</strong> {{role}}</p>
+    <strong>Role:</strong> {{role}}<br>
+    <strong>Country:</strong> {{country}}<br>
+    <strong>Language:</strong> {{langText}}</p>
     <h3>Profile Data</h3>
-    <p><strong>Vertical:</strong> {{vertical}}<br>
+    <p><strong>Use Case:</strong> {{useCase}}<br>
+    <strong>Vertical:</strong> {{vertical}}<br>
     <strong>Channel:</strong> {{channel}}<br>
     <strong>Volume:</strong> {{volume}}<br>
     <strong>Handling:</strong> {{handling}}</p>
+    <p style="margin-top: 30px; font-size: 12px; color: #999;">
+      Submitted via Ruzaani Onboarding Flow.<br>
+      IP: {{ip}}
+    </p>
   </div>
 </body></html>
 |]
@@ -293,6 +290,8 @@ accessNotificationHtml params qual score = renderHtml [lurk|
     email = lookupParam "email" params
     company = lookupParam "company" params
     role = lookupParam "role" params
+    country = T.toUpper (lookupParam "country" params)
+    useCase = lookupParam "question-1" params
     vertical = lookupParam "question-2" params
     channel = lookupParam "question-3" params
     volume = lookupParam "question-4" params
@@ -433,24 +432,6 @@ enterpriseConfirmationHtml lang name = renderHtml [lurk|
 -- SMTP EMAIL SENDING
 ----------------------------------------------------------------------
 
-sendEmail :: SmtpConfig -> Text -> Text -> Text -> IO ()
-sendEmail config toAddr subject htmlBody = do
-    let host = T.unpack (smtpHost config)
-    let port = smtpPort config
-    let from = T.unpack (smtpFrom config)
-    let user = T.unpack (smtpUsername config)
-    let pass = T.unpack (smtpPassword config)
-    let to = T.unpack toAddr
-    smtpLog $ "SMTP sending to " ++ to ++ " via " ++ host ++ ":" ++ show port ++ " as " ++ user
-    result <- timeout 30000000 $ try (smtpSend host port from user pass to toAddr subject htmlBody config)
-    case result of
-        Nothing ->
-            smtpLog $ "SMTP TIMEOUT to " ++ to
-        Just (Left (e :: SomeException)) ->
-            smtpLog $ "SMTP ERROR to " ++ to ++ ": " ++ show e
-        Just (Right _) ->
-            smtpLog $ "SMTP OK to " ++ to ++ ": " ++ T.unpack subject
-
 smtpLog :: String -> IO ()
 smtpLog msg = do
     ensureLogDir
@@ -458,122 +439,14 @@ smtpLog msg = do
     let ts = formatTime defaultTimeLocale "%Y-%m-%d %H:%M:%S" now
     appendFile "logs/smtp.log" $ "[" ++ ts ++ "] " ++ msg ++ "\n"
 
-smtpSend :: String -> Int -> String -> String -> String -> String -> Text -> Text -> Text -> SmtpConfig -> IO ()
-smtpSend host port from user pass to toAddr subject htmlBody config = do
-    let useTls = port == 465
-    smtpLog $ "smtpSend: connecting to " ++ host ++ ":" ++ show port ++ " (TLS=" ++ show useTls ++ ")"
-    ctx <- Conn.initConnectionContext
-    let tlsSettings = Conn.TLSSettingsSimple
-            { Conn.settingDisableCertificateValidation = True
-            , Conn.settingDisableSession = False
-            , Conn.settingUseServerName = False
-            }
-    let connParams = Conn.ConnectionParams
-            { Conn.connectionHostname = host
-            , Conn.connectionPort = fromIntegral port
-            , Conn.connectionUseSecure = if useTls then Just tlsSettings else Nothing
-            , Conn.connectionUseSocks = Nothing
-            }
-    bracket
-        (Conn.connectTo ctx connParams)
-        Conn.connectionClose
-        (\conn -> do
-            -- Read multi-line banner (220-... continuation lines, ends with 220 space)
-            banner <- Conn.connectionGetLine 4096 conn
-            smtpLog $ "Banner line: " ++ show banner
-            remainingBanner <- recvContinuation conn
-            smtpLog $ "Banner rest: " ++ show remainingBanner
-
-            sendSMTPLine conn "EHLO localhost"
-            ehloResp <- recvAllEhlo conn
-            smtpLog $ "EHLO: " ++ show (BS.take 200 ehloResp)
-
-            unless useTls $ do
-                sendSMTPLine conn "STARTTLS"
-                stlsResp <- Conn.connectionGetLine 4096 conn
-                smtpLog $ "STARTTLS: " ++ show stlsResp
-                Conn.connectionSetSecure ctx conn tlsSettings
-                smtpLog "TLS enabled"
-                sendSMTPLine conn "EHLO localhost"
-                ehloResp2 <- recvAllEhlo conn
-                smtpLog $ "EHLO2: " ++ show (BS.take 200 ehloResp2)
-
-            sendSMTPLine conn "AUTH LOGIN"
-            r1 <- Conn.connectionGetLine 4096 conn
-            smtpLog $ "AUTH: " ++ show r1
-
-            sendSMTPLine conn (base64EncodeBS (TE.encodeUtf8 (T.pack user)))
-            r2 <- Conn.connectionGetLine 4096 conn
-            smtpLog $ "USER: " ++ show r2
-
-            sendSMTPLine conn (base64EncodeBS (TE.encodeUtf8 (T.pack pass)))
-            r3 <- Conn.connectionGetLine 4096 conn
-            smtpLog $ "PASS: " ++ show r3
-
-            sendSMTPLine conn ("MAIL FROM:<" <> TE.encodeUtf8 (T.pack from) <> ">")
-            r4 <- Conn.connectionGetLine 4096 conn
-            smtpLog $ "MAIL: " ++ show r4
-
-            sendSMTPLine conn ("RCPT TO:<" <> TE.encodeUtf8 (T.pack to) <> ">")
-            r5 <- Conn.connectionGetLine 4096 conn
-            smtpLog $ "RCPT: " ++ show r5
-
-            sendSMTPLine conn "DATA"
-            r6 <- Conn.connectionGetLine 4096 conn
-            smtpLog $ "DATA: " ++ show r6
-
-            let emailBody = "From: " <> TE.encodeUtf8 (smtpFromName config <> " <" <> smtpFrom config <> ">")
-                         <> "\r\nTo: " <> TE.encodeUtf8 toAddr
-                         <> "\r\nSubject: =?UTF-8?B?" <> base64EncodeBS (TE.encodeUtf8 subject) <> "?="
-                         <> "\r\nMIME-Version: 1.0"
-                         <> "\r\nContent-Type: text/html; charset=UTF-8"
-                         <> "\r\nContent-Transfer-Encoding: base64"
-                         <> "\r\n\r\n" <> base64EncodeBS (TE.encodeUtf8 htmlBody)
-                         <> "\r\n.\r\n"
-            sendSMTPLine conn emailBody
-            r7 <- Conn.connectionGetLine 4096 conn
-            smtpLog $ "SEND: " ++ show r7
-
-            sendSMTPLine conn "QUIT"
-            pure ()
-        )
-  where
-    sendSMTPLine conn bs = Conn.connectionPut conn (BS.append bs "\r\n")
-
-    recvContinuation conn = do
-        chunk <- Conn.connectionGetLine 4096 conn
-        if BS.length chunk > 3 && BS.index chunk 3 == 45 -- '-' continuation
-            then BS.append chunk . ("\r\n" <>) <$> recvContinuation conn
-            else pure chunk
-
-    recvAllEhlo = recvContinuation
-
--- | Base64 encode a ByteString to a ByteString (UTF-8 safe)
-base64EncodeBS :: BS.ByteString -> BS.ByteString
-base64EncodeBS bs
-    | BS.null bs = BS.empty
-    | otherwise =
-        let (chunk, rest) = BS.splitAt 3 bs
-            len = BS.length chunk
-            b1 = fromIntegral (BS.index chunk 0) :: Int
-            b2 = if len > 1 then fromIntegral (BS.index chunk 1) :: Int else 0
-            b3 = if len > 2 then fromIntegral (BS.index chunk 2) :: Int else 0
-            chars = [ encodeByte (b1 `div` 4)
-                    , encodeByte ((b1 `mod` 4) * 16 + b2 `div` 16)
-                    , encodeByte ((b2 `mod` 16) * 4 + b3 `div` 64)
-                    , encodeByte (b3 `mod` 64)
-                    ]
-            takeLen = (len * 4 + 2) `div` 3
-            pad = replicate (4 - takeLen) (61 :: Word8)  -- '='
-        in BS.pack (take takeLen chars ++ pad) <> base64EncodeBS rest
-  where
-    encodeByte :: Int -> Word8
-    encodeByte n
-        | n < 26    = fromIntegral (n + 65)
-        | n < 52    = fromIntegral (n + 71)
-        | n < 62    = fromIntegral (n - 4)
-        | n == 62   = 43  -- '+'
-        | otherwise = 47  -- '/'
+sendAndLog :: SmtpConfig -> Text -> Text -> Text -> IO ()
+sendAndLog config toAddr subject htmlBody = do
+    let to = T.unpack toAddr
+    smtpLog $ "SMTP sending to " ++ to
+    result <- sendEmail config (Email toAddr subject htmlBody)
+    case result of
+        Left err -> smtpLog $ "SMTP ERROR to " ++ to ++ ": " ++ show err
+        Right _  -> smtpLog $ "SMTP OK to " ++ to ++ ": " ++ T.unpack subject
 
 ----------------------------------------------------------------------
 -- HANDLERS
@@ -601,12 +474,13 @@ accessPostAction lang = do
     liftIO $ logAccessSubmission params qual score ip
 
     mConfig <- liftIO loadSmtpConfig
-    case mConfig of
-        Just config -> liftIO $ do
+    mAdmin <- liftIO loadAdminEmail
+    case (mConfig, mAdmin) of
+        (Just config, Just adminEmail) -> liftIO $ do
             let subj = "New Access Request: " <> lookupParam "company" params
                     <> " (" <> qualLabel qual <> " - Score: " <> T.pack (show score) <> ")"
-            let body = accessNotificationHtml params qual score
-            sendEmail config (smtpAdminEmail config) subj body
+            let body = accessNotificationHtml params qual score ip (toText lang)
+            sendAndLog config adminEmail subj body
 
             unless (T.null email) $ do
                 let confirmSubject = case lang of
@@ -614,8 +488,8 @@ accessPostAction lang = do
                         KO -> "수신 완료: Ruzaani 액세스 요청"
                         _  -> "Received: Your Ruzaani Access Request"
                 let confirmBody = accessConfirmationHtml lang (lookupParam "name" params)
-                sendEmail config email confirmSubject confirmBody
-        Nothing ->
+                sendAndLog config email confirmSubject confirmBody
+        _ ->
             liftIO $ smtpLog "SMTP not configured, skipping email"
 
     let dest = TL.fromStrict (thanksPath lang)
@@ -641,12 +515,13 @@ enterprisePostAction lang = do
     liftIO $ logEnterpriseSubmission params ip
 
     mConfig <- liftIO loadSmtpConfig
-    case mConfig of
-        Just config -> liftIO $ do
+    mAdmin <- liftIO loadAdminEmail
+    case (mConfig, mAdmin) of
+        (Just config, Just adminEmail) -> liftIO $ do
             let subj = "Enterprise Inquiry: " <> lookupParam "business" params
                     <> " (" <> lookupParam "name" params <> ")"
             let body = enterpriseNotificationHtml params
-            sendEmail config (smtpAdminEmail config) subj body
+            sendAndLog config adminEmail subj body
 
             unless (T.null email) $ do
                 let confirmSubject = case lang of
@@ -654,8 +529,8 @@ enterprisePostAction lang = do
                         KO -> "수신 완료: Ruzaani 엔터프라이즈 문의"
                         _  -> "Received: Your Ruzaani Enterprise Inquiry"
                 let confirmBody = enterpriseConfirmationHtml lang (lookupParam "name" params)
-                sendEmail config email confirmSubject confirmBody
-        Nothing ->
+                sendAndLog config email confirmSubject confirmBody
+        _ ->
             liftIO $ smtpLog "SMTP not configured, skipping enterprise email"
 
     let dest = TL.fromStrict (thanksPath lang)

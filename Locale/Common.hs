@@ -1,6 +1,6 @@
-module Locales.Common where
+module Locale.Common where
 
-import Locales.Prelude
+import Locale.Prelude
 
 data NavbarLocale = NavbarLocale
     { homeText :: Text

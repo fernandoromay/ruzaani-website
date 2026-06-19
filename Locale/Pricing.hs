@@ -1,6 +1,6 @@
-module Locales.Pricing where
+module Locale.Pricing where
 
-import Locales.Prelude
+import Locale.Prelude
 
 data PricingLocale = PricingLocale
     { seo :: SEO

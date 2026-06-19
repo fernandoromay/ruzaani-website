@@ -1,7 +1,7 @@
-module View.Layouts.Default where
+module View.Layout.Default where
 
 import View.Prelude
-import View.Components
+import View.Partial
 
 defaultLayout :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> SEO -> Html -> Html
 defaultLayout lang seo viewContent = [lurk|

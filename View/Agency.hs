@@ -1,10 +1,10 @@
 {-# LANGUAGE RecordWildCards #-}
 module View.Agency where
 
-import Locales.Agency
-import View.Layouts.Default
-import View.Components.Mockups
 import View.Prelude
+import View.Partial.Mockups
+import View.Layout.Default
+import Locale.Agency
 
 agencyView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> AgencyLocale -> Html
 agencyView lang AgencyLocale {..} = defaultLayout lang seo [lurk|

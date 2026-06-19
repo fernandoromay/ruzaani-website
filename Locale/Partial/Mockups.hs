@@ -1,6 +1,6 @@
-module Locales.Components.Mockups where
+module Locale.Partial.Mockups where
 
-import Locales.Prelude
+import Locale.Prelude
 
 data DashboardLocale = DashboardLocale
     { navTitle :: Text

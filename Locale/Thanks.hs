@@ -1,9 +1,9 @@
-module Locales.Thanks
+module Locale.Thanks
     ( ThanksLocale(..)
     , getLocale
     ) where
 
-import Locales.Prelude
+import Locale.Prelude
 
 data ThanksLocale = ThanksLocale
     { seo :: SEO

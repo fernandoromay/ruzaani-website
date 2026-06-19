@@ -1,6 +1,6 @@
-module Locales.Components.Animations where
+module Locale.Partial.Animations where
 
-import Locales.Prelude
+import Locale.Prelude
 
 webIntelligenceLocale :: Language -> Text
 webIntelligenceLocale EN = "Identity Resolved"

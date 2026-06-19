@@ -1,9 +1,9 @@
-module View.Components.Animations where
+module View.Partial.Animations where
 
 import Data.Text qualified as T
-import Locales.Components.Animations
 import Lurk.Html (preEscapedToHtml)
 import View.Prelude
+import Locale.Partial.Animations
 
 renderWebIntelligence :: Language -> Html
 renderWebIntelligence lang = [lurk|

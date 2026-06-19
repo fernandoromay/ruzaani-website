@@ -3,9 +3,9 @@
 module View.Pricing where
 
 import Data.Maybe (isJust, fromMaybe)
-import Locales.Pricing
-import View.Layouts.Default
 import View.Prelude
+import View.Layout.Default
+import Locale.Pricing
 
 pricingView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> PricingLocale -> Html
 pricingView lang PricingLocale {..} = defaultLayout lang seo [lurk|

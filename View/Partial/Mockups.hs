@@ -1,7 +1,7 @@
-module View.Components.Mockups where
+module View.Partial.Mockups where
 
 import View.Prelude
-import Locales.Components.Mockups
+import Locale.Partial.Mockups
 
 renderDashboard :: Language -> Html
 renderDashboard lang = [lurk|

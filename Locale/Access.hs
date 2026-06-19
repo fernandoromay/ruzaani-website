@@ -1,6 +1,6 @@
-module Locales.Access where
+module Locale.Access where
 
-import Locales.Prelude
+import Locale.Prelude
 
 data AccessLocale = AccessLocale
     { seo :: SEO
