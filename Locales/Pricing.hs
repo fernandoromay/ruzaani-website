@@ -45,6 +45,7 @@ data PricingLocale = PricingLocale
     , modalMessagePlaceholder :: Text
     , modalSubmitLabel :: Text
     , modalTrustLabel :: Text
+    , enterprisePostPath :: Text
     }
 
 data Plan = Plan
@@ -314,6 +315,7 @@ getLocale EN country = PricingLocale
     , modalMessagePlaceholder = "How many locations? Which channels? Current monthly lead volume?"
     , modalSubmitLabel = "Send Request"
     , modalTrustLabel = "We respond within 24 hours—no automated replies."
+    , enterprisePostPath = enterprisePath EN
     }
 
 getLocale ES country = PricingLocale
@@ -510,6 +512,7 @@ getLocale ES country = PricingLocale
     , modalMessagePlaceholder = "¿Cuántas sedes? ¿Qué canales? ¿Volumen mensual de leads?"
     , modalSubmitLabel = "Enviar Solicitud"
     , modalTrustLabel = "Respondemos en menos de 24 horas — sin respuestas automáticas."
+    , enterprisePostPath = enterprisePath ES
     }
 
 getLocale KO country = PricingLocale
@@ -706,6 +709,7 @@ getLocale KO country = PricingLocale
     , modalMessagePlaceholder = "지점 수는 몇 개인가요? 어떤 채널을 사용하시나요? 현재 월간 리드 볼륨은 어느 정도인가요?"
     , modalSubmitLabel = "요청 보내기"
     , modalTrustLabel = "24시간 이내에 답변해 드립니다. 자동 응답이 아닌 실제 담당자가 검토합니다."
+    , enterprisePostPath = enterprisePath KO
     }
 
 mainPlans :: Language -> [PlanGroup]

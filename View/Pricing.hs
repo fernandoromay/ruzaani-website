@@ -4,8 +4,7 @@ module View.Pricing where
 
 import Data.Maybe (isJust, fromMaybe)
 import Locales.Pricing
-import Paths (enterprisePath)
-import View.Layouts.Default (defaultLayout)
+import View.Layouts.Default
 import View.Prelude
 
 pricingView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> PricingLocale -> Html
@@ -29,7 +28,61 @@ pricingView lang PricingLocale {..} = defaultLayout lang seo [lurk|
     <section class="pricing-section pb-5">
       <div class="container pb-5">
         <div class="pricing-grid reveal">
-            {{renderPlans plans}}
+          {{forEach plans ( \p -> (lurk|
+            <div class="plan-card h-100 {{if isJust p.badge then "plan-featured" else ""}} d-flex flex-column">
+              {{let
+                  badgeColor :: Text -> Text
+                  badgeColor k = case k of
+                    "starter" -> "#dd4b4b"
+                    "basic" -> "#e78c40"
+                    "growth" -> "#5dc65e"
+                    "business" -> "#731ec8"
+                    _ -> "var(--accent-primary)"
+                in case p.badge of
+                  Just label ->
+                    (lurk|
+                      <div class="plan-badge" style="--badge-color: {{badgeColor label}};">
+                        <i class="fa-solid fa-bolt"></i> {{label}}
+                      </div>
+                    |)
+                  Nothing ->
+                    (lurk|<div class="plan-badge-placeholder"></div>|)
+              }}
+
+              <h3 class="plan-name mb-1">{{p.name}}</h3>
+              <p class="plan-tagline mb-4">{{p.tagline}}</p>
+              <div class="plan-price">
+                <div class="plan-amount">
+                  <span class="plan-currency">{{p.currency}}</span>
+                  <span class="plan-number">{{p.price}}</span>
+                  <span class="plan-period">{{p.period}}</span>
+                </div>
+                <div class="plan-meta">
+                  <span class="plan-meta-chip">{{p.channels}}</span>
+                  <span class="plan-meta-chip">{{p.convos}}</span>
+                </div>
+              </div>
+              <ul class="plan-features">
+                {{forEach (p.features) (\feat -> (lurk|
+                  <li>
+                    <i class="fa-solid fa-check feat-icon feat-check"></i>
+                    <span>{{feat}}</span>
+                  </li>
+                |))}}
+                {{forEach (p.notIncluded) (\feat -> (lurk|
+                  <li class="feat-missing">
+                    <i class="fa-solid fa-xmark feat-icon feat-cross"></i>
+                    <span>{{feat}}</span>
+                  </li>
+                |))}}
+              </ul>
+              <div class="plan-cta mt-4">
+                <a href="{{p.ctaLink}}" class="{{p.ctaClass}} w-100">
+                  {{p.cta}}
+                </a>
+              </div>
+            </div>
+          |))}}
         </div>
       </div>
     </section>
@@ -52,7 +105,28 @@ pricingView lang PricingLocale {..} = defaultLayout lang seo [lurk|
               </tr>
             </thead>
             <tbody>
-                {{renderCompareTable comparePlans}}
+              {{forEach comparePlans ( \g ->(lurk|
+                <tr class="group-row">
+                    <td colspan="5">{{g.label}}</td>
+                </tr>
+                {{let
+                    cell :: PlanValue -> Html
+                    cell Included = (lurk|<i class="fa-solid fa-check check-yes"></i>|)
+                    cell Excluded = (lurk|<i class="fa-solid fa-minus check-no"></i>|)
+                    cell (Custom txt) = (lurk|{{txt}}|)
+                  in forEach (g.rows) ( \r ->(lurk|
+                    <tr>
+                        <td>{{r.feature}}</td>  
+                        <td>{{cell r.starter}}</td>
+                        <td>{{cell r.basic}}</td>
+                        <td class="col-featured">
+                            {{cell r.growth}}
+                        </td>
+                        <td>{{cell r.enterprise}}</td>
+                    </tr>
+                  |))
+                }}
+              |))}}
             </tbody>
           </table>
         </div>
@@ -74,7 +148,14 @@ pricingView lang PricingLocale {..} = defaultLayout lang seo [lurk|
               <p class="text-secondary mb-4 pb-2 lh-lg">{{enterpriseDescription}}</p>
               
               <div class="row g-3">
-                {{renderEnterpriseFeatures enterpriseFeatures}}
+                {{forEach enterpriseFeatures ( \f -> (lurk|
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="fa-solid fa-check-double text-accent mt-1"></i>
+                      <span class="small text-secondary">{{f}}</span>
+                    </div>
+                  </div>
+                |))}}
               </div>
             </div>
             
@@ -107,7 +188,7 @@ pricingView lang PricingLocale {..} = defaultLayout lang seo [lurk|
             <p class="text-secondary mb-4 pb-2 lh-lg">{{agencyDescription}}</p>
             
             <ul class="agency-features-list mb-5">
-              {{renderAgencyFeatures agencyFeatures}}
+              {{ forEach agencyFeatures ( \f -> (lurk|<li>{{f}}</li>|) ) }}
             </ul>
 
             <a href="{{agencyCtaLink}}" class="btn-primary px-4 py-3">
@@ -118,7 +199,18 @@ pricingView lang PricingLocale {..} = defaultLayout lang seo [lurk|
           
           <div class="col-lg-6 reveal delay-150">
             <div class="discount-track">
-              {{renderAgencyTiers agencyTiers}}
+              {{forEach agencyTiers ( \t -> (lurk|
+                <div class="discount-row">
+                  <div class="discount-badge">{{t.name}}</div>
+                  <div class="discount-info">
+                    <div class="discount-clients">{{t.clients}}</div>
+                    <div class="discount-desc">{{t.description}}</div>
+                  </div>
+                  <div class="discount-bar-wrap">
+                    <div class="discount-bar" style="--progress: {{show t.barSize}}%;" data-width="{{show t.barSize}}%"></div>
+                  </div>
+                </div>
+              |))}}
             </div>
           </div>
         </div>
@@ -133,7 +225,17 @@ pricingView lang PricingLocale {..} = defaultLayout lang seo [lurk|
         </div>
         
         <div class="faq-list reveal">
-          {{renderFaqs faqs}}
+          {{forEachWithIndex faqs (\i (q, a) -> (lurk|
+            <div class="faq-item {{if i == 0 then "open" else ""}}">
+              <button type="button" class="faq-question">
+                <span>{{q}}</span>
+                <i class="fa-solid fa-plus"></i>
+              </button>
+              <div class="faq-answer" style="{{if i == 0 then "max-height: 500px;" else ""}}">
+                <p>{{a}}</p>
+              </div>
+            </div>
+          |))}}
         </div>
       </div>
     </section>
@@ -191,139 +293,3 @@ pricingView lang PricingLocale {..} = defaultLayout lang seo [lurk|
   where
     csrfToken :: Text
     csrfToken = fromMaybe "" (contextValue "csrfToken")
-
-    enterprisePostPath :: Text
-    enterprisePostPath = enterprisePath lang
-
-renderPlans :: [Plan] -> Html
-renderPlans = foldMap ( \p -> [lurk|
-<div class="plan-card h-100 {{if isJust p.badge then "plan-featured" else ""}} d-flex flex-column">
-    {{renderBadge p.badge}}
-    <h3 class="plan-name mb-1">{{p.name}}</h3>
-    <p class="plan-tagline mb-4">{{p.tagline}}</p>
-    <div class="plan-price">
-      <div class="plan-amount">
-        <span class="plan-currency">{{p.currency}}</span>
-        <span class="plan-number">{{p.price}}</span>
-        <span class="plan-period">{{p.period}}</span>
-      </div>
-      <div class="plan-meta">
-        <span class="plan-meta-chip">{{p.channels}}</span>
-        <span class="plan-meta-chip">{{p.convos}}</span>
-      </div>
-    </div>
-    <ul class="plan-features">
-      {{renderIncludedFeatures p.features}}
-      {{renderNotIncludedFeatures p.notIncluded}}
-    </ul>
-    <div class="plan-cta mt-4">
-      <a href="{{p.ctaLink}}" class="{{p.ctaClass}} w-100">
-        {{p.cta}}
-      </a>
-    </div>
-  </div>
-|])
-  where
-    badgeColor :: Text -> Text
-    badgeColor k = case k of
-      "starter" -> "#dd4b4b"
-      "basic" -> "#e78c40"
-      "growth" -> "#5dc65e"
-      "business" -> "#731ec8"
-      _ -> "var(--accent-primary)"
-
-    renderBadge :: Maybe Text -> Html
-    renderBadge Nothing = [lurk|<div class="plan-badge-placeholder"></div>|]
-    renderBadge (Just label) = [lurk|
-        <div class="plan-badge" style="--badge-color: {{badgeColor label}};">
-            <i class="fa-solid fa-bolt"></i> {{label}}
-        </div>
-        |]
-
-    renderIncludedFeatures :: [Text] -> Html
-    renderIncludedFeatures = foldMap ( \feat -> [lurk|
-        <li>
-          <i class="fa-solid fa-check feat-icon feat-check"></i>
-          <span>{{feat}}</span>
-        </li>|]
-        )
-
-    renderNotIncludedFeatures :: [Text] -> Html
-    renderNotIncludedFeatures = foldMap ( \feat -> [lurk|
-        <li class="feat-missing">
-          <i class="fa-solid fa-xmark feat-icon feat-cross"></i>
-          <span>{{feat}}</span>
-        </li>|]
-        )
-
-renderCompareTable :: [PlanGroup] -> Html
-renderCompareTable = foldMap ( \g -> [lurk|
-<tr class="group-row">
-    <td colspan="5">{{g.label}}</td>
-</tr>
-{{renderRows g.rows}}
-|])
-  where
-    renderRows :: [PlanRow] -> Html
-    renderRows = foldMap ( \r -> [lurk|
-    <tr>
-        <td>{{r.feature}}</td>  
-        <td>
-            {{renderCell r.starter}}
-        </td>
-        <td>
-            {{renderCell r.basic}}
-        </td>
-        <td class="col-featured">
-            {{renderCell r.growth}}
-        </td>
-        <td>
-            {{renderCell r.enterprise}}
-        </td>
-    </tr>
-    |])
-      where
-        renderCell :: PlanValue -> Html
-        renderCell Included = [lurk|<i class="fa-solid fa-check check-yes"></i>|]
-        renderCell Excluded = [lurk|<i class="fa-solid fa-minus check-no"></i>|]
-        renderCell (Custom txt) = [lurk|{{txt}}|]
-
-renderEnterpriseFeatures :: [Text] -> Html
-renderEnterpriseFeatures = foldMap ( \f -> [lurk|
-<div class="col-md-6">
-    <div class="d-flex align-items-start gap-2">
-        <i class="fa-solid fa-check-double text-accent mt-1"></i>
-        <span class="small text-secondary">{{f}}</span>
-    </div>
-</div>
-|])
-
-renderAgencyFeatures :: [Text] -> Html
-renderAgencyFeatures = foldMap ( \f -> [lurk|<li>{{f}}</li>|])
-
-renderAgencyTiers :: [AgencyTier] -> Html
-renderAgencyTiers = foldMap ( \t -> [lurk|
-<div class="discount-row">
-    <div class="discount-badge">{{t.name}}</div>
-    <div class="discount-info">
-        <div class="discount-clients">{{t.clients}}</div>
-        <div class="discount-desc">{{t.description}}</div>
-    </div>
-    <div class="discount-bar-wrap">
-        <div class="discount-bar" style="--progress: {{show t.barSize}}%;" data-width="{{show t.barSize}}%"></div>
-    </div>
-</div>
-|])
-
-renderFaqs :: [(Text, Text)] -> Html
-renderFaqs faqs = foldMap ( \(i, (q, a)) -> [lurk|
-<div class="faq-item {{if i == 0 then "open" else ""}}">
-    <button type="button" class="faq-question">
-        <span>{{q}}</span>
-        <i class="fa-solid fa-plus"></i>
-    </button>
-    <div class="faq-answer" style="{{if i == 0 then "max-height: 500px;" else ""}}">
-        <p>{{a}}</p>
-    </div>
-</div>
-|]) (zip [0 ..] faqs)
