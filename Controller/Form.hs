@@ -15,16 +15,22 @@ import Data.Text.Lazy qualified as TL
 import Data.Time.Clock (getCurrentTime, diffUTCTime)
 import Data.Time.Format (formatTime, defaultTimeLocale)
 import Network.Wai (requestHeaders)
+import Web.Scotty (redirect, request)
 import System.Directory (createDirectoryIfMissing)
 import System.Exit (ExitCode(..))
 import System.Process (readProcessWithExitCode)
 import System.Timeout (timeout)
 import Control.Exception (try, SomeException)
 import Lurk.Session qualified as Session
+import Lurk.Email.SMTP
 import Paths (thanksPath)
 import View.Prelude
-import Lurk.Email.SMTP
-import Web.Scotty (redirect, request)
+import View.Email.AccessNotice
+import View.Email.EnterpriseNotice
+import Locale.Email.AccessThanks qualified as AL
+import Locale.Email.EnterpriseThanks qualified as EL
+import View.Email.AccessThanks
+import View.Email.EnterpriseThanks
 
 -- | Load SMTP configuration from environment
 loadSmtpConfig :: IO (Maybe SmtpConfig)
@@ -239,194 +245,6 @@ logEnterpriseSubmission params ip = do
             ]
     appendLog "logs/enterprise-submissions.log" entry
 
-----------------------------------------------------------------------
--- EMAIL TEMPLATES
-----------------------------------------------------------------------
-
-accessNotificationHtml :: [(Text, Text)] -> Qualification -> Int -> Text -> Text -> Text
-accessNotificationHtml params qual score ip langText = renderHtml [lurk|
-<!DOCTYPE html>
-<html><head></head>
-<body style="font-family: Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
-  <div style="border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px;">
-    <h1>New Access Request</h1>
-  </div>
-  <div>
-    <p>A new access request has been submitted and qualified.</p>
-    <p><strong>Status:</strong> <span style="display: inline-block; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 14px; {{badgeStyle}}">{{qualText}}</span></p>
-    <p><strong>Score:</strong> {{scoreText}} / {{maxScoreText}}</p>
-    <h3>Contact Details</h3>
-    <p><strong>Name:</strong> {{name}}<br>
-    <strong>Email:</strong> {{email}}<br>
-    <strong>Company:</strong> {{company}}<br>
-    <strong>Role:</strong> {{role}}<br>
-    <strong>Country:</strong> {{country}}<br>
-    <strong>Language:</strong> {{langText}}</p>
-    <h3>Profile Data</h3>
-    <p><strong>Use Case:</strong> {{useCase}}<br>
-    <strong>Vertical:</strong> {{vertical}}<br>
-    <strong>Channel:</strong> {{channel}}<br>
-    <strong>Volume:</strong> {{volume}}<br>
-    <strong>Handling:</strong> {{handling}}</p>
-    <p style="margin-top: 30px; font-size: 12px; color: #999;">
-      Submitted via Ruzaani Onboarding Flow.<br>
-      IP: {{ip}}
-    </p>
-  </div>
-</body></html>
-|]
-  where
-    maxScore :: Int
-    maxScore = 105
-    badgeStyle :: Text
-    badgeStyle = case qual of
-        SQL -> "background-color: #d4edda; color: #155724;"
-        MQL -> "background-color: #fff3cd; color: #856404;"
-        NQ  -> "background-color: #f8d7da; color: #721c24;"
-    qualText = qualLabel qual
-    scoreText = T.pack (show score)
-    maxScoreText = T.pack (show maxScore)
-    name = lookupParam "name" params
-    email = lookupParam "email" params
-    company = lookupParam "company" params
-    role = lookupParam "role" params
-    country = T.toUpper (lookupParam "country" params)
-    useCase = lookupParam "question-1" params
-    vertical = lookupParam "question-2" params
-    channel = lookupParam "question-3" params
-    volume = lookupParam "question-4" params
-    handling = lookupParam "question-5" params
-
-accessConfirmationHtml :: Language -> Text -> Text
-accessConfirmationHtml lang name = renderHtml [lurk|
-<!DOCTYPE html>
-<html><head></head>
-<body style="font-family: Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
-  <div style="border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px;">
-    <h1>Ruzaani</h1>
-  </div>
-  <div>
-    <p>{{greeting}} {{name}},</p>
-    <p>{{thanks}}</p>
-    <p>{{review}}</p>
-    <p><strong>{{nextSteps}}</strong></p>
-    <ul><li>{{step1}}</li><li>{{step2}}</li></ul>
-    <p>{{signoffLine1}}<br>{{signoffLine2}}</p>
-  </div>
-</body></html>
-|]
-  where
-    localeTexts :: (Text, Text, Text, Text, Text, Text, Text, Text)
-    localeTexts = case lang of
-        ES -> ( "Hola"
-              , "Gracias por solicitar acceso a la plataforma Ruzaani."
-              , "Nuestro equipo de soporte está revisando tu perfil para asegurarnos de configurar el entorno adecuado para tu negocio."
-              , "Siguientes pasos:"
-              , "De ser aprobado, te daremos acceso en menos de 24 horas."
-              , "Si necesitamos más información, nos pondremos en contacto contigo directamente."
-              , "Saludos cordiales,"
-              , "El equipo de soporte de Ruzaani"
-              )
-        KO -> ( "안녕하세요"
-              , "Ruzaani 플랫폼 액세스를 신청해 주셔서 감사합니다."
-              , "귀하의 비즈니스에 맞는 올바른 환경을 설정하기 위해 지원팀에서 프로필을 검토하고 있습니다."
-              , "다음 단계:"
-              , "승인될 경우 24시간 이내에 액세스 권한이 부여됩니다."
-              , "추가 정보가 필요한 경우 직접 연락드리겠습니다."
-              , "감사합니다."
-              , "Ruzaani 지원팀 드림"
-              )
-        _ -> ( "Hello"
-             , "Thank you for requesting access to the Ruzaani platform."
-             , "Our support team is reviewing your profile to ensure we set up the right environment for your business."
-             , "Next Steps:"
-             , "If approved, we will grant you access within 24 hours."
-             , "If we need more information, we will contact you directly."
-             , "Best regards,"
-             , "The Ruzaani Support Team"
-             )
-    greeting, thanks, review, nextSteps, step1, step2, signoffLine1, signoffLine2 :: Text
-    (greeting, thanks, review, nextSteps, step1, step2, signoffLine1, signoffLine2) = localeTexts
-
-enterpriseNotificationHtml :: [(Text, Text)] -> Text
-enterpriseNotificationHtml params = renderHtml [lurk|
-<!DOCTYPE html>
-<html><head></head>
-<body style="font-family: Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
-  <div style="border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px;">
-    <h1>New Enterprise Inquiry</h1>
-  </div>
-  <div>
-    <p>A new enterprise contact request has been submitted from the pricing page.</p>
-    <h3>Contact Details</h3>
-    <p><strong>Name:</strong> {{entName}}<br>
-    <strong>Email:</strong> {{entEmail}}<br>
-    <strong>Company:</strong> {{entBusiness}}<br>
-    <strong>Country:</strong> {{entCountry}}</p>
-    <h3>Message</h3>
-    <p style="background: #f9f9f9; padding: 15px; border-left: 3px solid #ccc;">
-    {{entMessage}}
-    </p>
-  </div>
-</body></html>
-|]
-  where
-    entName = lookupParam "name" params
-    entEmail = lookupParam "email" params
-    entBusiness = lookupParam "business" params
-    entCountry = T.toUpper (lookupParam "country" params)
-    entMessage = lookupParam "message" params
-
-enterpriseConfirmationHtml :: Language -> Text -> Text
-enterpriseConfirmationHtml lang name = renderHtml [lurk|
-<!DOCTYPE html>
-<html><head></head>
-<body style="font-family: Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
-  <div style="border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px;">
-    <h1>Ruzaani</h1>
-  </div>
-  <div>
-    <p>{{greeting}} {{name}},</p>
-    <p>{{thanks}}</p>
-    <p>{{review}}</p>
-    <p><strong>{{nextSteps}}</strong></p>
-    <ul><li>{{step1}}</li><li>{{step2}}</li></ul>
-    <p>{{signoffLine1}}<br>{{signoffLine2}}</p>
-  </div>
-</body></html>
-|]
-  where
-    localeTexts :: (Text, Text, Text, Text, Text, Text, Text, Text)
-    localeTexts = case lang of
-        ES -> ( "Hola"
-              , "Gracias por ponerte en contacto sobre un acuerdo Enterprise con Ruzaani."
-              , "Nuestro equipo de ventas ha recibido tu consulta y está revisando los detalles de tu negocio."
-              , "Siguientes pasos:"
-              , "Un especialista enterprise te contactará en menos de 24 horas."
-              , "Prepararemos una propuesta personalizada basada en tus requerimientos específicos."
-              , "Saludos cordiales,"
-              , "El equipo Enterprise de Ruzaani"
-              )
-        KO -> ( "안녕하세요"
-              , "Ruzaani 엔터프라이즈 협약에 관해 문의해 주셔서 감사합니다."
-              , "영업팀에서 문의 사항을 접수했으며 귀하의 비즈니스 세부 정보를 검토하고 있습니다."
-              , "다음 단계:"
-              , "엔터프라이즈 전문가가 24시간 이내에 연락하여 상담 전화를 예약할 것입니다."
-              , "귀하의 특정 요구 사항에 맞춘 맞춤형 제안서를 준비하겠습니다."
-              , "감사합니다."
-              , "Ruzaani 엔터프라이즈 팀 드림"
-              )
-        _ -> ( "Hello"
-             , "Thank you for reaching out regarding an Enterprise agreement with Ruzaani."
-             , "Our sales team has received your inquiry and is reviewing your business details."
-             , "Next Steps:"
-             , "An enterprise specialist will contact you within 24 hours to schedule a discovery call."
-             , "We will prepare a custom proposal based on your specific requirements."
-             , "Best regards,"
-             , "The Ruzaani Enterprise Team"
-             )
-    greeting, thanks, review, nextSteps, step1, step2, signoffLine1, signoffLine2 :: Text
-    (greeting, thanks, review, nextSteps, step1, step2, signoffLine1, signoffLine2) = localeTexts
 
 ----------------------------------------------------------------------
 -- SMTP EMAIL SENDING
@@ -479,15 +297,46 @@ accessPostAction lang = do
         (Just config, Just adminEmail) -> liftIO $ do
             let subj = "New Access Request: " <> lookupParam "company" params
                     <> " (" <> qualLabel qual <> " - Score: " <> T.pack (show score) <> ")"
-            let body = accessNotificationHtml params qual score ip (toText lang)
+            let 
+                dataFields = AccessNoticeFields
+                    { badgeStyle = case qual of
+                        SQL -> "background-color: #d4edda; color: #155724;"
+                        MQL -> "background-color: #fff3cd; color: #856404;"
+                        NQ  -> "background-color: #f8d7da; color: #721c24;"
+                    , qualText = qualLabel qual
+                    , scoreText = T.pack (show score)
+                    , maxScoreText = T.pack (show (105 :: Int))
+                    , name = lookupParam "name" params
+                    , email = lookupParam "email" params
+                    , company = lookupParam "company" params
+                    , role = lookupParam "role" params
+                    , country = T.toTitle (lookupParam "country" params)
+                    , langText = toName (fromText EN (lookupParam "lang" params))
+                    , useCase = lookupParam "question-1" params
+                    , vertical = lookupParam "question-2" params
+                    , channel = lookupParam "question-3" params
+                    , volume = lookupParam "question-4" params
+                    , handling = lookupParam "question-5" params
+                    , ip = ip
+                    }
+                body = renderHtml (accessNotice dataFields)
             sendAndLog config adminEmail subj body
 
             unless (T.null email) $ do
-                let confirmSubject = case lang of
-                        ES -> "Recibido: Tu solicitud de acceso a Ruzaani"
-                        KO -> "수신 완료: Ruzaani 액세스 요청"
-                        _  -> "Received: Your Ruzaani Access Request"
-                let confirmBody = accessConfirmationHtml lang (lookupParam "name" params)
+                let confirmLocale = AL.getLocale lang
+                    thanksFields = AccessThanksFields
+                        { name = lookupParam "name" params
+                        , greeting = AL.greeting confirmLocale
+                        , thanks = AL.thanks confirmLocale
+                        , review = AL.review confirmLocale
+                        , nextSteps = AL.nextSteps confirmLocale
+                        , step1 = AL.step1 confirmLocale
+                        , step2 = AL.step2 confirmLocale
+                        , signoff1 = AL.signoff1 confirmLocale
+                        , signoff2 = AL.signoff2 confirmLocale
+                        }
+                    confirmSubject = AL.subject confirmLocale
+                    confirmBody = renderHtml (accessThanks thanksFields)
                 sendAndLog config email confirmSubject confirmBody
         _ ->
             liftIO $ smtpLog "SMTP not configured, skipping email"
@@ -520,15 +369,32 @@ enterprisePostAction lang = do
         (Just config, Just adminEmail) -> liftIO $ do
             let subj = "Enterprise Inquiry: " <> lookupParam "business" params
                     <> " (" <> lookupParam "name" params <> ")"
-            let body = enterpriseNotificationHtml params
+            let 
+                dataFields = EnterpriseNoticeFields
+                    { name = lookupParam "name" params
+                    , email = lookupParam "email" params
+                    , company = lookupParam "business" params
+                    , country = T.toUpper (lookupParam "country" params)
+                    , message = lookupParam "message" params
+                    }
+                body = renderHtml (enterpriseNotice dataFields)
             sendAndLog config adminEmail subj body
 
             unless (T.null email) $ do
-                let confirmSubject = case lang of
-                        ES -> "Recibido: Consulta Enterprise de Ruzaani"
-                        KO -> "수신 완료: Ruzaani 엔터프라이즈 문의"
-                        _  -> "Received: Your Ruzaani Enterprise Inquiry"
-                let confirmBody = enterpriseConfirmationHtml lang (lookupParam "name" params)
+                let confirmLocale = EL.getLocale lang
+                    thanksFields = EnterpriseThanksFields
+                        { name = lookupParam "name" params
+                        , greeting = EL.greeting confirmLocale
+                        , thanks = EL.thanks confirmLocale
+                        , review = EL.review confirmLocale
+                        , nextSteps = EL.nextSteps confirmLocale
+                        , step1 = EL.step1 confirmLocale
+                        , step2 = EL.step2 confirmLocale
+                        , signoff1 = EL.signoff1 confirmLocale
+                        , signoff2 = EL.signoff2 confirmLocale
+                        }
+                    confirmSubject = EL.subject confirmLocale
+                    confirmBody = renderHtml (enterpriseThanks thanksFields)
                 sendAndLog config email confirmSubject confirmBody
         _ ->
             liftIO $ smtpLog "SMTP not configured, skipping enterprise email"
