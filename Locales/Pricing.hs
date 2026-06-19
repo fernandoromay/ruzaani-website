@@ -139,7 +139,7 @@ getLocale EN country = PricingLocale
             , price = case getCurrency country of
                 EUR -> "129"
                 USD -> "199"
-                MXN -> "'1,699"
+                MXN -> "1,699"
                 KRW -> "229,000"
             , currency = getSymbol $ getCurrency country
             , period = "/mo"
@@ -170,7 +170,7 @@ getLocale EN country = PricingLocale
             , price = case getCurrency country of
                 EUR -> "229"
                 USD -> "349"
-                MXN -> "'2,499"
+                MXN -> "2,499"
                 KRW -> "399,000"
             , currency = getSymbol $ getCurrency country
             , period = "/mo"
@@ -201,7 +201,7 @@ getLocale EN country = PricingLocale
             , price = case getCurrency country of
                 EUR -> "349"
                 USD -> "599"
-                MXN -> "'4,499"
+                MXN -> "4,499"
                 KRW -> "679,000"
             , currency = getSymbol $ getCurrency country
             , period = "/mo"
@@ -336,7 +336,7 @@ getLocale ES country = PricingLocale
             , price = case getCurrency country of
                 EUR -> "129"
                 USD -> "199"
-                MXN -> "'1,699"
+                MXN -> "1,699"
                 KRW -> "229,000"
             , currency = getSymbol $ getCurrency country
             , period = "/mes"
@@ -367,7 +367,7 @@ getLocale ES country = PricingLocale
             , price = case getCurrency country of
                 EUR -> "229"
                 USD -> "349"
-                MXN -> "'2,499"
+                MXN -> "2,499"
                 KRW -> "399,000"
             , currency = getSymbol $ getCurrency country
             , period = "/mes"
@@ -398,7 +398,7 @@ getLocale ES country = PricingLocale
             , price = case getCurrency country of
                 EUR -> "349"
                 USD -> "599"
-                MXN -> "'4,499"
+                MXN -> "4,499"
                 KRW -> "679,000"
             , currency = getSymbol $ getCurrency country
             , period = "/mes"
@@ -533,7 +533,7 @@ getLocale KO country = PricingLocale
             , price = case getCurrency country of
                 EUR -> "129"
                 USD -> "199"
-                MXN -> "'1,699"
+                MXN -> "1,699"
                 KRW -> "229,000"
             , currency = getSymbol $ getCurrency country
             , period = "/월"
@@ -564,7 +564,7 @@ getLocale KO country = PricingLocale
             , price = case getCurrency country of
                 EUR -> "229"
                 USD -> "349"
-                MXN -> "'2,499"
+                MXN -> "2,499"
                 KRW -> "399,000"
             , currency = getSymbol $ getCurrency country
             , period = "/월"
@@ -595,7 +595,7 @@ getLocale KO country = PricingLocale
             , price = case getCurrency country of
                 EUR -> "349"
                 USD -> "599"
-                MXN -> "'4,499"
+                MXN -> "4,499"
                 KRW -> "679,000"
             , currency = getSymbol $ getCurrency country
             , period = "/월"
