@@ -84,6 +84,17 @@ renderKanbanCRM lang = [lurk|
 |]
   where l = kanbanLocale lang
 
+-- <style>
+--    .stage-text-loop::after {
+--        animation: stageTextLoop_{{lang}} 12s infinite;
+--    }
+--    @keyframes stageTextLoop_{{lang}} {
+--        0%, 50% { content: '{{l.stageLead}}'; }
+--        55%, 75% { content: '{{l.stageQualified}}'; }
+--        80%, 100% { content: '{{l.stageCustomer}}'; }
+--    }
+-- </style>
+
 renderSalesPipeline :: Language -> Html
 renderSalesPipeline lang = styleBlock <> [lurk|
 <div class="pipeline-automation">

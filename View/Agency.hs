@@ -34,7 +34,14 @@ agencyView lang AgencyLocale {..} = defaultLayout lang seo [lurk|
               </a>
             </div>
             <div class="mt-5 pt-4 d-flex flex-wrap justify-content-center gap-3 reveal delay-2">
-            {{renderHeroTrust heroTrust}}
+            {{forEach heroTrust (\t ->
+              (lurk|
+                <div class="trust-badge d-flex align-items-center gap-2 px-4 py-2">
+                  <i class="fa-solid {{t.icon}} text-accent"></i>
+                  <span class="small fw-semibold text-secondary">{{t.text}}</span>
+                </div>
+              |))
+            }}
             </div>
           </div>
         </div>
@@ -62,7 +69,14 @@ agencyView lang AgencyLocale {..} = defaultLayout lang seo [lurk|
               <i class="fa-solid fa-xmark"></i>
               {{comparisonBad}}
             </div>
-            {{renderBad comparisonData}}
+            {{forEach comparisonData (\r ->
+              (lurk|
+                <div class="comp-row">
+                    <div class="comp-icon"><i class="fa-solid fa-xmark"></i></div>
+                    <span class="comp-text">{{r.bad}}</span>
+                </div>
+              |)
+            )}}
           </div>
 
           <!-- Good card -->
@@ -71,7 +85,14 @@ agencyView lang AgencyLocale {..} = defaultLayout lang seo [lurk|
               <i class="fa-solid fa-check"></i>
               {{comparisonGood}}
             </div>
-            {{renderGood comparisonData}}
+            {{forEach comparisonData (\r ->
+              (lurk|
+                <div class="comp-row">
+                    <div class="comp-icon"><i class="fa-solid fa-check"></i></div>
+                    <span class="comp-text">{{r.good}}</span>
+                </div>
+              |))
+            }}
           </div>
 
         </div>
@@ -96,11 +117,83 @@ agencyView lang AgencyLocale {..} = defaultLayout lang seo [lurk|
 
         <!-- Tab Navigation -->
         <div class="agency-tab-nav reveal delay-1">
-          {{renderTabsNav payloadTabsList}}
+          {{forEachWithIndex payloadTabsList (\i t ->
+            (lurk| <button class="agency-tab" data-tab="{{i}}">{{t}}</button> |))
+          }}
         </div>
 
         <div class="agency-panels-wrap">
-            {{renderPanels payloadTabs}}
+        {{forEachWithIndex payloadTabs (\i t ->
+          (lurk|
+            <div class="agency-panel" data-panel="{{i - 1}}">
+
+              <!-- Left: text -->
+              <div>
+                <div class="panel-label">{{t.label}}</div>
+                <h3 class="panel-title">{{t.title}}</h3>
+                <p class="panel-desc">{{t.description}}</p>
+                <ul class="panel-bullets">
+                  {{forEach (t.bullets) (\b ->
+                    (lurk| <li><i class="fa-solid fa-check"></i> {{b}}</li> |))
+                  }}
+                </ul>
+              </div>
+
+              <!-- Right: visual -->
+              <div class="panel-visual">
+                {{case t.visual of
+                    "sdr" -> (lurk|
+                        <div class="conversation-mockup-wrap">
+                            {{renderConversation lang}}
+                        </div>
+                    |)
+                    "command" -> (lurk|
+                        <div class="agency-mockup-wrap">
+                            {{renderAgency lang}}
+                        </div>
+                    |)
+                    "whitelabel" -> (lurk|
+                        <div class="dashboard-mockup-wrap">
+                            {{renderDashboard lang}}
+                        </div>
+                    |)
+                    "deploy" -> (lurk|
+                        <div class="deploy-flow">
+                            <div class="flow-row bad">
+                                <i class="fa-solid fa-bolt"></i>
+                                {{payloadDeployBad1}}
+                            </div>
+                            <div class="flow-row bad">
+                                <i class="fa-solid fa-code"></i>
+                                {{payloadDeployBad2}}
+                            </div>
+                            <div class="flow-row bad">
+                                <i class="fa-solid fa-calendar-xmark"></i>
+                                {{payloadDeployBad3}}
+                            </div>
+                            <div class="flow-divider">
+                                {{payloadDeployDivider}}
+                            </div>
+                            <div class="flow-row good">
+                                <i class="fa-solid fa-network-wired"></i>
+                                {{payloadDeployGood1}}
+                            </div>
+                            <div class="flow-row good">
+                                <i class="fa-solid fa-rocket"></i>
+                                {{payloadDeployGood2}}
+                            </div>
+                            <div class="flow-row good">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                {{payloadDeployGood3}}
+                            </div>
+                        </div>
+                    |)
+                    _ -> (lurk||)
+                }}
+              </div>
+            </div>
+          |))
+        }}
         </div>
 
       </div>
@@ -142,7 +235,23 @@ agencyView lang AgencyLocale {..} = defaultLayout lang seo [lurk|
         </div>
 
         <div class="row g-4 mt-5">
-            {{renderPillars scalePillars}}
+        {{forEach scalePillars (\p ->
+          (lurk|
+            <div class="col-md-4">
+                <div class="scale-pillar reveal h-100">
+                    <div class="mb-3">
+                        <div class="pillar-icon"><i class="{{p.icon}}"></i></div>
+                    </div>
+                    <h4 class="pillar-title mb-1">
+                        {{p.title}}
+                    </h4>
+                    <p class="pillar-desc text-secondary mb-0">
+                        {{p.description}}
+                    </p>
+                </div>
+            </div>
+          |))
+        }}
         </div>
 
       </div>
@@ -155,7 +264,20 @@ agencyView lang AgencyLocale {..} = defaultLayout lang seo [lurk|
       <div class="stat-bar reveal">
         <div class="container-fluid mx-0 px-0 mb-5">
           <div class="row d-none d-lg-flex row-cols-lg-5 g-0">
-            {{renderStats ctaStats}}
+            {{forEach ctaStats (\stat ->
+              (lurk|
+                <div class="col">
+                  <div class="stat-item">
+                    <div class="stat-number">
+                        {{stat.value}}
+                    </div>
+                    <div class="stat-label">
+                        {{stat.label}}
+                    </div>
+                  </div>
+                </div>
+              |))
+            }}
           </div>
         </div>
       </div>
@@ -183,129 +305,3 @@ agencyView lang AgencyLocale {..} = defaultLayout lang seo [lurk|
   </main>
   <script src="{{assetPath "js/agency-program.js"}}"></script>
 |]
-  where
-    renderHeroTrust = foldMap (\t -> [lurk|
-        <div class="trust-badge d-flex align-items-center gap-2 px-4 py-2">
-          <i class="fa-solid {{t.icon}} text-accent"></i>
-          <span class="small fw-semibold text-secondary">{{t.text}}</span>
-        </div>
-    |])
-
-    renderBad rows = foldMap (\r -> [lurk|
-        <div class="comp-row">
-          <div class="comp-icon"><i class="fa-solid fa-xmark"></i></div>
-          <span class="comp-text">{{r.bad}}</span>
-        </div>
-    |]) rows
-
-    renderGood rows = foldMap (\r -> [lurk|
-        <div class="comp-row">
-          <div class="comp-icon"><i class="fa-solid fa-check"></i></div>
-          <span class="comp-text">{{r.good}}</span>
-        </div>
-    |]) rows
-
-    renderTabsNav tabs = foldMap (\(i, t) -> [lurk|
-        <button class="agency-tab" data-tab="{{i}}">{{t}}</button>
-    |]) (zip ([0..] :: [Int]) tabs)
-
-    renderPillars = foldMap (\p -> [lurk|
-        <div class="col-md-4">
-            <div class="scale-pillar reveal h-100">
-                <div class="mb-3">
-                    <div class="pillar-icon"><i class="{{p.icon}}"></i></div>
-                </div>
-                <h4 class="pillar-title mb-1">
-                    {{p.title}}
-                </h4>
-                <p class="pillar-desc text-secondary mb-0">
-                    {{p.description}}
-                </p>
-            </div>
-        </div>
-    |])
-
-    renderStats = foldMap (\stat -> [lurk|
-        <div class="col">
-            <div class="stat-item">
-                <div class="stat-number">
-                    {{stat.value}}
-                </div>
-                <div class="stat-label">
-                    {{stat.label}}
-                </div>
-            </div>
-        </div>
-    |])
-
-    
-    renderPanels tabs = foldMap (\(i, t) -> [lurk|
-            <div class="agency-panel" data-panel="{{i}}">
-
-              <!-- Left: text -->
-              <div>
-                <div class="panel-label">{{t.label}}</div>
-                <h3 class="panel-title">{{t.title}}</h3>
-                <p class="panel-desc">{{t.description}}</p>
-                <ul class="panel-bullets">
-                    {{renderBullets t.bullets}}
-                </ul>
-              </div>
-
-              <!-- Right: visual -->
-              <div class="panel-visual">
-                {{renderVisuals t.visual}}
-              </div>
-            </div>
-          |]) (zip ([0..] :: [Int]) tabs)
-            where
-                renderBullets = foldMap (\b -> [lurk|
-                    <li><i class="fa-solid fa-check"></i> {{b}}</li>
-                |])
-
-                renderVisuals visual = case visual of
-                    "sdr" -> [lurk|
-                        <div class="conversation-mockup-wrap">
-                            {{renderConversation lang}}
-                        </div>
-                    |]
-                    "command" -> [lurk|
-                        <div class="agency-mockup-wrap">
-                            {{renderAgency lang}}
-                        </div>
-                    |]
-                    "whitelabel" -> [lurk|
-                        <div class="dashboard-mockup-wrap">
-                            {{renderDashboard lang}}
-                        </div>
-                    |]
-                    "deploy" -> [lurk|
-                        <div class="deploy-flow">
-                            <div class="flow-row bad">
-                                <i class="fa-solid fa-bolt"></i>
-                                {{payloadDeployBad1}}
-                            </div>
-                            <div class="flow-row bad">
-                                <i class="fa-solid fa-code"></i>
-                                {{payloadDeployBad2}}
-                            </div>
-                            <div class="flow-row bad">
-                                <i class="fa-solid fa-calendar-xmark"></i>
-                                {{payloadDeployBad3}}
-                            </div>
-                            <div class="flow-divider">{{payloadDeployDivider}}</div>
-                            <div class="flow-row good">
-                                <i class="fa-solid fa-network-wired"></i>
-                                {{payloadDeployGood1}}
-                            </div>
-                            <div class="flow-row good">
-                                <i class="fa-solid fa-rocket"></i>
-                                {{payloadDeployGood2}}
-                            </div>
-                            <div class="flow-row good">
-                                <i class="fa-solid fa-shield-halved"></i>
-                                {{payloadDeployGood3}}
-                            </div>
-                        </div>
-                    |]
-                    _ -> mempty

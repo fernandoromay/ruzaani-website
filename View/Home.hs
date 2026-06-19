@@ -5,7 +5,7 @@ module View.Home where
 import Locales.Home
 import View.Components.Animations
 import View.Components.Mockups
-import View.Layouts.Default (defaultLayout)
+import View.Layouts.Default
 import View.Prelude
 
 homeView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> HomeLocale -> Html
@@ -42,7 +42,12 @@ homeView lang HomeLocale {..} = defaultLayout lang seo [lurk|
   <div class="stat-bar reveal">
     <div class="container">
       <div class="row g-0 justify-content-center">
-        {{renderStatBar}}
+        {{forEach statBar (\stat -> (lurk|
+          <div class="col-6 col-md-3 stat-item">
+            <div class="stat-number">{{stat.number}}</div>
+            <div class="stat-label">{{stat.label}}</div>
+          </div>
+        |))}}
       </div>
     </div>
   </div>
@@ -57,7 +62,14 @@ homeView lang HomeLocale {..} = defaultLayout lang seo [lurk|
         </div>
       </div>
       <div class="bento-grid reveal">
-        {{renderAgents}}
+      {{forEachWithIndex agents (\i a -> (lurk|
+        <!-- SDR, Analyst and Strategist get wide cells -->
+        <div class="bento-cell {{if i `elem` [1,4,5] then "bento-wide" else ""}}">
+          <i class="{{a.icon}} agent-icon d-block"></i>
+          <h4 class="fw-bold mb-2">{{a.title}}</h4>
+          <p class="text-secondary mb-0">{{a.description}}</p>
+        </div>
+      |))}}
       </div>
     </div>
   </section>
@@ -94,7 +106,15 @@ homeView lang HomeLocale {..} = defaultLayout lang seo [lurk|
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-1 reveal">
-          {{renderReplaceItems}}
+        {{forEachWithIndex replaceItems (\i r -> (lurk|
+          <div class="displacement-item my-3 {{if i == 1 then "active" else ""}}" data-index="{{i-1}}">
+            <span class="d-num">0{{i}}</span>
+            <div>
+              <h4 class="fw-bold mb-1">{{r.title}}</h4>
+              <p class="text-secondary mb-0">{{r.description}}</p>
+            </div>
+          </div>
+        |))}}
         </div>
       </div>
     </div>
@@ -111,7 +131,14 @@ homeView lang HomeLocale {..} = defaultLayout lang seo [lurk|
           <h2 class="display-6 fw-bold mb-3 gradient-title">{{enterpriseTitle}}</h2>
           <p class="text-secondary fs-5 mb-5">{{enterpriseSubtitle}}</p>
           <div class="row g-4">
-            {{renderEnterprisePoints}}
+          {{forEach enterpriseItems (\p -> (lurk|
+            <div class="col-md-6">
+            <div class="enterprise-feature">
+              <h5 class="fw-bold mb-2">{{p.title}}</h5>
+              <p class="text-secondary small mb-0">{{p.description}}</p>
+            </div>
+          </div>
+          |))}}
           </div>
         </div>
       </div>
@@ -133,7 +160,12 @@ homeView lang HomeLocale {..} = defaultLayout lang seo [lurk|
           {{renderAgency lang}}
         </div>
         <div class="col-lg-6 reveal">
-          {{renderAgencyPoints}}
+          {{forEach agencyPoints (\p -> (lurk|
+          <div class="mb-4">
+            <h5 class="fw-bold">{{p.title}}</h5>
+            <p class="text-secondary">{{p.description}}</p>
+          </div>
+          |))}}
           <a href="{{agencyCtaLink}}" class="btn-secondary mt-3">
             {{agencyCta}}
           </a>
@@ -151,7 +183,15 @@ homeView lang HomeLocale {..} = defaultLayout lang seo [lurk|
         </div>
       </div>
       <div class="row justify-content-center g-4">
-        {{renderSecurityBadges}}
+        {{forEach securityBadges (\b -> (lurk|
+        <div class="col-md-4 reveal">
+          <div class="security-badge text-center h-100">
+            <i class="{{b.icon}} fs-1 text-secondary mb-3 d-block"></i>
+            <h5 class="fw-bold mb-2">{{b.title}}</h5>
+            <p class="text-secondary small mb-0">{{b.description}}</p>
+          </div>
+        </div>
+        |))}}
       </div>
     </div>
   </section>
@@ -177,55 +217,3 @@ homeView lang HomeLocale {..} = defaultLayout lang seo [lurk|
 
 <script src="{{assetPath "js/home.js"}}"></script>
 |]
-  where
-    renderStatBar = foldMap (\stat -> [lurk|
-        <div class="col-6 col-md-3 stat-item">
-          <div class="stat-number">{{stat.number}}</div>
-          <div class="stat-label">{{stat.label}}</div>
-        </div>
-      |]) statBar
-
-    renderAgents = foldMap (\(i, a) -> [lurk|
-        <!-- SDR, Analyst and Strategist get wide cells -->
-        <div class="bento-cell {{if i `elem` [0,3,4] then "bento-wide" else ""}}">
-          <i class="{{a.icon}} agent-icon d-block"></i>
-          <h4 class="fw-bold mb-2">{{a.title}}</h4>
-          <p class="text-secondary mb-0">{{a.description}}</p>
-        </div>
-        |]) (zip [0 ..] agents)
-
-    renderReplaceItems = foldMap (\(i, r) -> [lurk|
-        <div class="displacement-item my-3 {{if i == 0 then "active" else ""}}" data-index="{{i}}">
-          <span class="d-num">0{{i + 1}}</span>
-          <div>
-            <h4 class="fw-bold mb-1">{{r.title}}</h4>
-            <p class="text-secondary mb-0">{{r.description}}</p>
-          </div>
-        </div>
-        |]) (zip [0 ..] replaceItems)
-
-    renderEnterprisePoints = foldMap ( \p -> [lurk|
-        <div class="col-md-6">
-          <div class="enterprise-feature">
-            <h5 class="fw-bold mb-2">{{p.title}}</h5>
-            <p class="text-secondary small mb-0">{{p.description}}</p>
-          </div>
-        </div>
-        |]) enterpriseItems
-
-    renderAgencyPoints = foldMap (\p -> [lurk|
-        <div class="mb-4">
-          <h5 class="fw-bold">{{p.title}}</h5>
-          <p class="text-secondary">{{p.description}}</p>
-        </div>
-        |]) agencyPoints
-
-    renderSecurityBadges = foldMap (\b -> [lurk|
-        <div class="col-md-4 reveal">
-          <div class="security-badge text-center h-100">
-            <i class="{{b.icon}} fs-1 text-secondary mb-3 d-block"></i>
-            <h5 class="fw-bold mb-2">{{b.title}}</h5>
-            <p class="text-secondary small mb-0">{{b.description}}</p>
-          </div>
-        </div>
-        |]) securityBadges

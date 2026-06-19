@@ -5,12 +5,12 @@ import Web.Scotty (status)
 import Language
 import View.Prelude
 import View.Error
-import View.Home (homeView)
-import View.Product (productView)
+import View.Home
+import View.Product
 import View.Agency
-import View.Pricing (pricingView)
+import View.Pricing
 import View.Access
-import View.Thanks (thanksView)
+import View.Thanks
 import View.Legal
 import Locales.Home qualified as Home
 import Locales.Product qualified as Product

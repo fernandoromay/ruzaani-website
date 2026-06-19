@@ -12,7 +12,10 @@ accessView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> A
 accessView lang AccessLocale {..} = defaultLayout lang seo [lurk|
 <main id="evaluation">
 
-    {{renderBanner}}
+    <section class="banner-top">
+        {{bannerLoginText}}
+        <a href="https://admin.ruzaani.com/" class="login-link fw-bold">{{bannerLoginCTA}}</a>
+    </section>
 
     <!-- Hero -->
     <section class="hero-section d-flex align-items-center">
@@ -34,10 +37,46 @@ accessView lang AccessLocale {..} = defaultLayout lang seo [lurk|
             <div class="efficiency-audit">
               <!-- Progress Bar -->
               <div class="audit-progress" id="audit-progress">
-                {{renderProgressSteps}}
+                {{forEach ([1 .. totalQuestions] :: [Int]) (\i -> (lurk|
+                    <div class="progress-step" data-step="{{i}}">
+                    {{i}}
+                    </div>
+                |))}}
               </div>
               <!-- Questions -->
-              {{renderQuestions}}
+              {{forEachWithIndex questions (\index q -> (lurk|
+                  <div class="audit-question" data-question="{{index}}" id="question-{{index}}">
+                    <div class="question-header">
+                      <div class="question-number">
+                        {{txtQuestion}}   {{index}}   {{txtOf}}   {{totalQuestions}}
+                      </div>
+                      <h3 class="question-text">
+                        {{auditQuestion q}}
+                      </h3>
+                    </div>
+                    <div class="question-options">
+                      {{forEach (auditOptions q) (\opt -> (lurk|
+                        <label class="option-card" data-value="{{optionValue opt}}">
+                          <input type="radio" name="question-{{index}}" value="{{optionValue opt}}">
+                          <span class="option-label">
+                            {{optionLabel opt}}
+                          </span>
+                        </label>
+                      |))}}
+                    </div>
+                    <div class="audit-navigation">
+                      {{let 
+                          nextBtn = if index < totalQuestions
+                            then (lurk|<button class="btn-primary" onclick="nextQuestion({{index}})" disabled id="next-btn-{{index}}">{{formNext}}</button>|)
+                            else (lurk|<button class="btn-primary" onclick="showContactModal()" disabled id="next-btn-{{index}}">{{formSeeResults}}</button>|)
+                          prevBtn = if index > 1
+                            then (lurk|<button class="btn-secondary" onclick="previousQuestion({{index}})">{{formPrevious}}</button>|)
+                            else mempty
+                        in prevBtn <> nextBtn
+                      }}
+                    </div>
+                  </div>
+                |))}}
             </div>
           </div>
         </div>
@@ -105,16 +144,12 @@ accessView lang AccessLocale {..} = defaultLayout lang seo [lurk|
 |]
   <> renderScripts
   where
-    totalQuestions :: Int
     totalQuestions = length questions
-
-    renderBanner :: Html
-    renderBanner = [lurk|
-        <section class="banner-top">
-          {{bannerLoginText}}
-          <a href="https://admin.ruzaani.com/" class="login-link fw-bold">{{bannerLoginCTA}}</a>
-        </section>
-        |]
+    csrfToken = fromMaybe "" (contextValue "csrfToken")
+    auditQuestion q = q.question
+    auditOptions q = q.options
+    optionValue opt = opt.value
+    optionLabel opt = opt.label
 
     renderScripts :: Html
     renderScripts =
@@ -123,55 +158,3 @@ accessView lang AccessLocale {..} = defaultLayout lang seo [lurk|
             "; window.langStrings = { processing: '" <> processingMsg <> "', error: '" <> errorMsg <> "' };</script><script src=\"" <> 
             assetPath "js/interactive-form.js" <> 
             "\"></script><script>if (typeof window.startAudit === 'function') { window.startAudit(); }</script>" :: Text)
-
-    renderProgressSteps :: Html
-    renderProgressSteps = foldMap (\i -> [lurk|
-        <div class="progress-step" data-step="{{i}}">
-            {{i}}
-        </div>
-    |]) ([1 .. totalQuestions] :: [Int])
-
-    renderQuestions :: Html
-    renderQuestions = foldMap (\(index, q) -> [lurk|
-        <div class="audit-question" data-question="{{index + 1}}" id="question-{{index + 1}}">
-          <div class="question-header">
-            <div class="question-number">
-              {{txtQuestion}}   {{index + 1}}   {{txtOf}}   {{totalQuestions}}
-            </div>
-            <h3 class="question-text">
-              {{q.question}}
-            </h3>
-          </div>
-
-          <div class="question-options">
-            {{renderOptions index q.options}}
-          </div>
-
-          <div class="audit-navigation">
-            {{renderNav index}}
-          </div>
-        </div>
-    |]) (zip [0 :: Int ..] questions)
-
-    renderNav :: Int -> Html
-    renderNav index = prevBtn <> nextBtn
-      where
-        nextBtn
-          | index < totalQuestions - 1 = [lurk|<button class="btn-primary" onclick="nextQuestion({{index + 1}})" disabled id="next-btn-{{index + 1}}">{{formNext}}</button>|]
-          | otherwise = [lurk|<button class="btn-primary" onclick="showContactModal()" disabled id="next-btn-{{index + 1}}">{{formSeeResults}}</button>|]
-        prevBtn
-          | index > 0 = [lurk|<button class="btn-secondary" onclick="previousQuestion({{index + 1}})">{{formPrevious}}</button>|]
-          | otherwise = mempty
-
-    renderOptions :: Int -> [AuditOption] -> Html
-    renderOptions idx opts = foldMap (\opt -> [lurk|
-        <label class="option-card" data-value="{{opt.value}}">
-          <input type="radio" name="question-{{idx + 1}}" value="{{opt.value}}">
-          <span class="option-label">
-            {{opt.label}}
-          </span>
-        </label>
-    |]) opts
-
-    csrfToken :: Text
-    csrfToken = fromMaybe "" (contextValue "csrfToken")

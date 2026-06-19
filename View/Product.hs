@@ -58,7 +58,25 @@ productView lang ProductLocale {..} = defaultLayout lang seo [lurk|
         </div>
 
         <div class="row g-4">
-          {{renderValuePoints valuePoints}}
+          {{forEachWithIndex valuePoints (\i p -> (lurk|
+          <div class="col-md-6 {{if (i == 1 || i == 4) then "col-lg-7" else "col-lg-5"}} reveal" style="transition-delay:{{i * 80}}ms;">
+            <div class="bento-card h-100 position-relative overflow-hidden tilt-effect">
+              <div class="p-4 p-lg-5 z-1 position-relative h-100 d-flex flex-column justify-content-center">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <i class="{{p.icon}} fs-2" style="color: var(--accent-primary);"></i>
+                  <h4 class="fw-bold mb-0 fs-5">
+                    {{p.title}}
+                  </h4>
+                </div>
+                <p class="text-secondary mb-0">
+                  {{p.description}}
+                </p>
+              </div>
+              <!-- Interactive Glow overlay -->
+              <div class="bento-glow"></div>
+            </div>
+          </div>
+          |))}}
         </div>
 
       </div>
@@ -85,28 +103,32 @@ productView lang ProductLocale {..} = defaultLayout lang seo [lurk|
           <div class="col-lg-6">
             <div class="ai-scroll-content pe-lg-5 position-relative" style="min-height: 150vh;">
               <div class="ai-agent-info-wrap">
-                {{forEach aiAgents (\a -> (lurk|
+                {{forEach aiAgents (\a ->
+                  (lurk|
                     <div class="ai-agent">
                         <div class="ai-panel-label mb-2">{{a.label}}</div>
                         <h4>{{a.headline}}</h4>
                         <p class="text-secondary mb-4">{{a.description}}</p>
                         <div class="d-flex flex-column gap-2 ai-bullet-list mb-5">
-                            {{forEach (a.bullets) (\b -> (lurk|
+                            {{forEach (a.bullets) (\b ->
+                              (lurk|
                                 <div class="d-flex align-items-start gap-3">
                                     <i class="fa-solid fa-check text-accent mt-1"></i>
                                     <span class="text-secondary">{{b}}</span>
                                 </div>
-                                |))
+                              |))
                             }}
                         </div>
                     </div>
-                    |))
+                  |))
                 }}
               </div>
 
               <!-- Granular Scroll Triggers (14 Steps) - Drives the Sticky Visuals -->
               <div class="ai-scroll-triggers position-absolute top-0 start-0 w-100 h-100" style="pointer-events: none; opacity: 0;">
-                {{renderScrollSteps}}
+                {{forEach ([0..13] :: [Int]) (\i -> (lurk|
+                    <div class="ai-scroll-step" data-step="{{i}}" style="height: 7.14%;"></div>
+                |))}}
               </div>
             </div>
           </div>
@@ -305,7 +327,23 @@ productView lang ProductLocale {..} = defaultLayout lang seo [lurk|
 
         <!-- CRM Editorial Matrix -->
         <div class="crm-editorial-matrix row g-5 mt-5">
-          {{renderCrmFeatures crmFeatures}}
+          {{forEachWithIndex crmFeatures (\i feature -> (lurk|
+            <div class="col-md-6 editorial-item reveal" style="transition-delay:{{i * 100}}ms;">
+              <div class="d-flex flex-column h-100">
+                <div class="editorial-header d-flex align-items-center gap-3 mb-3">
+                  <div class="crm-card-icon">
+                    <i class="{{feature.icon}}"></i>
+                  </div>
+                  <h3 class="h5 fw-bold mb-0">{{feature.title}}</h3>
+                </div>
+                <div class="editorial-content">
+                  <p class="text-secondary mb-0" style="line-height:1.65;">
+                    {{feature.description}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          |))}}
         </div>
 
       </div>
@@ -329,12 +367,32 @@ productView lang ProductLocale {..} = defaultLayout lang seo [lurk|
         <div class="channels-marquee-container reveal">
           <!-- Row 1 (Left to Right) -->
           <div class="marquee-track marquee-row-1">
-            {{renderChannels channelsTop}}
+            {{let renderChannel c =
+                (lurk|
+                  <div class="marquee-item">
+                    <div class="d-flex align-items-center gap-3 z-1 position-relative">
+                      <i class="{{c.icon}}"></i> <span class="marquee-name">{{c.name}}</span>
+                    </div>
+                    <div class="bento-glow"></div>
+                  </div>
+                |)
+              in foldMap renderChannel (channelsTop ++ channelsTop)
+            }}
           </div>
 
           <!-- Row 2 (Right to Left) -->
           <div class="marquee-track marquee-row-2">
-            {{renderChannels channelsBottom}}
+            {{let renderChannel c =
+                (lurk|
+                  <div class="marquee-item">
+                    <div class="d-flex align-items-center gap-3 z-1 position-relative">
+                      <i class="{{c.icon}}"></i> <span class="marquee-name">{{c.name}}</span>
+                    </div>
+                    <div class="bento-glow"></div>
+                  </div>
+                |)
+              in foldMap renderChannel (channelsBottom ++ channelsBottom)
+            }}
           </div>
         </div>
 
@@ -371,56 +429,4 @@ productView lang ProductLocale {..} = defaultLayout lang seo [lurk|
   </main>
 <script src="{{assetPath "js/product.js"}}"></script>
 |]
-  where
-    renderValuePoints points = foldMap (\(i, p) -> [lurk|
-          <div class="col-md-6 {{if (i == 0 || i == 3) then "col-lg-7" else "col-lg-5"}} reveal" style="transition-delay:{{i * 80}}ms;">
-            <div class="bento-card h-100 position-relative overflow-hidden tilt-effect">
-              <div class="p-4 p-lg-5 z-1 position-relative h-100 d-flex flex-column justify-content-center">
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <i class="{{p.icon}} fs-2" style="color: var(--accent-primary);"></i>
-                  <h4 class="fw-bold mb-0 fs-5">
-                    {{p.title}}
-                  </h4>
-                </div>
-                <p class="text-secondary mb-0">
-                  {{p.description}}
-                </p>
-              </div>
-              <!-- Interactive Glow overlay -->
-                <div class="bento-glow"></div>
-              </div>
-            </div>
-    |]) (zip [0..] points)
 
-    renderScrollSteps = foldMap (\i -> [lurk|
-        <div class="ai-scroll-step" data-step="{{i}}" style="height: 7.14%;"></div>
-    |]) ([0..13] :: [Int])
-
-    renderCrmFeatures features = foldMap (\(i, feature) -> [lurk|
-        <div class="col-md-6 editorial-item reveal" style="transition-delay:{{i * 100}}ms;">
-            <div class="d-flex flex-column h-100">
-              <div class="editorial-header d-flex align-items-center gap-3 mb-3">
-                <div class="crm-card-icon">
-                  <i class="{{feature.icon}}"></i>
-                </div>
-                <h3 class="h5 fw-bold mb-0">{{feature.title}}</h3>
-              </div>
-              <div class="editorial-content">
-                <p class="text-secondary mb-0" style="line-height:1.65;">
-                  {{feature.description}}
-                </p>
-              </div>
-            </div>
-        </div>
-    |]) (zip ([0..] :: [Int]) features)
-
-    renderChannels channels = foldMap renderChannel (channels ++ channels)
-      where
-        renderChannel c = [lurk|
-            <div class="marquee-item">
-              <div class="d-flex align-items-center gap-3 z-1 position-relative">
-                <i class="{{c.icon}}"></i> <span class="marquee-name">{{c.name}}</span>
-              </div>
-              <div class="bento-glow"></div>
-            </div>
-        |]

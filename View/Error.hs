@@ -1,6 +1,6 @@
 module View.Error where
 
-import View.Layouts.Default (defaultLayout)
+import View.Layouts.Default
 import View.Prelude
 
 error404View :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> Html

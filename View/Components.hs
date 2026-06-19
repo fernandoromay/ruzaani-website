@@ -15,11 +15,25 @@ navbar lang = [lurk|
       </a>
 
       <ul class="navbar-nav">
-        <li><a href="{{l.homeLink}}" class="{{if ?currentPath == l.homeLink then "active" else ""}}">{{l.homeText}}</a></li>
+        <li><a href="{{l.homeLink}}" class='{{if ?currentPath == l.homeLink then "active" else ""}}'>{{l.homeText}}</a></li>
         <li><a href="{{l.productLink}}" class="{{isActive l.productLink}}">{{l.productText}}</a></li>
         <li><a href="{{l.agencyLink}}" class="{{isActive l.agencyLink}}">{{l.agencyText}}</a></li>
         <li><a href="{{l.pricingLink}}" class="{{isActive l.pricingLink}}">{{l.pricingText}}</a></li>
-        {{loginBtn}}
+        {{if contextValue "showLogin" == Just "true" 
+          then (lurk|
+            <a href="{{l.loginLink}}">
+                <li class="btn-navbar">
+                    {{l.loginText}}
+                    <i class="bi bi-box-arrow-in-right me-1"></i>
+                </li>
+            </a>
+          |)
+          else (lurk|
+            <a href="{{l.accessLink}}">
+                <li class="btn-navbar">{{l.accessText}}</li>
+            </a>
+          |)
+        }}
       </ul>
     </div>
   </nav>
@@ -28,25 +42,11 @@ navbar lang = [lurk|
   where
     l = navbarLocale lang
 
-    loginBtn
-      | contextValue "showLogin" == Just "true" = [lurk|
-            <a href="{{l.loginLink}}">
-                <li class="btn-navbar">
-                    {{l.loginText}}
-                    <i class="bi bi-box-arrow-in-right me-1"></i>
-                </li>
-            </a>
-            |]
-      | otherwise = [lurk|
-            <a href="{{l.accessLink}}">
-                <li class="btn-navbar">{{l.accessText}}</li>
-            </a>
-            |]
-
     isActive :: (?currentPath :: Text) => Text -> Text
     isActive path
       | (path `isSubpath` ?currentPath) && (path /= "/") = "active"
       | otherwise = ""
+
 
 navside :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> Html
 navside lang = [lurk|
@@ -74,7 +74,10 @@ navside lang = [lurk|
 
     <hr>
 
-    {{navsideLoginBtn}}
+    {{ if contextValue "showLogin" == Just "true"
+        then (lurk|<a class="nav-link access-link" href="{{l.loginLink}}">{{l.loginText}}</a>|)
+        else (lurk|<a class="nav-link access-link" href="{{l.accessLink}}">{{l.accessText}}</a>|)
+    }}
 
     <!-- Language -->
     <div class="mt-4 language">
@@ -82,24 +85,19 @@ navside lang = [lurk|
         Language
       </div>
       <div class="d-flex gap-4 justify-content-center">
-        {{renderLangs}}
+        {{forEach (langPaths ?currentPath) (\(langCode, path) ->
+          (lurk|
+            <a href="{{path}}" class='{{if langCode == lang then "accented fw-bold" else ""}}'>{{T.toUpper (toText langCode)}}</a>
+          |))
+        }}
       </div>
     </div>
 
   </div>
 </div>
 |]
-  where
-    l = navbarLocale lang
+  where l = navbarLocale lang
 
-    navsideLoginBtn =
-      if contextValue "showLogin" == Just "true"
-        then [lurk|<a class="nav-link access-link" href="{{l.loginLink}}">{{l.loginText}}</a>|]
-        else [lurk|<a class="nav-link access-link" href="{{l.accessLink}}">{{l.accessText}}</a>|]
-
-    renderLangs = foldMap ( \(langCode, path) -> [lurk|
-        <a href="{{path}}" class="{{if langCode == lang then "accented fw-bold" else ""}}">{{T.toUpper (toText langCode)}}</a>
-    |]) (langPaths ?currentPath)
 
 footer :: Language -> Html
 footer lang = [lurk|
