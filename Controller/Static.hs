@@ -1,7 +1,5 @@
 module Controller.Static where
 
-import Network.HTTP.Types (status404)
-import Web.Scotty (status)
 import Language
 import View.Prelude
 import View.Error
@@ -57,6 +55,4 @@ legalAction lang page = render $ legalView lang locale
             Privacy -> Legal.getLocalePrivacy lang
 
 notFoundAction :: Action ()
-notFoundAction = do
-    status status404
-    render (error404View EN)
+notFoundAction = render (error404View EN)
