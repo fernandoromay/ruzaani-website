@@ -1,13 +1,8 @@
-module Config
-    ( Config(..)
-    , loadConfig
-    ) where
+module Config (Config(..), loadConfig) where
 
-import Data.Text (Text)
 import Data.Maybe (fromMaybe)
-import System.Environment (lookupEnv)
-import Lurk.Env (loadEnv)
-import Text.Read (readMaybe)
+import Data.Text (Text)
+import Lurk.Env
 import Paths qualified as P (domain)
 
 data Config = Config
@@ -20,11 +15,9 @@ defaultPort = 3003
 
 loadConfig :: IO Config
 loadConfig = do
-    loadEnv
+    env <- loadEnv -- Reads .env file in root directory
     --loadEnvFile "config/secrets.env"
-    portStr <- lookupEnv "PORT"
-    let port = fromMaybe defaultPort (portStr >>= readMaybe)
     pure Config
-        { port   = port
+        { port   = fromMaybe defaultPort (getEnvInt env "PORT")
         , domain = P.domain
         }

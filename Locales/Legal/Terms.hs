@@ -14,7 +14,7 @@ commonSEO = defaultSEO
         , Alternate {hreflang = "ko", href = domain <> termsPath KO}
         , Alternate {hreflang = "x-default", href = domain <> termsPath EN}
         ]
-    , customTags = [lurk|<link rel="stylesheet" href="{assetPath "css/legal.css"}">|]}
+    , customTags = [lurk|<link rel="stylesheet" href="{{assetPath "css/legal.css"}}">|]}
 
 effectiveDate :: Language -> Text
 effectiveDate EN = "April 25, 2026"
@@ -31,7 +31,7 @@ getLocaleTerms EN = LegalLocale
         }
     , content = [lurk|
         <h1>Terms of Service</h1>
-        <p><strong>Effective Date:</strong> {effectiveDate EN}</p>
+        <p><strong>Effective Date:</strong> {{effectiveDate EN}}</p>
         <br><br>
         <p>These Terms of Service ("Terms") govern your access to and use of the Ruzaani website, platform, AI business intelligence tools, and related services (collectively, the "Services"). </p>
         <p>Throughout these Terms, "Ruzaani", "we," "us," or "our" refers to the Ruzaani platform and its operating entity. "Client," "you," or "your" refers to the business, agency, or individual registering for and using the Services.</p>
@@ -111,7 +111,7 @@ getLocaleTerms ES = LegalLocale
         }
     , content = [lurk|
         <h1>Términos y Condiciones</h1>
-        <p><strong>Fecha de vigencia:</strong> {effectiveDate ES}</p>
+        <p><strong>Fecha de vigencia:</strong> {{effectiveDate ES}}</p>
         <br><br>
         <p>Estos Términos y Condiciones ("Términos") rigen su acceso y uso del sitio web, la plataforma, las herramientas de inteligencia empresarial de IA y los servicios relacionados de Ruzaani (colectivamente, los "Servicios").</p>
         <p>A lo largo de estos Términos, "Ruzaani", "nosotros", "nos" o "nuestro" se refiere a la plataforma Ruzaani y a su entidad operadora. "Cliente", "usted" o "su" se refiere a la empresa, agencia o individuo que se registra y utiliza los Servicios.</p>
@@ -167,17 +167,17 @@ getLocaleTerms ES = LegalLocale
         <p>LOS SERVICIOS SE PROPORCIONAN "TAL CUAL" Y "SEGÚN DISPONIBILIDAD". RENUNCIAMOS A TODAS LAS GARANTÍAS, EXPRESAS O IMPLÍCITAS, INCLUYENDO LAS GARANTÍAS DE COMERCIABILIDAD, IDONEIDAD PARA UN PROPÓSITO PARTICULAR Y NO INFRACCIÓN. NO GARANTIZAMOS QUE LOS SERVICIOS SEAN ININTERRUMPIDOS, LIBRES DE ERRORES O 100% SEGUROS.</p>
         <h2>11. Terminación</h2>
         <ul>
-            <li><strong>By You:</strong> You may terminate your account at any time via the Admin Dashboard.</li>
-            <li><strong>By Us:</strong> We may suspend or terminate your access to the Services at any time, with or without notice, if you violate these Terms or if we suspect fraudulent or illegal activity.</li>
-            <li><strong>Effect of Termination:</strong> Upon termination, your right to use the Services will immediately cease, and we may delete your Client Data in accordance with our Privacy Policy.</li>
+            <li><strong>Por Usted:</strong> Usted puede rescindir su cuenta en cualquier momento a través del Panel de Administración.</li>
+            <li><strong>Por Nosotros:</strong> Podemos suspender o rescindir su acceso a los Servicios en cualquier momento, con o sin previo aviso, si usted viola estos Términos o si sospechamos de actividad fraudulenta o ilegal.</li>
+            <li><strong>Efecto de la Terminación:</strong> Tras la terminación, su derecho a utilizar los Servicios cesará inmediatamente y podremos eliminar los Datos de sus Clientes de acuerdo con nuestra Política de Privacidad.</li>
         </ul>
         <h2>12. Ley Aplicable y Jurisdicción</h2>
-        <p>Estos Términos se regirán e interpretarán de acuerdo con las leyes de México. Any disputes arising out of or relating to these Terms or the Services shall be subject to the exclusive jurisdiction of the competent courts in Ciudad de Mexico, Mexico.</p>
-        <h2>13. Changes to these Terms</h2>
-        <p>We may modify these Terms at any time. We will notify you of material changes by email or through the platform. Your continued use of the Services after the effective date of the updated Terms constitutes your acceptance of the changes.</p>
-        <h2>14. Legal Entity & Contact Information</h2>
+        <p>Estos Términos se regirán e interpretarán de acuerdo con las leyes de México. Cualquier disputa que surja de o esté relacionada con estos Términos o los Servicios estará sujeta a la jurisdicción exclusiva de los tribunales competentes en la Ciudad de México, México.</p>
+        <h2>13. Cambios en estos Términos</h2>
+        <p>Podemos modificar estos Términos en cualquier momento. Le notificaremos de cambios importantes por correo electrónico o a través de la plataforma. Su uso continuado de los Servicios después de la fecha de entrada en vigor de los Términos actualizados constituye su aceptación de los cambios.</p>
+        <h2>14. Entidad Legal e Información de Contacto</h2>
         <p>"Ruzaani" es una marca comercial y un servicio operado por Fernando Alberto Ocampo Romay. Para fines de cumplimiento legal, Fernando Alberto Ocampo Romay es la entidad legalmente responsable que provee la plataforma Ruzaani.</p>
-        <p>If you have any questions or concerns regarding these Terms, please contact us at:</p>
+        <p>Si tiene alguna pregunta o inquietud respecto a estos Términos, por favor contáctenos en:</p>
         <p><strong>Responsible Entity:</strong> Fernando Alberto Ocampo Romay<br/><strong>Email:</strong> <a href='mailto:legal@ruzaani.com' target='_blank' class='url'>legal@ruzaani.com</a></p>
         |]
     }
@@ -191,7 +191,7 @@ getLocaleTerms KO = LegalLocale
         }
     , content = [lurk|
         <h1>이용약관</h1>
-        <p><strong>시행일:</strong> {effectiveDate KO}</p>
+        <p><strong>시행일:</strong> {{effectiveDate KO}}</p>
         <br><br>
         <p>본 이용약관("약관")은 귀하의 Ruzaani 웹사이트, 플랫폼, AI 비즈니스 인텔리전스 도구 및 관련 서비스(이하 "서비스")에 대한 접근 및 이용을 규율합니다.</p>
         <p>본 약관 전체에서 "Ruzaani", "당사", "우리"는 Ruzaani 플랫폼 및 그 운영 주체를 의미합니다. "고객", "귀하"는 서비스에 등록하여 이용하는 기업, 기관 또는 개인을 의미합니다.</p>

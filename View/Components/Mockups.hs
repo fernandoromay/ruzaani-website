@@ -11,7 +11,7 @@ renderDashboard lang = [lurk|
         <span class="hero-dot dot-amber"></span>
         <span class="hero-dot dot-green"></span>
         <span class="mockup-title ms-2">
-            {l.navTitle}
+            {{d.navTitle}}
         </span>
     </div>
 
@@ -31,12 +31,19 @@ renderDashboard lang = [lurk|
 
             <!-- Stats Grid -->
             <div class="row g-2">
-                {renderStats l.stats}
+              {{forEachWithIndex (d.stats) (\i s -> (lurk|
+                <div class="col-4">
+                    <div class="mockup-stat-card p-2">
+                        <div class="mockup-stat-val {{if i == 3 then "primary" else ""}}">{{s.value}}</div>
+                        <div class="mockup-stat-label">{{s.label}}</div>
+                    </div>
+                </div>
+              |))}}
             </div>
 
             <!-- Performance Trend (Graph) -->
             <div class="mockup-panel p-3 pb-0">
-                <div class="mockup-title">{l.graphTitle}</div>
+                <div class="mockup-title">{{d.graphTitle}}</div>
                 <div class="mockup-trendline my-1">
                     <svg viewBox="0 0 300 30" preserveAspectRatio="none">
                         <path d="M0,25 Q50,22 100,15 T200,18 T300,5 T400,8" fill="none" stroke="var(--accent-primary)"
@@ -47,9 +54,19 @@ renderDashboard lang = [lurk|
 
             <!-- AI Insights -->
             <div class="mockup-panel p-3">
-                <div class="mockup-title">{l.insightsTitle}</div>
+                <div class="mockup-title">{{d.insightsTitle}}</div>
                 <div class="d-flex flex-column">
-                    {renderInsights l.insights}
+                {{forEach (d.insights) (\i ->
+                  (lurk|
+                    <div class="mockup-list-item">
+                        <div class="priority-indicator priority-{{i.priority}} me-2">
+                            <i class="{{icon i.priority}}"></i>
+                        </div>
+                        <span class="mockup-list-name me-2">{{i.agent}}</span>
+                        <span class="mockup-list-msg truncate">{{i.message}}</span>
+                    </div>
+                  |)
+                )}}
                 </div>
             </div>
 
@@ -57,31 +74,13 @@ renderDashboard lang = [lurk|
     </div>
 </div>
 |]
-    where
-        l = dashboardLocale lang
-        renderStats stats = foldMap (\(i, stat) -> [lurk| 
-        <div class="col-4">
-            <div class="mockup-stat-card p-2">
-                <div class="mockup-stat-val {if i == 2 then "primary" else ""}">{stat.value}</div>
-                <div class="mockup-stat-label">{stat.label}</div>
-            </div>
-        </div>
-        |]) (zip [0..] stats)
+  where
+    d = dashboardLocale lang
 
-        renderInsights insights = foldMap (\i -> [lurk|
-        <div class="mockup-list-item">
-            <div class="priority-indicator priority-{i.priority} me-2">
-                <i class="{icon i.priority}"></i>
-            </div>
-            <span class="mockup-list-name me-2">{i.agent}</span>
-            <span class="mockup-list-msg truncate">{i.message}</span>
-        </div>
-        |]) insights
-            where
-                icon :: Text -> Text
-                icon "high" = "fa-solid fa-circle-exclamation"
-                icon "medium" = "fa-solid fa-circle-info"
-                icon _ = "fa-solid fa-minus"
+    icon :: Text -> Text
+    icon "high" = "fa-solid fa-circle-exclamation"
+    icon "medium" = "fa-solid fa-circle-info"
+    icon _ = "fa-solid fa-minus"
 
 renderAgency :: Language -> Html
 renderAgency lang = [lurk|
@@ -91,7 +90,7 @@ renderAgency lang = [lurk|
         <span class="hero-dot dot-amber"></span>
         <span class="hero-dot dot-green"></span>
         <span class="mockup-title ms-2">
-            {l.navTitle}
+            {{l.navTitle}}
         </span>
     </div>
 
@@ -112,24 +111,32 @@ renderAgency lang = [lurk|
             <div class="mockup-panel p-2 px-3 d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
                     <div class="priority-indicator priority-medium me-2"><i class="fa-solid fa-circle"></i></div>
-                    <span class="mockup-list-name">{(head l.clients).name}</span>
+                    <span class="mockup-list-name">{{(head l.clients).name}}</span>
                 </div>
-                <div class="mockup-list-score">{l.activeClient}</div>
+                <div class="mockup-list-score">{{l.activeClient}}</div>
             </div>
 
             <!-- Client Management List -->
             <div class="mockup-panel p-3">
-                <div class="mockup-title mb-2">{(head l.clients).status} {l.clientLabel}</div>
+                <div class="mockup-title mb-2">{{(head l.clients).status}} {{l.clientLabel}}</div>
                 <div class="d-flex flex-column gap-1">
-                    {renderClients l.clients}
+                {{forEach (l.clients) (\c -> (lurk|
+                    <div class="mockup-list-item">
+                        <span class="mockup-list-name">{{c.name}}</span>
+                        <span class="mockup-list-msg">{{c.agent}}</span>
+                        <div class="priority-indicator {{if c.status `elem` ["Active", "Activo", "활성"] then "priority-high" else "priority-low"}}">
+                            <i class="priority-indicator-icon fa-solid fa-circle"></i>
+                        </div>
+                    </div>
+                  |))}}
                 </div>
             </div>
 
             <!-- White Label Report Preview -->
             <div class="mockup-panel p-3 pb-0">
-                <div class="mockup-title text-center mb-1">{l.reportTitle}</div>
+                <div class="mockup-title text-center mb-1">{{l.reportTitle}}</div>
                 <div class="mockup-report-brand text-center">
-                    {l.reportBrand}
+                    {{l.reportBrand}}
                 </div>
                 <div class="mockup-trendline mt-3 mb-0 pb-0">
                     <svg viewBox="0 0 300 20" preserveAspectRatio="none">
@@ -142,17 +149,7 @@ renderAgency lang = [lurk|
     </div>
 </div>
 |]
-    where
-        l = agencyLocale lang
-        renderClients clients = foldMap (\c -> [lurk|
-            <div class="mockup-list-item">
-                <span class="mockup-list-name">{c.name}</span>
-                <span class="mockup-list-msg">{c.agent}</span>
-                <div class="priority-indicator {if c.status `elem` ["Active", "Activo", "활성"] then "priority-high" else "priority-low"}">
-                    <i class="priority-indicator-icon fa-solid fa-circle"></i>
-                </div>
-            </div>
-            |]) clients
+  where l = agencyLocale lang
 
 renderConversation :: Language -> Html
 renderConversation lang = [lurk|
@@ -162,32 +159,29 @@ renderConversation lang = [lurk|
         <span class="hero-dot dot-amber"></span>
         <span class="hero-dot dot-green"></span>
         <span class="mockup-title ms-2">
-            {l.agent} — {l.live}
+            {{l.agent}} — {{l.live}}
         </span>
     </div>
 
     <div class="mockup-body p-3 d-flex flex-column gap-2">
-        
-        {renderMessages l.messages}
+    {{forEachWithIndex (l.messages) (\i m -> (lurk|
+        <div class="mockup-msg {{m.direction}} sdr-msg-{{i}}">
+            <div class="mockup-msg-sender">
+                {{m.sender}}
+            </div>
+            {{m.message}}
+        </div>
+      |))}}
 
         <div class="d-flex gap-2 mt-1">
-            <div class="mockup-list-score">⚡ {l.response}</div>
-            <div class="mockup-list-score">{l.score}</div>
+            <div class="mockup-list-score">⚡ {{l.response}}</div>
+            <div class="mockup-list-score">{{l.score}}</div>
         </div>
 
     </div>
 </div>
 |]
-  where
-    l = conversationLocale lang
-    renderMessages messages = foldMap (\(i, m) -> [lurk|    
-            <div class="mockup-msg {m.direction} sdr-msg-{i + 1}">
-                <div class="mockup-msg-sender">
-                    {m.sender}
-                </div>
-                {m.message}
-            </div>
-    |]) (zip [0..] messages)
+  where l = conversationLocale lang
 
 renderProductMockup :: Language -> Html
 renderProductMockup lang = [lurk|
@@ -197,59 +191,53 @@ renderProductMockup lang = [lurk|
         <span class="hero-dot dot-amber"></span>
         <span class="hero-dot dot-green"></span>
         <span class="mockup-title">
-            {l.title}
+            {{p.title}}
         </span>
     </div>
 
     <div class="mockup-body p-4 d-flex flex-column gap-3">
 
         <div class="mockup-stats-grid row g-3">
-            {renderStats l.stats}
+        {{forEachWithIndex (p.stats) (\i s -> (lurk|
+            <div class="col-4">
+                <div class="mockup-stat-card p-2">
+                    <div class="mockup-stat-val {{if i == 3 then "primary" else ""}}">{{s.value}}</div>
+                    <div class="mockup-stat-label">{{s.label}}</div>
+                </div>
+            </div>
+          |))}}
         </div>
 
         <div class="mockup-panel p-3">
-            <div class="mockup-title">{l.graphTitle}</div>
+            <div class="mockup-title">{{p.graphTitle}}</div>
             <div class="mockup-bar-chart">
                 <div class="mockup-bar-1"></div>
                 <div class="mockup-bar-2"></div>
                 <div class="mockup-bar-3"></div>
-                <span class="mockup-bar-total">{l.graphLast}</span>
+                <span class="mockup-bar-total">{{p.graphLast}}</span>
             </div>
             <div class="mockup-bar-labels">
-                {renderGraphLabels l.graphLabels}
+            {{forEach (p.graphLabels) (\label -> (lurk|
+                <span>{{label}}</span>
+              |))}}
             </div>
         </div>
 
         <div class="mockup-panel p-3">
-            <div class="mockup-title">{l.listTitle}</div>
+            <div class="mockup-title">{{p.listTitle}}</div>
             <div class="d-flex flex-column">
-                {renderConversations l.listData}
+            {{forEach (p.listData) (\c -> (lurk|
+                <div class="mockup-list-item">
+                    <i class="{{c.icon}}" style="color:{{c.color}};"></i>
+                    <span class="mockup-list-name">{{c.name}}</span>
+                    <span class="mockup-list-msg">{{c.msg}}</span>
+                    <span class="mockup-list-score">{{c.score}}</span>
+                </div>
+              |))}}
             </div>
         </div>
 
     </div>
 </div>
 |]
-  where
-    l = productMockupLocale lang
-    renderStats stats = foldMap (\(i, stat) -> [lurk|
-        <div class="col-4">
-            <div class="mockup-stat-card p-3">
-                <div class="mockup-stat-val {if i == 1 then "primary" else ""}">{stat.value}</div>
-                <div class="mockup-stat-label">{stat.label}</div>
-            </div>
-        </div>
-    |]) (zip ([0..] :: [Int]) stats)
-
-    renderGraphLabels labels = foldMap (\label -> [lurk|
-        <span>{label}</span>
-    |]) labels
-
-    renderConversations convos = foldMap (\c -> [lurk|
-        <div class="mockup-list-item">
-            <i class="{c.icon}" style="color:{c.color};"></i>
-            <span class="mockup-list-name">{c.name}</span>
-            <span class="mockup-list-msg">{c.msg}</span>
-            <span class="mockup-list-score">{c.score}</span>
-        </div>
-    |]) convos
+  where p = productMockupLocale lang

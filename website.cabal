@@ -1,7 +1,7 @@
 cabal-version:   3.6
 
 name:            ruzaani-website
-version:         2026.6.12
+version:         2026.6.18
 -- synopsis:     -- Short (one-line) description
 -- description:  -- Long description
 
@@ -23,6 +23,7 @@ common warnings
 common extensions
     default-language:   GHC2021
     default-extensions: OverloadedStrings
+                        OverloadedRecordDot
                         DeriveDataTypeable
                         DeriveGeneric
                         QuasiQuotes

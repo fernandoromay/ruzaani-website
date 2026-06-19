@@ -150,28 +150,28 @@ conversationLocale EN = ConversationLocale
     , score = "Score: 87"
     }
 conversationLocale ES = ConversationLocale
-    { agent = "SDR Agent"
-    , live = "Live"
+    { agent = "Agente SDR"
+    , live = "En vivo"
     , messages = 
-        [ ConversationMessage { direction = "receive", sender = "Lead", message = "Hi, how fast can you set up the AI for our agency?" } 
-        , ConversationMessage { direction = "send", sender = "SDR Agent", message = "Less than a week. How many clients are you managing right now?" } 
-        , ConversationMessage { direction = "receive", sender = "Lead", message = "About 12. We've been burning time on custom automation builds." } 
-        , ConversationMessage { direction = "send", sender = "SDR Agent", message = "Ok. Let me show you our dashboard for agencies: <span class=\"fw-semibold\">book a 20-min call ↗</span>" } 
+        [ ConversationMessage { direction = "receive", sender = "Lead", message = "Hola, ¿Qué tan rápido nos pueden configurar la IA?" } 
+        , ConversationMessage { direction = "send", sender = "Agente SDR", message = "En menos de una semana. ¿Cuántos clientes tienen?" } 
+        , ConversationMessage { direction = "receive", sender = "Lead", message = "Unos 12. Hemos estado perdiendo tiempo en automatizaciones personalizadas." } 
+        , ConversationMessage { direction = "send", sender = "Agente SDR", message = "Ok. Permíteme mostrarte nuestro panel para agencias: <span class=\"fw-semibold\">Agenda una llamada de 20 min ↗</span>" } 
         ]
-    , response = "Response: 38s"
-    , score = "Score: 87"
+    , response = "Respuesta: 38s"
+    , score = "Puntuación: 87"
     }
 conversationLocale KO = ConversationLocale
-    { agent = "SDR Agent"
-    , live = "Live"
+    { agent = "SDR 에이전트"
+    , live = "라이브"
     , messages = 
-        [ ConversationMessage { direction = "receive", sender = "Lead", message = "Hi, how fast can you set up the AI for our agency?" } 
-        , ConversationMessage { direction = "send", sender = "SDR Agent", message = "Less than a week. How many clients are you managing right now?" } 
-        , ConversationMessage { direction = "receive", sender = "Lead", message = "About 12. We've been burning time on custom automation builds." } 
-        , ConversationMessage { direction = "send", sender = "SDR Agent", message = "Ok. Let me show you our dashboard for agencies: <span class=\"fw-semibold\">book a 20-min call ↗</span>" } 
+        [ ConversationMessage { direction = "receive", sender = "리드", message = "안녕하세요, AI를 저희 에이전시에 얼마나 빨리 구축할 수 있나요?" } 
+        , ConversationMessage { direction = "send", sender = "SDR 에이전트", message = "일주일도 채 걸리지 않습니다. 현재 관리 중인 클라이언트는 몇 명인가요?" } 
+        , ConversationMessage { direction = "receive", sender = "리드", message = "12명 정도입니다. 맞춤형 자동화 구축에 시간을 너무 많이 쓰고 있어요." } 
+        , ConversationMessage { direction = "send", sender = "SDR 에이전트", message = "그렇군요. 저희 에이전시용 대시보드를 보여드리겠습니다: <span class=\"fw-semibold\">20분 미팅 예약하기 ↗</span>" } 
         ]
-    , response = "Response: 38s"
-    , score = "Score: 87"
+    , response = "응답 시간: 38초"
+    , score = "점수: 87"
     }
 
 

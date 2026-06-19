@@ -45,7 +45,7 @@ commonSeo = defaultSEO
         , Alternate {hreflang = "x-default", href = domain <> accessPath EN}
         ]
     , customTags = [lurk|
-        <link rel="stylesheet" href="{assetPath "css/interactive-form.css"}">
+        <link rel="stylesheet" href="{{assetPath "css/interactive-form.css"}}">
         |]
     }
 

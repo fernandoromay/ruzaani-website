@@ -16,15 +16,15 @@ thanksView lang ThanksLocale{..} = defaultLayout lang seo [lurk|
                     <i class="bi bi-check-circle-fill text-accent" style="font-size: 6rem;"></i>
                 </div>
                 <h1 class="display-4 mb-4 fade-in-up" style="animation-delay: 100ms;">
-                    {header}
+                    {{header}}
                 </h1>
                 <p class="lead text-secondary mb-5 fade-in-up" style="animation-delay: 200ms;">
-                    <strong class="text-main">{subheader}</strong><br><br>
-                    {description}
+                    <strong class="text-main">{{subheader}}</strong><br><br>
+                    {{description}}
                 </p>
                 <div class="fade-in-up" style="animation-delay: 300ms;">
-                    <a href="{goBackLink}" class="btn-primary btn-lg">
-                        {goBackText}
+                    <a href="{{goBackLink}}" class="btn-primary btn-lg">
+                        {{goBackText}}
                     </a>
                 </div>
             </div>

@@ -78,8 +78,8 @@ commonSEO = defaultSEO
         , Alternate {hreflang = "x-default", href = domain <> agencyPath EN}
         ]
     , customTags = [lurk|
-        <link rel="stylesheet" href="{assetPath "css/agency-program.css"}">
-        <link rel="stylesheet" href="{assetPath "css/mockups.css"}">
+        <link rel="stylesheet" href="{{assetPath "css/agency-program.css"}}">
+        <link rel="stylesheet" href="{{assetPath "css/mockups.css"}}">
         |]
     }
 
