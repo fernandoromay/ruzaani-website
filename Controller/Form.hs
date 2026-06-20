@@ -8,23 +8,24 @@ import Control.Monad (unless)
 import Data.Aeson qualified as Aeson
 import Data.ByteString.Lazy qualified as LBS
 import Data.Map.Strict qualified as Map
-import Data.Maybe (fromMaybe)
 import Data.Text qualified as T
 import Data.Text.Encoding qualified as TE
 import Data.Text.Lazy qualified as TL
-import Data.Time.Clock (getCurrentTime, diffUTCTime)
+import Data.Time.Clock (getCurrentTime)
 import Data.Time.Format (formatTime, defaultTimeLocale)
 import Network.Wai (requestHeaders)
+import Web.Scotty (redirect, request)
 import System.Directory (createDirectoryIfMissing)
-import System.Exit (ExitCode(..))
-import System.Process (readProcessWithExitCode)
-import System.Timeout (timeout)
-import Control.Exception (try, SomeException)
-import Lurk.Session qualified as Session
+import Lurk.Email.SMTP
+import Lurk.Form
 import Paths (thanksPath)
 import View.Prelude
-import Lurk.Email.SMTP
-import Web.Scotty (redirect, request)
+import View.Email.AccessNotice
+import View.Email.EnterpriseNotice
+import Locale.Email.AccessThanks qualified as AL
+import Locale.Email.EnterpriseThanks qualified as EL
+import View.Email.AccessThanks
+import View.Email.EnterpriseThanks
 
 -- | Load SMTP configuration from environment
 loadSmtpConfig :: IO (Maybe SmtpConfig)
@@ -62,78 +63,6 @@ getClientIp = do
         Just v -> TE.decodeUtf8 v
         Nothing -> maybe "unknown" TE.decodeUtf8 (lookup "X-Real-IP" headers)
 
--- | Extract session ID from request
-getSid :: Action (Maybe SessionId)
-getSid = do getSessionIdFromHeaders <$> request
-
--- | Read cached form params for current request
-readFormParams :: Action [(Text, Text)]
-readFormParams = do
-    mSid <- getSid
-    case mSid of
-        Nothing -> pure []
-        Just sid -> liftIO $ getCachedFormParams sid
-
--- | Lookup a single form param
-lookupParam :: Text -> [(Text, Text)] -> Text
-lookupParam key params = fromMaybe "" (lookup key params)
-
-----------------------------------------------------------------------
--- TIME-TO-SUBMIT
-----------------------------------------------------------------------
-
--- | Store form load time in session
-setFormLoadTime :: Action ()
-setFormLoadTime = do
-    mSid <- getSid
-    case mSid of
-        Nothing -> pure ()
-        Just sid -> do
-            store <- liftIO getStore
-            now <- liftIO getCurrentTime
-            Session.setSessionValue store sid "form_load_time" (T.pack (show now))
-
--- | Check if at least N seconds have passed since form load
-checkTimeToSubmit :: Int -> [(Text, Text)] -> Action Bool
-checkTimeToSubmit minSeconds _params = do
-    mSid <- getSid
-    case mSid of
-        Nothing -> pure True
-        Just _sid -> do
-            store <- liftIO getStore
-            sess <- Session.getSession store
-            case Session.getSessionValue "form_load_time" sess of
-                Nothing -> pure True
-                Just loadTimeText ->
-                    case reads (T.unpack loadTimeText) of
-                        [(loadTime, "")] -> do
-                            now <- liftIO getCurrentTime
-                            let elapsed = realToFrac (diffUTCTime now loadTime) :: Double
-                            pure $ elapsed >= fromIntegral minSeconds
-                        _ -> pure True
-
-----------------------------------------------------------------------
--- DNS MX VERIFICATION
-----------------------------------------------------------------------
-
--- | Check if an email domain has valid MX records (2-second timeout)
-checkMxRecord :: Text -> IO Bool
-checkMxRecord domain = do
-    let domainStr = T.unpack domain
-    result <- timeout 2000000 $ try $ readProcessWithExitCode "host" ["-t", "MX", domainStr] ""
-    case result of
-        Nothing -> pure True  -- timeout, allow submission
-        Just (Left (_ :: SomeException)) -> pure True
-        Just (Right (ExitSuccess, out, _)) ->
-            pure $ not (null out)
-        Just (Right (ExitFailure _, _, _)) -> pure True
-
--- | Extract domain from email address
-emailDomain :: Text -> Text
-emailDomain emailAddr = case T.breakOnEnd "@" emailAddr of
-    ("", _)    -> ""
-    (_, domain) -> domain
-
 ----------------------------------------------------------------------
 -- LEAD SCORING
 ----------------------------------------------------------------------
@@ -145,8 +74,8 @@ qualLabel SQL = "HIGH PRIORITY"
 qualLabel MQL = "QUALIFIED"
 qualLabel NQ  = "LOW FIT / EXPLORING"
 
-scoreAccessForm :: [(Text, Text)] -> (Int, Qualification)
-scoreAccessForm params = (score, qual)
+scoreAccessForm :: FormData -> (Int, Qualification)
+scoreAccessForm fd = (score, qual)
   where
     verticalScores = Map.fromList
         [ ("aesthetic_wellness", 20)
@@ -180,10 +109,10 @@ scoreAccessForm params = (score, qual)
         , ("automated",     5)
         ]
 
-    q2 = lookupParam "question-2" params
-    q3 = lookupParam "question-3" params
-    q4 = lookupParam "question-4" params
-    q5 = lookupParam "question-5" params
+    q2 = getParamDef "question-2" "" fd
+    q3 = getParamDef "question-3" "" fd
+    q4 = getParamDef "question-4" "" fd
+    q5 = getParamDef "question-5" "" fd
 
     score = Map.findWithDefault 0 q2 verticalScores
           + Map.findWithDefault 0 q3 channelScores
@@ -208,225 +137,37 @@ appendLog path value = do
     let entry = Aeson.encode value <> "\n"
     LBS.appendFile path entry
 
-logAccessSubmission :: [(Text, Text)] -> Qualification -> Int -> Text -> IO ()
-logAccessSubmission params qual score ip = do
+logAccessSubmission :: FormData -> Qualification -> Int -> Text -> IO ()
+logAccessSubmission fd qual score ip = do
     now <- getCurrentTime
     let timestamp = T.pack (formatTime defaultTimeLocale "%Y-%m-%d %H:%M:%S" now)
     let entry = Aeson.object
             [ "timestamp" Aeson..= timestamp
             , "qualified" Aeson..= (T.toLower (T.pack (show qual)) :: Text)
             , "score" Aeson..= score
-            , "name" Aeson..= lookupParam "name" params
-            , "email" Aeson..= lookupParam "email" params
-            , "company" Aeson..= lookupParam "company" params
-            , "role" Aeson..= lookupParam "role" params
-            , "lang" Aeson..= lookupParam "lang" params
+            , "name" Aeson..= getParamDef "name" "" fd
+            , "email" Aeson..= getParamDef "email" "" fd
+            , "company" Aeson..= getParamDef "company" "" fd
+            , "role" Aeson..= getParamDef "role" "" fd
+            , "lang" Aeson..= getParamDef "lang" "" fd
             , "ip" Aeson..= ip
             ]
     appendLog "logs/access-submissions.log" entry
 
-logEnterpriseSubmission :: [(Text, Text)] -> Text -> IO ()
-logEnterpriseSubmission params ip = do
+logEnterpriseSubmission :: FormData -> Text -> IO ()
+logEnterpriseSubmission fd ip = do
     now <- getCurrentTime
     let timestamp = T.pack (formatTime defaultTimeLocale "%Y-%m-%d %H:%M:%S" now)
     let entry = Aeson.object
             [ "timestamp" Aeson..= timestamp
-            , "name" Aeson..= lookupParam "name" params
-            , "email" Aeson..= lookupParam "email" params
-            , "company" Aeson..= lookupParam "business" params
-            , "lang" Aeson..= lookupParam "lang" params
+            , "name" Aeson..= getParamDef "name" "" fd
+            , "email" Aeson..= getParamDef "email" "" fd
+            , "company" Aeson..= getParamDef "business" "" fd
+            , "lang" Aeson..= getParamDef "lang" "" fd
             , "ip" Aeson..= ip
             ]
     appendLog "logs/enterprise-submissions.log" entry
 
-----------------------------------------------------------------------
--- EMAIL TEMPLATES
-----------------------------------------------------------------------
-
-accessNotificationHtml :: [(Text, Text)] -> Qualification -> Int -> Text -> Text -> Text
-accessNotificationHtml params qual score ip langText = renderHtml [lurk|
-<!DOCTYPE html>
-<html><head></head>
-<body style="font-family: Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
-  <div style="border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px;">
-    <h1>New Access Request</h1>
-  </div>
-  <div>
-    <p>A new access request has been submitted and qualified.</p>
-    <p><strong>Status:</strong> <span style="display: inline-block; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 14px; {{badgeStyle}}">{{qualText}}</span></p>
-    <p><strong>Score:</strong> {{scoreText}} / {{maxScoreText}}</p>
-    <h3>Contact Details</h3>
-    <p><strong>Name:</strong> {{name}}<br>
-    <strong>Email:</strong> {{email}}<br>
-    <strong>Company:</strong> {{company}}<br>
-    <strong>Role:</strong> {{role}}<br>
-    <strong>Country:</strong> {{country}}<br>
-    <strong>Language:</strong> {{langText}}</p>
-    <h3>Profile Data</h3>
-    <p><strong>Use Case:</strong> {{useCase}}<br>
-    <strong>Vertical:</strong> {{vertical}}<br>
-    <strong>Channel:</strong> {{channel}}<br>
-    <strong>Volume:</strong> {{volume}}<br>
-    <strong>Handling:</strong> {{handling}}</p>
-    <p style="margin-top: 30px; font-size: 12px; color: #999;">
-      Submitted via Ruzaani Onboarding Flow.<br>
-      IP: {{ip}}
-    </p>
-  </div>
-</body></html>
-|]
-  where
-    maxScore :: Int
-    maxScore = 105
-    badgeStyle :: Text
-    badgeStyle = case qual of
-        SQL -> "background-color: #d4edda; color: #155724;"
-        MQL -> "background-color: #fff3cd; color: #856404;"
-        NQ  -> "background-color: #f8d7da; color: #721c24;"
-    qualText = qualLabel qual
-    scoreText = T.pack (show score)
-    maxScoreText = T.pack (show maxScore)
-    name = lookupParam "name" params
-    email = lookupParam "email" params
-    company = lookupParam "company" params
-    role = lookupParam "role" params
-    country = T.toUpper (lookupParam "country" params)
-    useCase = lookupParam "question-1" params
-    vertical = lookupParam "question-2" params
-    channel = lookupParam "question-3" params
-    volume = lookupParam "question-4" params
-    handling = lookupParam "question-5" params
-
-accessConfirmationHtml :: Language -> Text -> Text
-accessConfirmationHtml lang name = renderHtml [lurk|
-<!DOCTYPE html>
-<html><head></head>
-<body style="font-family: Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
-  <div style="border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px;">
-    <h1>Ruzaani</h1>
-  </div>
-  <div>
-    <p>{{greeting}} {{name}},</p>
-    <p>{{thanks}}</p>
-    <p>{{review}}</p>
-    <p><strong>{{nextSteps}}</strong></p>
-    <ul><li>{{step1}}</li><li>{{step2}}</li></ul>
-    <p>{{signoffLine1}}<br>{{signoffLine2}}</p>
-  </div>
-</body></html>
-|]
-  where
-    localeTexts :: (Text, Text, Text, Text, Text, Text, Text, Text)
-    localeTexts = case lang of
-        ES -> ( "Hola"
-              , "Gracias por solicitar acceso a la plataforma Ruzaani."
-              , "Nuestro equipo de soporte está revisando tu perfil para asegurarnos de configurar el entorno adecuado para tu negocio."
-              , "Siguientes pasos:"
-              , "De ser aprobado, te daremos acceso en menos de 24 horas."
-              , "Si necesitamos más información, nos pondremos en contacto contigo directamente."
-              , "Saludos cordiales,"
-              , "El equipo de soporte de Ruzaani"
-              )
-        KO -> ( "안녕하세요"
-              , "Ruzaani 플랫폼 액세스를 신청해 주셔서 감사합니다."
-              , "귀하의 비즈니스에 맞는 올바른 환경을 설정하기 위해 지원팀에서 프로필을 검토하고 있습니다."
-              , "다음 단계:"
-              , "승인될 경우 24시간 이내에 액세스 권한이 부여됩니다."
-              , "추가 정보가 필요한 경우 직접 연락드리겠습니다."
-              , "감사합니다."
-              , "Ruzaani 지원팀 드림"
-              )
-        _ -> ( "Hello"
-             , "Thank you for requesting access to the Ruzaani platform."
-             , "Our support team is reviewing your profile to ensure we set up the right environment for your business."
-             , "Next Steps:"
-             , "If approved, we will grant you access within 24 hours."
-             , "If we need more information, we will contact you directly."
-             , "Best regards,"
-             , "The Ruzaani Support Team"
-             )
-    greeting, thanks, review, nextSteps, step1, step2, signoffLine1, signoffLine2 :: Text
-    (greeting, thanks, review, nextSteps, step1, step2, signoffLine1, signoffLine2) = localeTexts
-
-enterpriseNotificationHtml :: [(Text, Text)] -> Text
-enterpriseNotificationHtml params = renderHtml [lurk|
-<!DOCTYPE html>
-<html><head></head>
-<body style="font-family: Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
-  <div style="border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px;">
-    <h1>New Enterprise Inquiry</h1>
-  </div>
-  <div>
-    <p>A new enterprise contact request has been submitted from the pricing page.</p>
-    <h3>Contact Details</h3>
-    <p><strong>Name:</strong> {{entName}}<br>
-    <strong>Email:</strong> {{entEmail}}<br>
-    <strong>Company:</strong> {{entBusiness}}<br>
-    <strong>Country:</strong> {{entCountry}}</p>
-    <h3>Message</h3>
-    <p style="background: #f9f9f9; padding: 15px; border-left: 3px solid #ccc;">
-    {{entMessage}}
-    </p>
-  </div>
-</body></html>
-|]
-  where
-    entName = lookupParam "name" params
-    entEmail = lookupParam "email" params
-    entBusiness = lookupParam "business" params
-    entCountry = T.toUpper (lookupParam "country" params)
-    entMessage = lookupParam "message" params
-
-enterpriseConfirmationHtml :: Language -> Text -> Text
-enterpriseConfirmationHtml lang name = renderHtml [lurk|
-<!DOCTYPE html>
-<html><head></head>
-<body style="font-family: Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
-  <div style="border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px;">
-    <h1>Ruzaani</h1>
-  </div>
-  <div>
-    <p>{{greeting}} {{name}},</p>
-    <p>{{thanks}}</p>
-    <p>{{review}}</p>
-    <p><strong>{{nextSteps}}</strong></p>
-    <ul><li>{{step1}}</li><li>{{step2}}</li></ul>
-    <p>{{signoffLine1}}<br>{{signoffLine2}}</p>
-  </div>
-</body></html>
-|]
-  where
-    localeTexts :: (Text, Text, Text, Text, Text, Text, Text, Text)
-    localeTexts = case lang of
-        ES -> ( "Hola"
-              , "Gracias por ponerte en contacto sobre un acuerdo Enterprise con Ruzaani."
-              , "Nuestro equipo de ventas ha recibido tu consulta y está revisando los detalles de tu negocio."
-              , "Siguientes pasos:"
-              , "Un especialista enterprise te contactará en menos de 24 horas."
-              , "Prepararemos una propuesta personalizada basada en tus requerimientos específicos."
-              , "Saludos cordiales,"
-              , "El equipo Enterprise de Ruzaani"
-              )
-        KO -> ( "안녕하세요"
-              , "Ruzaani 엔터프라이즈 협약에 관해 문의해 주셔서 감사합니다."
-              , "영업팀에서 문의 사항을 접수했으며 귀하의 비즈니스 세부 정보를 검토하고 있습니다."
-              , "다음 단계:"
-              , "엔터프라이즈 전문가가 24시간 이내에 연락하여 상담 전화를 예약할 것입니다."
-              , "귀하의 특정 요구 사항에 맞춘 맞춤형 제안서를 준비하겠습니다."
-              , "감사합니다."
-              , "Ruzaani 엔터프라이즈 팀 드림"
-              )
-        _ -> ( "Hello"
-             , "Thank you for reaching out regarding an Enterprise agreement with Ruzaani."
-             , "Our sales team has received your inquiry and is reviewing your business details."
-             , "Next Steps:"
-             , "An enterprise specialist will contact you within 24 hours to schedule a discovery call."
-             , "We will prepare a custom proposal based on your specific requirements."
-             , "Best regards,"
-             , "The Ruzaani Enterprise Team"
-             )
-    greeting, thanks, review, nextSteps, step1, step2, signoffLine1, signoffLine2 :: Text
-    (greeting, thanks, review, nextSteps, step1, step2, signoffLine1, signoffLine2) = localeTexts
 
 ----------------------------------------------------------------------
 -- SMTP EMAIL SENDING
@@ -454,84 +195,123 @@ sendAndLog config toAddr subject htmlBody = do
 
 accessPostAction :: Language -> Action ()
 accessPostAction lang = do
-    params <- readFormParams
     ip <- getClientIp
 
-    let honeypot = lookupParam "b_website" params
-    unless (T.null honeypot) $ redirect "/404/"
+    withForm
+        [ guardHoneypot "b_website" "/404/"
+        , guardMinSubmitTime 3 "/404/"
+        , guardMxRecord "email" "/404/"
+        ]
+        (\_ -> redirect "/404/")
+        $ \fd -> do
+            let email = getParamDef "email" "" fd
+            let (score, qual) = scoreAccessForm fd
 
-    tooFast <- checkTimeToSubmit 3 params
-    unless tooFast $ redirect "/404/"
+            liftIO $ logAccessSubmission fd qual score ip
 
-    let email = lookupParam "email" params
-    let domain = emailDomain email
-    unless (T.null domain) $ do
-        hasMx <- liftIO $ checkMxRecord domain
-        unless hasMx $ redirect "/404/"
+            mConfig <- liftIO loadSmtpConfig
+            mAdmin <- liftIO loadAdminEmail
+            case (mConfig, mAdmin) of
+                (Just config, Just adminEmail) -> liftIO $ do
+                    let subj = "New Access Request: " <> getParamDef "company" "" fd
+                            <> " (" <> qualLabel qual <> " - Score: " <> T.pack (show score) <> ")"
+                    let
+                        dataFields = AccessNoticeFields
+                            { badgeStyle = case qual of
+                                SQL -> "background-color: #d4edda; color: #155724;"
+                                MQL -> "background-color: #fff3cd; color: #856404;"
+                                NQ  -> "background-color: #f8d7da; color: #721c24;"
+                            , qualText = qualLabel qual
+                            , scoreText = T.pack (show score)
+                            , maxScoreText = T.pack (show (105 :: Int))
+                            , name = getParamDef "name" "" fd
+                            , email = getParamDef "email" "" fd
+                            , company = getParamDef "company" "" fd
+                            , role = getParamDef "role" "" fd
+                            , country = T.toTitle (getParamDef "country" "" fd)
+                            , langText = toName (fromText EN (getParamDef "lang" "" fd))
+                            , useCase = getParamDef "question-1" "" fd
+                            , vertical = getParamDef "question-2" "" fd
+                            , channel = getParamDef "question-3" "" fd
+                            , volume = getParamDef "question-4" "" fd
+                            , handling = getParamDef "question-5" "" fd
+                            , ip = ip
+                            }
+                        body = renderHtml (accessNotice dataFields)
+                    sendAndLog config adminEmail subj body
 
-    let (score, qual) = scoreAccessForm params
+                    unless (T.null email) $ do
+                        let l = AL.getLocale lang
+                            thanksFields = AccessThanksFields
+                                { name = getParamDef "name" "" fd
+                                , greeting = AL.greeting l
+                                , thanks = AL.thanks l
+                                , review = AL.review l
+                                , nextSteps = AL.nextSteps l
+                                , step1 = AL.step1 l
+                                , step2 = AL.step2 l
+                                , signoff1 = AL.signoff1 l
+                                , signoff2 = AL.signoff2 l
+                                }
+                            confirmSubject = AL.subject l
+                            confirmBody = renderHtml (accessThanks thanksFields)
+                        sendAndLog config email confirmSubject confirmBody
+                _ ->
+                    liftIO $ smtpLog "SMTP not configured, skipping email"
 
-    liftIO $ logAccessSubmission params qual score ip
-
-    mConfig <- liftIO loadSmtpConfig
-    mAdmin <- liftIO loadAdminEmail
-    case (mConfig, mAdmin) of
-        (Just config, Just adminEmail) -> liftIO $ do
-            let subj = "New Access Request: " <> lookupParam "company" params
-                    <> " (" <> qualLabel qual <> " - Score: " <> T.pack (show score) <> ")"
-            let body = accessNotificationHtml params qual score ip (toText lang)
-            sendAndLog config adminEmail subj body
-
-            unless (T.null email) $ do
-                let confirmSubject = case lang of
-                        ES -> "Recibido: Tu solicitud de acceso a Ruzaani"
-                        KO -> "수신 완료: Ruzaani 액세스 요청"
-                        _  -> "Received: Your Ruzaani Access Request"
-                let confirmBody = accessConfirmationHtml lang (lookupParam "name" params)
-                sendAndLog config email confirmSubject confirmBody
-        _ ->
-            liftIO $ smtpLog "SMTP not configured, skipping email"
-
-    let dest = TL.fromStrict (thanksPath lang)
-    redirect dest
+            let dest = TL.fromStrict (thanksPath lang)
+            redirect dest
 
 enterprisePostAction :: Language -> Action ()
 enterprisePostAction lang = do
-    params <- readFormParams
     ip <- getClientIp
 
-    let honeypot = lookupParam "b_website" params
-    unless (T.null honeypot) $ redirect "/404/"
+    withForm
+        [ guardHoneypot "b_website" "/404/"
+        , guardMinSubmitTime 3 "/404/"
+        , guardMxRecord "email" "/404/"
+        ]
+        (\_ -> redirect "/404/")
+        $ \fd -> do
+            let email = getParamDef "email" "" fd
 
-    tooFast <- checkTimeToSubmit 3 params
-    unless tooFast $ redirect "/404/"
+            liftIO $ logEnterpriseSubmission fd ip
 
-    let email = lookupParam "email" params
-    let domain = emailDomain email
-    unless (T.null domain) $ do
-        hasMx <- liftIO $ checkMxRecord domain
-        unless hasMx $ redirect "/404/"
+            mConfig <- liftIO loadSmtpConfig
+            mAdmin <- liftIO loadAdminEmail
+            case (mConfig, mAdmin) of
+                (Just config, Just adminEmail) -> liftIO $ do
+                    let subj = "Enterprise Inquiry: " <> getParamDef "business" "" fd
+                            <> " (" <> getParamDef "name" "" fd <> ")"
+                    let
+                        dataFields = EnterpriseNoticeFields
+                            { name = getParamDef "name" "" fd
+                            , email = getParamDef "email" "" fd
+                            , company = getParamDef "business" "" fd
+                            , country = T.toUpper (getParamDef "country" "" fd)
+                            , message = getParamDef "message" "" fd
+                            }
+                        body = renderHtml (enterpriseNotice dataFields)
+                    sendAndLog config adminEmail subj body
 
-    liftIO $ logEnterpriseSubmission params ip
+                    unless (T.null email) $ do
+                        let l = EL.getLocale lang
+                            thanksFields = EnterpriseThanksFields
+                                { name = getParamDef "name" "" fd
+                                , greeting = EL.greeting l
+                                , thanks = EL.thanks l
+                                , review = EL.review l
+                                , nextSteps = EL.nextSteps l
+                                , step1 = EL.step1 l
+                                , step2 = EL.step2 l
+                                , signoff1 = EL.signoff1 l
+                                , signoff2 = EL.signoff2 l
+                                }
+                            confirmSubject = EL.subject l
+                            confirmBody = renderHtml (enterpriseThanks thanksFields)
+                        sendAndLog config email confirmSubject confirmBody
+                _ ->
+                    liftIO $ smtpLog "SMTP not configured, skipping enterprise email"
 
-    mConfig <- liftIO loadSmtpConfig
-    mAdmin <- liftIO loadAdminEmail
-    case (mConfig, mAdmin) of
-        (Just config, Just adminEmail) -> liftIO $ do
-            let subj = "Enterprise Inquiry: " <> lookupParam "business" params
-                    <> " (" <> lookupParam "name" params <> ")"
-            let body = enterpriseNotificationHtml params
-            sendAndLog config adminEmail subj body
-
-            unless (T.null email) $ do
-                let confirmSubject = case lang of
-                        ES -> "Recibido: Consulta Enterprise de Ruzaani"
-                        KO -> "수신 완료: Ruzaani 엔터프라이즈 문의"
-                        _  -> "Received: Your Ruzaani Enterprise Inquiry"
-                let confirmBody = enterpriseConfirmationHtml lang (lookupParam "name" params)
-                sendAndLog config email confirmSubject confirmBody
-        _ ->
-            liftIO $ smtpLog "SMTP not configured, skipping enterprise email"
-
-    let dest = TL.fromStrict (thanksPath lang)
-    redirect dest
+            let dest = TL.fromStrict (thanksPath lang)
+            redirect dest

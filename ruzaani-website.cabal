@@ -1,7 +1,7 @@
 cabal-version:   3.6
 
 name:            ruzaani-website
-version:         2026.6.18
+version:         2026.6.19
 -- synopsis:     -- Short (one-line) description
 -- description:  -- Long description
 
@@ -50,6 +50,8 @@ executable ruzaani-website
                      Locale.Access,
                      Locale.Agency,
                      Locale.Common,
+                     Locale.Email.AccessThanks,
+                     Locale.Email.EnterpriseThanks,
                      Locale.Error,
                      Locale.Home,
                      Locale.Legal,
@@ -66,6 +68,10 @@ executable ruzaani-website
                      Router,
                      View.Access,
                      View.Agency,
+                     View.Email.AccessNotice,
+                     View.Email.AccessThanks,
+                     View.Email.EnterpriseNotice,
+                     View.Email.EnterpriseThanks,
                      View.Error,
                      View.Home,
                      View.Layout.Default,
