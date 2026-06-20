@@ -4,14 +4,11 @@
 # This workflow is triggered on every push to 'main'.
 #
 # REQUIRED GITHUB SECRETS:
-# - LURK_YAML:    The full content of your lurk.yaml file.
-# - Provider Secrets:
-#     - SSH:    DEPLOY_SSH_KEY, VPS_IP
-#     - Docker: DOCKER_USERNAME, DOCKER_PASSWORD
-# - App Secrets:  Any keys defined in your lurk.yaml 'env_vars' mapping.
+# - SSH Secrets:  DEPLOY_SSH_KEY, VPS_IP, VPS_USER
+# - Docker Secrets: DOCKER_USERNAME, DOCKER_PASSWORD
+# - App Secrets:  Any keys defined in your .env or .example.env file.
 #
-# WHAT TO MODIFY IN THIS FILE:
-# - 'runs-on': Update to match your required runner OS (e.g., ubuntu-latest).
+# NOTE: lurk.yaml is committed to Git with ${VAR} placeholders.
 # -----------------------------------------------------------------------------
 
 name: Deploy Lurk Project
@@ -44,9 +41,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cabal-
 
-      - name: Create Lurk Config
-        run: echo "${{ secrets.LURK_YAML }}" > lurk.yaml
-
       # --- Build the Lurk CLI and Binary ---
       - name: Build
         run: cabal build lurk
@@ -54,19 +48,17 @@ jobs:
       # --- Secrets Injection & Deployment ---
       - name: Deploy
         env:
-          # --- PROJECT SPECIFIC: Map your secrets here ---
+          # --- App Secrets ---
           SMTP_RZST_ADMIN_EMAIL: ${{ secrets.SMTP_RZST_ADMIN_EMAIL }}
           SMTP_RZST_HOST: ${{ secrets.SMTP_RZST_HOST }}
           SMTP_RZST_PASS: ${{ secrets.SMTP_RZST_PASS }}
           SMTP_RZST_PORT: ${{ secrets.SMTP_RZST_PORT }}
           SMTP_RZST_SECR: ${{ secrets.SMTP_RZST_SECR }}
           SMTP_RZST_USER: ${{ secrets.SMTP_RZST_USER }}
-
-          # -----------------------------------------------
-          
-          # Internal deployment key for SSH auth
+          # --- SSH Secrets ---
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           VPS_IP: ${{ secrets.VPS_IP }}
+          VPS_USER: ${{ secrets.VPS_USER }}
         run: |
           # Initialize SSH Agent for secure transfer
           eval "$(ssh-agent -s)"
