@@ -2,6 +2,7 @@ module Controller.Static where
 
 import Language
 import View.Prelude
+import Lurk.Form (setFormLoadTime)
 import View.Error
 import View.Home
 import View.Product
@@ -17,7 +18,7 @@ import Locale.Legal   qualified as Legal
 import Locale.Agency  qualified as Agency
 import Locale.Access  qualified as Access
 import Locale.Thanks  qualified as Thanks
-import Controller.Form (setFormLoadTime)
+
 
 data LegalPage = Terms | Privacy deriving (Eq)
 
