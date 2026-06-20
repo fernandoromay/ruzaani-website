@@ -1,0 +1,19 @@
+build:
+  optimize: true
+  target: x86_64-linux
+deploy:
+  config:
+    activate_cmd: sudo systemctl restart ruzaani-website
+    host: ${VPS_IP}
+    path: /var/www/ruzaani/website
+    service_name: ruzaani-website
+    user: ${VPS_USER}
+  env_vars:
+    SMTP_RZST_ADMIN_EMAIL: SMTP_RZST_ADMIN_EMAIL
+    SMTP_RZST_HOST: SMTP_RZST_HOST
+    SMTP_RZST_PASS: SMTP_RZST_PASS
+    SMTP_RZST_PORT: SMTP_RZST_PORT
+    SMTP_RZST_SECR: SMTP_RZST_SECR
+    SMTP_RZST_USER: SMTP_RZST_USER
+  provider: ssh
+project: ruzaani-website
