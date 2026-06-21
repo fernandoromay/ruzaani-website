@@ -6,18 +6,15 @@ module Controller.Form
 
 import Control.Monad (unless)
 import Data.Aeson qualified as Aeson
-import Data.ByteString.Lazy qualified as LBS
 import Data.Map.Strict qualified as Map
 import Data.Text qualified as T
 import Data.Text.Encoding qualified as TE
 import Data.Text.Lazy qualified as TL
-import Data.Time.Clock (getCurrentTime)
-import Data.Time.Format (formatTime, defaultTimeLocale)
 import Network.Wai (requestHeaders)
 import Web.Scotty (redirect, request)
-import System.Directory (createDirectoryIfMissing)
 import Lurk.Email.SMTP
 import Lurk.Form
+import Lurk.Log (Logger(..), newLogger)
 import Paths (thanksPath)
 import View.Prelude
 import View.Email.AccessNotice
@@ -128,66 +125,42 @@ scoreAccessForm fd = (score, qual)
 -- LOGGING
 ----------------------------------------------------------------------
 
-ensureLogDir :: IO ()
-ensureLogDir = createDirectoryIfMissing True "logs"
+logAccessSubmission :: Logger -> FormData -> Qualification -> Int -> Text -> IO ()
+logAccessSubmission logger fd qual score ip =
+    logInfo logger "Access form submitted"
+        [ ("qualified", Aeson.String (T.toLower (T.pack (show qual))))
+        , ("score", Aeson.Number (fromIntegral score))
+        , ("name", Aeson.String (getParamDef "name" "" fd))
+        , ("email", Aeson.String (getParamDef "email" "" fd))
+        , ("company", Aeson.String (getParamDef "company" "" fd))
+        , ("role", Aeson.String (getParamDef "role" "" fd))
+        , ("lang", Aeson.String (getParamDef "lang" "" fd))
+        , ("ip", Aeson.String ip)
+        ]
 
-appendLog :: FilePath -> Aeson.Value -> IO ()
-appendLog path value = do
-    ensureLogDir
-    let entry = Aeson.encode value <> "\n"
-    LBS.appendFile path entry
-
-logAccessSubmission :: FormData -> Qualification -> Int -> Text -> IO ()
-logAccessSubmission fd qual score ip = do
-    now <- getCurrentTime
-    let timestamp = T.pack (formatTime defaultTimeLocale "%Y-%m-%d %H:%M:%S" now)
-    let entry = Aeson.object
-            [ "timestamp" Aeson..= timestamp
-            , "qualified" Aeson..= (T.toLower (T.pack (show qual)) :: Text)
-            , "score" Aeson..= score
-            , "name" Aeson..= getParamDef "name" "" fd
-            , "email" Aeson..= getParamDef "email" "" fd
-            , "company" Aeson..= getParamDef "company" "" fd
-            , "role" Aeson..= getParamDef "role" "" fd
-            , "lang" Aeson..= getParamDef "lang" "" fd
-            , "ip" Aeson..= ip
-            ]
-    appendLog "logs/access-submissions.log" entry
-
-logEnterpriseSubmission :: FormData -> Text -> IO ()
-logEnterpriseSubmission fd ip = do
-    now <- getCurrentTime
-    let timestamp = T.pack (formatTime defaultTimeLocale "%Y-%m-%d %H:%M:%S" now)
-    let entry = Aeson.object
-            [ "timestamp" Aeson..= timestamp
-            , "name" Aeson..= getParamDef "name" "" fd
-            , "email" Aeson..= getParamDef "email" "" fd
-            , "company" Aeson..= getParamDef "business" "" fd
-            , "lang" Aeson..= getParamDef "lang" "" fd
-            , "ip" Aeson..= ip
-            ]
-    appendLog "logs/enterprise-submissions.log" entry
-
+logEnterpriseSubmission :: Logger -> FormData -> Text -> IO ()
+logEnterpriseSubmission logger fd ip =
+    logInfo logger "Enterprise inquiry submitted"
+        [ ("name", Aeson.String (getParamDef "name" "" fd))
+        , ("email", Aeson.String (getParamDef "email" "" fd))
+        , ("company", Aeson.String (getParamDef "business" "" fd))
+        , ("lang", Aeson.String (getParamDef "lang" "" fd))
+        , ("ip", Aeson.String ip)
+        ]
 
 ----------------------------------------------------------------------
 -- SMTP EMAIL SENDING
 ----------------------------------------------------------------------
 
-smtpLog :: String -> IO ()
-smtpLog msg = do
-    ensureLogDir
-    now <- getCurrentTime
-    let ts = formatTime defaultTimeLocale "%Y-%m-%d %H:%M:%S" now
-    appendFile "logs/smtp.log" $ "[" ++ ts ++ "] " ++ msg ++ "\n"
-
-sendAndLog :: SmtpConfig -> Text -> Text -> Text -> IO ()
-sendAndLog config toAddr subject htmlBody = do
-    let to = T.unpack toAddr
-    smtpLog $ "SMTP sending to " ++ to
+sendAndLog :: Logger -> SmtpConfig -> Text -> Text -> Text -> IO ()
+sendAndLog logger config toAddr subject htmlBody = do
+    logInfo logger ("SMTP sending to " <> toAddr) []
     result <- sendEmail config (Email toAddr subject htmlBody)
     case result of
-        Left err -> smtpLog $ "SMTP ERROR to " ++ to ++ ": " ++ show err
-        Right _  -> smtpLog $ "SMTP OK to " ++ to ++ ": " ++ T.unpack subject
+        Left err -> logError logger ("SMTP failed to " <> toAddr)
+            [ ("error", Aeson.String (T.pack (show err))) ]
+        Right _  -> logInfo logger ("SMTP sent to " <> toAddr)
+            [ ("subject", Aeson.String subject) ]
 
 ----------------------------------------------------------------------
 -- HANDLERS
@@ -207,7 +180,10 @@ accessPostAction lang = do
             let email = getParamDef "email" "" fd
             let (score, qual) = scoreAccessForm fd
 
-            liftIO $ logAccessSubmission fd qual score ip
+            smtpLogger <- liftIO $ newLogger "logs/smtp.log"
+            accessLogger <- liftIO $ newLogger "logs/access-submissions.log"
+
+            liftIO $ logAccessSubmission accessLogger fd qual score ip
 
             mConfig <- liftIO loadSmtpConfig
             mAdmin <- liftIO loadAdminEmail
@@ -238,7 +214,7 @@ accessPostAction lang = do
                             , ip = ip
                             }
                         body = renderHtml (accessNotice dataFields)
-                    sendAndLog config adminEmail subj body
+                    sendAndLog smtpLogger config adminEmail subj body
 
                     unless (T.null email) $ do
                         let l = AL.getLocale lang
@@ -255,9 +231,9 @@ accessPostAction lang = do
                                 }
                             confirmSubject = AL.subject l
                             confirmBody = renderHtml (accessThanks thanksFields)
-                        sendAndLog config email confirmSubject confirmBody
-                _ ->
-                    liftIO $ smtpLog "SMTP not configured, skipping email"
+                        sendAndLog smtpLogger config email confirmSubject confirmBody
+                _ -> liftIO $ do
+                    logWarning smtpLogger "SMTP not configured, skipping email" []
 
             let dest = TL.fromStrict (thanksPath lang)
             redirect dest
@@ -275,7 +251,10 @@ enterprisePostAction lang = do
         $ \fd -> do
             let email = getParamDef "email" "" fd
 
-            liftIO $ logEnterpriseSubmission fd ip
+            smtpLogger <- liftIO $ newLogger "logs/smtp.log"
+            enterpriseLogger <- liftIO $ newLogger "logs/enterprise-submissions.log"
+
+            liftIO $ logEnterpriseSubmission enterpriseLogger fd ip
 
             mConfig <- liftIO loadSmtpConfig
             mAdmin <- liftIO loadAdminEmail
@@ -292,7 +271,7 @@ enterprisePostAction lang = do
                             , message = getParamDef "message" "" fd
                             }
                         body = renderHtml (enterpriseNotice dataFields)
-                    sendAndLog config adminEmail subj body
+                    sendAndLog smtpLogger config adminEmail subj body
 
                     unless (T.null email) $ do
                         let l = EL.getLocale lang
@@ -309,9 +288,9 @@ enterprisePostAction lang = do
                                 }
                             confirmSubject = EL.subject l
                             confirmBody = renderHtml (enterpriseThanks thanksFields)
-                        sendAndLog config email confirmSubject confirmBody
-                _ ->
-                    liftIO $ smtpLog "SMTP not configured, skipping enterprise email"
+                        sendAndLog smtpLogger config email confirmSubject confirmBody
+                _ -> liftIO $ do
+                    logWarning smtpLogger "SMTP not configured, skipping enterprise email" []
 
             let dest = TL.fromStrict (thanksPath lang)
             redirect dest
