@@ -6,16 +6,16 @@ module Controller.Form
 
 import Control.Monad (unless)
 import Data.Aeson qualified as Aeson
-import Data.Map.Strict qualified as Map
+import Data.Map.Strict
 import Data.Maybe (fromMaybe)
 import Data.Text qualified as T
 import Data.Text.Lazy qualified as TL
-import Web.Scotty (redirect)
 import Lurk.Email.SMTP
 import Lurk.Form
 import Lurk.Log (Logger(..), newLogger)
 import Paths (thanksPath)
-import View.Prelude
+import Lurk.Prelude
+import Language
 import View.Email.AccessNotice
 import View.Email.EnterpriseNotice
 import Locale.Email.AccessThanks qualified as AL
@@ -64,7 +64,7 @@ qualLabel NQ  = "LOW FIT / EXPLORING"
 scoreAccessForm :: FormData -> (Int, Qualification)
 scoreAccessForm fd = (score, qual)
   where
-    verticalScores = Map.fromList
+    verticalScores = fromList
         [ ("aesthetic_wellness", 20)
         , ("dental_medical",     20)
         , ("academy",            20)
@@ -73,7 +73,7 @@ scoreAccessForm fd = (score, qual)
         , ("other",               5)
         ]
 
-    channelScores = Map.fromList
+    channelScores = fromList
         [ ("whatsapp",    20)
         , ("instagram",   20)
         , ("both_social", 20)
@@ -81,14 +81,14 @@ scoreAccessForm fd = (score, qual)
         , ("phone_forms", 10)
         ]
 
-    volumeScores = Map.fromList
+    volumeScores = fromList
         [ ("low",        5)
         , ("medium",    15)
         , ("high",      25)
         , ("very_high", 30)
         ]
 
-    painScores = Map.fromList
+    painScores = fromList
         [ ("manual_owner", 25)
         , ("manual_staff", 20)
         , ("no_system",    20)
@@ -101,10 +101,10 @@ scoreAccessForm fd = (score, qual)
     q4 = getParamDef "question-4" "" fd
     q5 = getParamDef "question-5" "" fd
 
-    score = Map.findWithDefault 0 q2 verticalScores
-          + Map.findWithDefault 0 q3 channelScores
-          + Map.findWithDefault 0 q4 volumeScores
-          + Map.findWithDefault 0 q5 painScores
+    score = findWithDefault 0 q2 verticalScores
+          + findWithDefault 0 q3 channelScores
+          + findWithDefault 0 q4 volumeScores
+          + findWithDefault 0 q5 painScores
 
     qual
         | score >= 65 = SQL
