@@ -7,11 +7,10 @@ module Controller.Form
 import Control.Monad (unless)
 import Data.Aeson qualified as Aeson
 import Data.Map.Strict qualified as Map
+import Data.Maybe (fromMaybe)
 import Data.Text qualified as T
-import Data.Text.Encoding qualified as TE
 import Data.Text.Lazy qualified as TL
-import Network.Wai (requestHeaders)
-import Web.Scotty (redirect, request)
+import Web.Scotty (redirect)
 import Lurk.Email.SMTP
 import Lurk.Form
 import Lurk.Log (Logger(..), newLogger)
@@ -50,15 +49,6 @@ loadAdminEmail :: IO (Maybe Text)
 loadAdminEmail = do
     env <- getAppEnv
     pure $ getEnv env "SMTP_RZST_ADMIN_EMAIL"
-
--- | Get client IP from request headers
-getClientIp :: Action Text
-getClientIp = do
-    req <- request
-    let headers = requestHeaders req
-    pure $ case lookup "X-Forwarded-For" headers of
-        Just v -> TE.decodeUtf8 v
-        Nothing -> maybe "unknown" TE.decodeUtf8 (lookup "X-Real-IP" headers)
 
 ----------------------------------------------------------------------
 -- LEAD SCORING
@@ -168,7 +158,7 @@ sendAndLog logger config toAddr subject htmlBody = do
 
 accessPostAction :: Language -> Action ()
 accessPostAction lang = do
-    ip <- getClientIp
+    ip <- fromMaybe "unknown" <$> clientIp
 
     withForm
         [ guardHoneypot "b_website" "/404/"
@@ -240,7 +230,7 @@ accessPostAction lang = do
 
 enterprisePostAction :: Language -> Action ()
 enterprisePostAction lang = do
-    ip <- getClientIp
+    ip <- fromMaybe "unknown" <$> clientIp
 
     withForm
         [ guardHoneypot "b_website" "/404/"
