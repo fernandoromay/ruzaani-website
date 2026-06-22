@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <!-- Homepage -->
   <url>
@@ -7,30 +7,18 @@
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/" />
   </url>
   <url>
     <loc>https://ruzaani.com/es/</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/" />
   </url>
   <url>
     <loc>https://ruzaani.com/ko/</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/" />
   </url>
 
   <!-- Product -->
@@ -39,30 +27,18 @@
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/product/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/producto/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/product/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/product/" />
   </url>
   <url>
     <loc>https://ruzaani.com/es/producto/</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/product/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/producto/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/product/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/es/producto/" />
   </url>
   <url>
     <loc>https://ruzaani.com/ko/product/</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/product/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/producto/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/product/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/ko/product/" />
   </url>
 
   <!-- Agency Program -->
@@ -71,30 +47,18 @@
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/agency-program/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/agencias/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/agency-program/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/agency-program/" />
   </url>
   <url>
     <loc>https://ruzaani.com/es/agencias/</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/agency-program/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/agencias/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/agency-program/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/es/agencias/" />
   </url>
   <url>
     <loc>https://ruzaani.com/ko/agency-program/</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/agency-program/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/agencias/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/agency-program/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/ko/agency-program/" />
   </url>
 
   <!-- Pricing -->
@@ -103,30 +67,18 @@
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/pricing/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/precios/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/pricing/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/pricing/" />
   </url>
   <url>
     <loc>https://ruzaani.com/es/precios/</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/pricing/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/precios/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/pricing/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/es/precios/" />
   </url>
   <url>
     <loc>https://ruzaani.com/ko/pricing/</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/pricing/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/precios/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/pricing/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/ko/pricing/" />
   </url>
 
   <!-- Access -->
@@ -135,30 +87,18 @@
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/access/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/acceso/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/access/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/access/" />
   </url>
   <url>
     <loc>https://ruzaani.com/es/acceso/</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/access/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/acceso/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/access/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/es/acceso/" />
   </url>
   <url>
     <loc>https://ruzaani.com/ko/access/</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/access/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/acceso/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/access/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/ko/access/" />
   </url>
 
   <!-- Privacy Policy -->
@@ -167,30 +107,18 @@
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/privacy-policy/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/politica-de-privacidad/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/privacy-policy/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/privacy-policy/" />
   </url>
   <url>
     <loc>https://ruzaani.com/es/politica-de-privacidad/</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/privacy-policy/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/politica-de-privacidad/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/privacy-policy/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/es/politica-de-privacidad/" />
   </url>
   <url>
     <loc>https://ruzaani.com/ko/privacy-policy/</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/privacy-policy/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/politica-de-privacidad/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/privacy-policy/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/ko/privacy-policy/" />
   </url>
 
   <!-- Terms of Service -->
@@ -199,30 +127,18 @@
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/terms-of-service/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/terminos-y-condiciones/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/terms-of-service/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/terms-of-service/" />
   </url>
   <url>
     <loc>https://ruzaani.com/es/terminos-y-condiciones/</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/terms-of-service/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/terminos-y-condiciones/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/terms-of-service/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/es/terminos-y-condiciones/" />
   </url>
   <url>
     <loc>https://ruzaani.com/ko/terms-of-service/</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ruzaani.com/terms-of-service/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://ruzaani.com/es/terminos-y-condiciones/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://ruzaani.com/ko/terms-of-service/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ruzaani.com/ko/terms-of-service/" />
   </url>
 
 </urlset>

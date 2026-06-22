@@ -1,7 +1,7 @@
 module View.Partial where
 
 import Data.Text qualified as T
-import Paths (langPaths)
+import Paths (pageAlts)
 import View.Prelude
 import Locale.Common
 
@@ -85,9 +85,9 @@ navside lang = [lurk|
         Language
       </div>
       <div class="d-flex gap-4 justify-content-center">
-        {{forEach (langPaths ?currentPath) (\(langCode, path) ->
+        {{forEach pageAlts (\(langCode, path) ->
           (lurk|
-            <a href="{{path}}" class='{{if langCode == lang then "accented fw-bold" else ""}}'>{{T.toUpper (toText langCode)}}</a>
+            <a href="{{path}}" class='{{if langCode == toText lang then "accented fw-bold" else ""}}'>{{T.toUpper langCode}}</a>
           |))
         }}
       </div>

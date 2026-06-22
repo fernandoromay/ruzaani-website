@@ -1,5 +1,6 @@
 module View.Layout.Default where
 
+import Paths (pageAlts, domain)
 import View.Prelude
 import View.Partial
 
@@ -21,6 +22,8 @@ defaultLayout lang seo viewContent = [lurk|
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     {{renderSEO seo}}
+    {{renderAlternates domain pageAlts}}
+
 </head>
 <body>
     {{navbar lang}}

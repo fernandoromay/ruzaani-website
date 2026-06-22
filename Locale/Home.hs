@@ -53,13 +53,7 @@ data PointWithIcon = PointWithIcon
 
 commonSeo :: SEO
 commonSeo = defaultSEO
-    { alternates =
-        [ Alternate {hreflang = "en", href = domain <> homePath EN}
-        , Alternate {hreflang = "es", href = domain <> homePath ES}
-        , Alternate {hreflang = "ko", href = domain <> homePath KO}
-        , Alternate {hreflang = "x-default", href = domain <> homePath EN}
-        ]
-    , customTags = [lurk|
+    { customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/home.css"}}">
         <link rel="stylesheet" href="{{assetPath "css/home-animations.css"}}">
         <link rel="stylesheet" href="{{assetPath "css/mockups.css"}}">

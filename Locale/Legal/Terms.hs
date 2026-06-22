@@ -8,13 +8,7 @@ import Locale.Legal.Prelude
 
 commonSEO :: SEO
 commonSEO = defaultSEO
-    { alternates =
-        [ Alternate {hreflang = "en", href = domain <> termsPath EN}
-        , Alternate {hreflang = "es", href = domain <> termsPath ES}
-        , Alternate {hreflang = "ko", href = domain <> termsPath KO}
-        , Alternate {hreflang = "x-default", href = domain <> termsPath EN}
-        ]
-    , customTags = [lurk|<link rel="stylesheet" href="{{assetPath "css/legal.css"}}">|]}
+    { customTags = [lurk|<link rel="stylesheet" href="{{assetPath "css/legal.css"}}">|]}
 
 effectiveDate :: Language -> Text
 effectiveDate EN = "April 25, 2026"
@@ -137,7 +131,7 @@ getLocaleTerms ES = LegalLocale
         <p>Como <strong>Responsable del Tratamiento de Datos</strong> de los datos de sus usuarios finales, usted es el único responsable de:</p>
         <ul>
             <li><strong>Consentimiento:</strong> Obtener todos los consentimientos legalmente requeridos de sus usuarios finales antes de implementar nuestro Web Tracker en su sitio web o comunicarse con ellos a través de nuestros agentes de IA.</li>
-            <li><strong>Cumplimiento con Terceros:</strong> Cumplir con los Términos de Servicio de cualquier integración de terceros que conecte a Ruzaani (por ejemplo, la Política de WhatsApp Business de Meta, los Té름의 플랫폼 약관). Nos reservamos el derecho de suspender su cuenta si su uso viola estos términos de terceros y pone en riesgo nuestro acceso a sus APIs.</li>
+            <li><strong>Cumplimiento con Terceros:</strong> Cumplir con los Términos de Servicio de cualquier integración de terceros que conecte a Ruzaani (por ejemplo, la Política de WhatsApp Business de Meta, los Términos de la Plataforma de Facebook). Nos reservamos el derecho de suspender su cuenta si su uso viola estos términos de terceros y pone en riesgo nuestro acceso a sus APIs.</li>
         </ul>
         <h2>5. Descargo de Responsabilidad sobre Inteligencia Artificial</h2>
         <p>Nuestros Servicios dependen de modelos avanzados de Inteligencia Artificial (IA). Si bien nos esforzamos por lograr alta precisión, usted reconoce que:</p>

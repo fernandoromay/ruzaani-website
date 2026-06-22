@@ -4,6 +4,7 @@ module Language
     , fromText
     , toText
     , toName
+    , langPaths
     ) where
 
 import Lurk.Language

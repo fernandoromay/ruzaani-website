@@ -6,20 +6,15 @@ module Controller.Form
 
 import Control.Monad (unless)
 import Data.Aeson qualified as Aeson
-import Data.ByteString.Lazy qualified as LBS
 import Data.Map.Strict qualified as Map
+import Data.Maybe (fromMaybe)
 import Data.Text qualified as T
-import Data.Text.Encoding qualified as TE
-import Data.Text.Lazy qualified as TL
-import Data.Time.Clock (getCurrentTime)
-import Data.Time.Format (formatTime, defaultTimeLocale)
-import Network.Wai (requestHeaders)
-import Web.Scotty (redirect, request)
-import System.Directory (createDirectoryIfMissing)
 import Lurk.Email.SMTP
 import Lurk.Form
+import Lurk.Log (Logger(..), newLogger)
 import Paths (thanksPath)
-import View.Prelude
+import Lurk.Prelude
+import Language
 import View.Email.AccessNotice
 import View.Email.EnterpriseNotice
 import Locale.Email.AccessThanks qualified as AL
@@ -53,15 +48,6 @@ loadAdminEmail :: IO (Maybe Text)
 loadAdminEmail = do
     env <- getAppEnv
     pure $ getEnv env "SMTP_RZST_ADMIN_EMAIL"
-
--- | Get client IP from request headers
-getClientIp :: Action Text
-getClientIp = do
-    req <- request
-    let headers = requestHeaders req
-    pure $ case lookup "X-Forwarded-For" headers of
-        Just v -> TE.decodeUtf8 v
-        Nothing -> maybe "unknown" TE.decodeUtf8 (lookup "X-Real-IP" headers)
 
 ----------------------------------------------------------------------
 -- LEAD SCORING
@@ -128,66 +114,42 @@ scoreAccessForm fd = (score, qual)
 -- LOGGING
 ----------------------------------------------------------------------
 
-ensureLogDir :: IO ()
-ensureLogDir = createDirectoryIfMissing True "logs"
+logAccessSubmission :: Logger -> FormData -> Qualification -> Int -> Text -> IO ()
+logAccessSubmission logger fd qual score ip =
+    logInfo logger "Access form submitted"
+        [ ("qualified", Aeson.String (T.toLower (T.pack (show qual))))
+        , ("score", Aeson.Number (fromIntegral score))
+        , ("name", Aeson.String (getParamDef "name" "" fd))
+        , ("email", Aeson.String (getParamDef "email" "" fd))
+        , ("company", Aeson.String (getParamDef "company" "" fd))
+        , ("role", Aeson.String (getParamDef "role" "" fd))
+        , ("lang", Aeson.String (getParamDef "lang" "" fd))
+        , ("ip", Aeson.String ip)
+        ]
 
-appendLog :: FilePath -> Aeson.Value -> IO ()
-appendLog path value = do
-    ensureLogDir
-    let entry = Aeson.encode value <> "\n"
-    LBS.appendFile path entry
-
-logAccessSubmission :: FormData -> Qualification -> Int -> Text -> IO ()
-logAccessSubmission fd qual score ip = do
-    now <- getCurrentTime
-    let timestamp = T.pack (formatTime defaultTimeLocale "%Y-%m-%d %H:%M:%S" now)
-    let entry = Aeson.object
-            [ "timestamp" Aeson..= timestamp
-            , "qualified" Aeson..= (T.toLower (T.pack (show qual)) :: Text)
-            , "score" Aeson..= score
-            , "name" Aeson..= getParamDef "name" "" fd
-            , "email" Aeson..= getParamDef "email" "" fd
-            , "company" Aeson..= getParamDef "company" "" fd
-            , "role" Aeson..= getParamDef "role" "" fd
-            , "lang" Aeson..= getParamDef "lang" "" fd
-            , "ip" Aeson..= ip
-            ]
-    appendLog "logs/access-submissions.log" entry
-
-logEnterpriseSubmission :: FormData -> Text -> IO ()
-logEnterpriseSubmission fd ip = do
-    now <- getCurrentTime
-    let timestamp = T.pack (formatTime defaultTimeLocale "%Y-%m-%d %H:%M:%S" now)
-    let entry = Aeson.object
-            [ "timestamp" Aeson..= timestamp
-            , "name" Aeson..= getParamDef "name" "" fd
-            , "email" Aeson..= getParamDef "email" "" fd
-            , "company" Aeson..= getParamDef "business" "" fd
-            , "lang" Aeson..= getParamDef "lang" "" fd
-            , "ip" Aeson..= ip
-            ]
-    appendLog "logs/enterprise-submissions.log" entry
-
+logEnterpriseSubmission :: Logger -> FormData -> Text -> IO ()
+logEnterpriseSubmission logger fd ip =
+    logInfo logger "Enterprise inquiry submitted"
+        [ ("name", Aeson.String (getParamDef "name" "" fd))
+        , ("email", Aeson.String (getParamDef "email" "" fd))
+        , ("company", Aeson.String (getParamDef "business" "" fd))
+        , ("lang", Aeson.String (getParamDef "lang" "" fd))
+        , ("ip", Aeson.String ip)
+        ]
 
 ----------------------------------------------------------------------
 -- SMTP EMAIL SENDING
 ----------------------------------------------------------------------
 
-smtpLog :: String -> IO ()
-smtpLog msg = do
-    ensureLogDir
-    now <- getCurrentTime
-    let ts = formatTime defaultTimeLocale "%Y-%m-%d %H:%M:%S" now
-    appendFile "logs/smtp.log" $ "[" ++ ts ++ "] " ++ msg ++ "\n"
-
-sendAndLog :: SmtpConfig -> Text -> Text -> Text -> IO ()
-sendAndLog config toAddr subject htmlBody = do
-    let to = T.unpack toAddr
-    smtpLog $ "SMTP sending to " ++ to
+sendAndLog :: Logger -> SmtpConfig -> Text -> Text -> Text -> IO ()
+sendAndLog logger config toAddr subject htmlBody = do
+    logInfo logger ("SMTP sending to " <> toAddr) []
     result <- sendEmail config (Email toAddr subject htmlBody)
     case result of
-        Left err -> smtpLog $ "SMTP ERROR to " ++ to ++ ": " ++ show err
-        Right _  -> smtpLog $ "SMTP OK to " ++ to ++ ": " ++ T.unpack subject
+        Left err -> logError logger ("SMTP failed to " <> toAddr)
+            [ ("error", Aeson.String (T.pack (show err))) ]
+        Right _  -> logInfo logger ("SMTP sent to " <> toAddr)
+            [ ("subject", Aeson.String subject) ]
 
 ----------------------------------------------------------------------
 -- HANDLERS
@@ -195,123 +157,131 @@ sendAndLog config toAddr subject htmlBody = do
 
 accessPostAction :: Language -> Action ()
 accessPostAction lang = do
-    ip <- getClientIp
+    ip <- fromMaybe "unknown" <$> clientIp
 
-    withForm
-        [ guardHoneypot "b_website" "/404/"
-        , guardMinSubmitTime 3 "/404/"
-        , guardMxRecord "email" "/404/"
-        ]
-        (\_ -> redirect "/404/")
-        $ \fd -> do
-            let email = getParamDef "email" "" fd
-            let (score, qual) = scoreAccessForm fd
+    fd <- validateForm
+        (map ($ redirect "/404/")
+            [ honeypot "b_website"
+            , minSubmitTime 3
+            , mxRecord "email"
+            ]
+        )
 
-            liftIO $ logAccessSubmission fd qual score ip
+    let email = getParamDef "email" "" fd
+    let (score, qual) = scoreAccessForm fd
 
-            mConfig <- liftIO loadSmtpConfig
-            mAdmin <- liftIO loadAdminEmail
-            case (mConfig, mAdmin) of
-                (Just config, Just adminEmail) -> liftIO $ do
-                    let subj = "New Access Request: " <> getParamDef "company" "" fd
-                            <> " (" <> qualLabel qual <> " - Score: " <> T.pack (show score) <> ")"
-                    let
-                        dataFields = AccessNoticeFields
-                            { badgeStyle = case qual of
-                                SQL -> "background-color: #d4edda; color: #155724;"
-                                MQL -> "background-color: #fff3cd; color: #856404;"
-                                NQ  -> "background-color: #f8d7da; color: #721c24;"
-                            , qualText = qualLabel qual
-                            , scoreText = T.pack (show score)
-                            , maxScoreText = T.pack (show (105 :: Int))
-                            , name = getParamDef "name" "" fd
-                            , email = getParamDef "email" "" fd
-                            , company = getParamDef "company" "" fd
-                            , role = getParamDef "role" "" fd
-                            , country = T.toTitle (getParamDef "country" "" fd)
-                            , langText = toName (fromText EN (getParamDef "lang" "" fd))
-                            , useCase = getParamDef "question-1" "" fd
-                            , vertical = getParamDef "question-2" "" fd
-                            , channel = getParamDef "question-3" "" fd
-                            , volume = getParamDef "question-4" "" fd
-                            , handling = getParamDef "question-5" "" fd
-                            , ip = ip
-                            }
-                        body = renderHtml (accessNotice dataFields)
-                    sendAndLog config adminEmail subj body
+    smtpLogger <- liftIO $ newLogger "logs/smtp.log"
+    accessLogger <- liftIO $ newLogger "logs/access-submissions.log"
 
-                    unless (T.null email) $ do
-                        let l = AL.getLocale lang
-                            thanksFields = AccessThanksFields
-                                { name = getParamDef "name" "" fd
-                                , greeting = AL.greeting l
-                                , thanks = AL.thanks l
-                                , review = AL.review l
-                                , nextSteps = AL.nextSteps l
-                                , step1 = AL.step1 l
-                                , step2 = AL.step2 l
-                                , signoff1 = AL.signoff1 l
-                                , signoff2 = AL.signoff2 l
-                                }
-                            confirmSubject = AL.subject l
-                            confirmBody = renderHtml (accessThanks thanksFields)
-                        sendAndLog config email confirmSubject confirmBody
-                _ ->
-                    liftIO $ smtpLog "SMTP not configured, skipping email"
+    liftIO $ logAccessSubmission accessLogger fd qual score ip
 
-            let dest = TL.fromStrict (thanksPath lang)
-            redirect dest
+    mConfig <- liftIO loadSmtpConfig
+    mAdmin <- liftIO loadAdminEmail
+    case (mConfig, mAdmin) of
+        (Just config, Just adminEmail) -> liftIO $ do
+            let subj = "New Access Request: " <> getParamDef "company" "" fd
+                    <> " (" <> qualLabel qual <> " - Score: " <> T.pack (show score) <> ")"
+            let
+                dataFields = AccessNoticeFields
+                    { badgeStyle = case qual of
+                        SQL -> "background-color: #d4edda; color: #155724;"
+                        MQL -> "background-color: #fff3cd; color: #856404;"
+                        NQ  -> "background-color: #f8d7da; color: #721c24;"
+                    , qualText = qualLabel qual
+                    , scoreText = T.pack (show score)
+                    , maxScoreText = T.pack (show (105 :: Int))
+                    , name = getParamDef "name" "" fd
+                    , email = getParamDef "email" "" fd
+                    , company = getParamDef "company" "" fd
+                    , role = getParamDef "role" "" fd
+                    , country = T.toTitle (getParamDef "country" "" fd)
+                    , langText = toName (fromText EN (getParamDef "lang" "" fd))
+                    , useCase = getParamDef "question-1" "" fd
+                    , vertical = getParamDef "question-2" "" fd
+                    , channel = getParamDef "question-3" "" fd
+                    , volume = getParamDef "question-4" "" fd
+                    , handling = getParamDef "question-5" "" fd
+                    , ip = ip
+                    }
+                body = renderHtml (accessNotice dataFields)
+            sendAndLog smtpLogger config adminEmail subj body
+
+            unless (T.null email) $ do
+                let l = AL.getLocale lang
+                    thanksFields = AccessThanksFields
+                        { name = getParamDef "name" "" fd
+                        , greeting = AL.greeting l
+                        , thanks = AL.thanks l
+                        , review = AL.review l
+                        , nextSteps = AL.nextSteps l
+                        , step1 = AL.step1 l
+                        , step2 = AL.step2 l
+                        , signoff1 = AL.signoff1 l
+                        , signoff2 = AL.signoff2 l
+                        }
+                    confirmSubject = AL.subject l
+                    confirmBody = renderHtml (accessThanks thanksFields)
+                sendAndLog smtpLogger config email confirmSubject confirmBody
+        _ -> liftIO $ do
+            logWarning smtpLogger "SMTP not configured, skipping email" []
+
+    let dest = thanksPath lang
+    redirect dest
 
 enterprisePostAction :: Language -> Action ()
 enterprisePostAction lang = do
-    ip <- getClientIp
+    ip <- fromMaybe "unknown" <$> clientIp
 
-    withForm
-        [ guardHoneypot "b_website" "/404/"
-        , guardMinSubmitTime 3 "/404/"
-        , guardMxRecord "email" "/404/"
-        ]
-        (\_ -> redirect "/404/")
-        $ \fd -> do
-            let email = getParamDef "email" "" fd
+    fd <- validateForm
+        (map ($ redirect "/404/")
+            [ honeypot "b_website"
+            , minSubmitTime 3
+            , mxRecord "email"
+            ]
+        )
 
-            liftIO $ logEnterpriseSubmission fd ip
+    let email = getParamDef "email" "" fd
 
-            mConfig <- liftIO loadSmtpConfig
-            mAdmin <- liftIO loadAdminEmail
-            case (mConfig, mAdmin) of
-                (Just config, Just adminEmail) -> liftIO $ do
-                    let subj = "Enterprise Inquiry: " <> getParamDef "business" "" fd
-                            <> " (" <> getParamDef "name" "" fd <> ")"
-                    let
-                        dataFields = EnterpriseNoticeFields
-                            { name = getParamDef "name" "" fd
-                            , email = getParamDef "email" "" fd
-                            , company = getParamDef "business" "" fd
-                            , country = T.toUpper (getParamDef "country" "" fd)
-                            , message = getParamDef "message" "" fd
-                            }
-                        body = renderHtml (enterpriseNotice dataFields)
-                    sendAndLog config adminEmail subj body
+    smtpLogger <- liftIO $ newLogger "logs/smtp.log"
+    enterpriseLogger <- liftIO $ newLogger "logs/enterprise-submissions.log"
 
-                    unless (T.null email) $ do
-                        let l = EL.getLocale lang
-                            thanksFields = EnterpriseThanksFields
-                                { name = getParamDef "name" "" fd
-                                , greeting = EL.greeting l
-                                , thanks = EL.thanks l
-                                , review = EL.review l
-                                , nextSteps = EL.nextSteps l
-                                , step1 = EL.step1 l
-                                , step2 = EL.step2 l
-                                , signoff1 = EL.signoff1 l
-                                , signoff2 = EL.signoff2 l
-                                }
-                            confirmSubject = EL.subject l
-                            confirmBody = renderHtml (enterpriseThanks thanksFields)
-                        sendAndLog config email confirmSubject confirmBody
-                _ ->
-                    liftIO $ smtpLog "SMTP not configured, skipping enterprise email"
+    liftIO $ logEnterpriseSubmission enterpriseLogger fd ip
 
-            let dest = TL.fromStrict (thanksPath lang)
-            redirect dest
+    mConfig <- liftIO loadSmtpConfig
+    mAdmin <- liftIO loadAdminEmail
+    case (mConfig, mAdmin) of
+        (Just config, Just adminEmail) -> liftIO $ do
+            let subj = "Enterprise Inquiry: " <> getParamDef "business" "" fd
+                    <> " (" <> getParamDef "name" "" fd <> ")"
+            let
+                dataFields = EnterpriseNoticeFields
+                    { name = getParamDef "name" "" fd
+                    , email = getParamDef "email" "" fd
+                    , company = getParamDef "business" "" fd
+                    , country = T.toUpper (getParamDef "country" "" fd)
+                    , message = getParamDef "message" "" fd
+                    }
+                body = renderHtml (enterpriseNotice dataFields)
+            sendAndLog smtpLogger config adminEmail subj body
+
+            unless (T.null email) $ do
+                let l = EL.getLocale lang
+                    thanksFields = EnterpriseThanksFields
+                        { name = getParamDef "name" "" fd
+                        , greeting = EL.greeting l
+                        , thanks = EL.thanks l
+                        , review = EL.review l
+                        , nextSteps = EL.nextSteps l
+                        , step1 = EL.step1 l
+                        , step2 = EL.step2 l
+                        , signoff1 = EL.signoff1 l
+                        , signoff2 = EL.signoff2 l
+                        }
+                    confirmSubject = EL.subject l
+                    confirmBody = renderHtml (enterpriseThanks thanksFields)
+                sendAndLog smtpLogger config email confirmSubject confirmBody
+        _ -> liftIO $ do
+            logWarning smtpLogger "SMTP not configured, skipping enterprise email" []
+
+    let dest = thanksPath lang
+    redirect dest

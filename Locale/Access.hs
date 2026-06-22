@@ -38,13 +38,7 @@ data AuditOption = AuditOption
 
 commonSeo :: SEO
 commonSeo = defaultSEO
-    { alternates =
-        [ Alternate {hreflang = "en", href = domain <> accessPath EN}
-        , Alternate {hreflang = "es", href = domain <> accessPath ES}
-        , Alternate {hreflang = "ko", href = domain <> accessPath KO}
-        , Alternate {hreflang = "x-default", href = domain <> accessPath EN}
-        ]
-    , customTags = [lurk|
+    { customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/interactive-form.css"}}">
         |]
     }

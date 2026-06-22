@@ -109,13 +109,7 @@ data CuratorMockup = CuratorMockup
 
 commonSEO :: SEO
 commonSEO = defaultSEO
-    { alternates =
-        [ Alternate {hreflang = "en", href = domain <> productPath EN}
-        , Alternate {hreflang = "es", href = domain <> productPath ES}
-        , Alternate {hreflang = "ko", href = domain <> productPath KO}
-        , Alternate {hreflang = "x-default", href = domain <> productPath EN}
-        ]
-    , customTags = [lurk|
+    { customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/product.css"}}">
         <link rel="stylesheet" href="{{assetPath "css/home-animations.css"}}">
         <link rel="stylesheet" href="{{assetPath "css/mockups.css"}}">
