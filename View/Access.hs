@@ -9,8 +9,8 @@ import View.Prelude
 import View.Layout.Default
 import Locale.Access
 
-accessView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> AccessLocale -> Html
-accessView lang AccessLocale {..} = defaultLayout lang seo [lurk|
+accessView :: ViewCtx Language => AccessLocale -> Html
+accessView AccessLocale {..} = defaultLayout seo [lurk|
 <main id="evaluation">
 
     <section class="banner-top">
@@ -120,7 +120,7 @@ accessView lang AccessLocale {..} = defaultLayout lang seo [lurk|
               </div>
 
               <input type="hidden" id="contact-country" name="country" value="">
-              <input type="hidden" id="contact-lang" name="lang" value="{{toText lang}}">
+              <input type="hidden" id="contact-lang" name="lang" value="{{toText ?lang}}">
 
               <!-- Honeypot -->
               <div style="display:none !important; visibility:hidden !important; pointer-events:none !important; position:absolute !important; left:-9999px !important;">

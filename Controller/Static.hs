@@ -1,8 +1,8 @@
 module Controller.Static where
 
+import Lurk.Form (setFormLoadTime)
 import Language
 import View.Prelude
-import Lurk.Form (setFormLoadTime)
 import View.Error
 import View.Home
 import View.Product
@@ -19,41 +19,34 @@ import Locale.Agency  qualified as Agency
 import Locale.Access  qualified as Access
 import Locale.Thanks  qualified as Thanks
 
-
 data LegalPage = Terms | Privacy deriving (Eq)
 
-homeAction :: Language -> Action ()
-homeAction lang = render $ homeView lang locale
-    where locale = Home.getLocale lang
+homeAction :: (?lang :: Language) => Action ()
+homeAction = render $ homeView (Home.getLocale ?lang)
 
-productAction :: Language -> Action ()
-productAction lang = render $ productView lang locale
-    where locale = Product.getLocale lang
+productAction :: (?lang :: Language) => Action ()
+productAction = render $ productView (Product.getLocale ?lang)
 
-agencyAction :: Language -> Action ()
-agencyAction lang = render $ agencyView lang locale
-    where locale = Agency.getLocale lang
+agencyAction :: (?lang :: Language) => Action ()
+agencyAction = render $ agencyView (Agency.getLocale ?lang)
 
-pricingAction :: Language -> Action ()
-pricingAction lang = do
+pricingAction :: (?lang :: Language) => Action ()
+pricingAction = do
     country <- cfCountry
-    render $ pricingView lang (Pricing.getLocale lang country)
+    render $ pricingView (Pricing.getLocale ?lang country)
 
-accessAction :: Language -> Action ()
-accessAction lang = do
+accessAction :: (?lang :: Language) => Action ()
+accessAction = do
     setFormLoadTime
-    render $ accessView lang locale
-    where locale = Access.getLocale lang
+    render $ accessView (Access.getLocale ?lang)
 
-thanksAction :: Language -> Action ()
-thanksAction lang = render $ thanksView lang locale
-    where locale = Thanks.getLocale lang
+thanksAction :: (?lang :: Language) => Action ()
+thanksAction = render $ thanksView (Thanks.getLocale ?lang)
 
-legalAction :: Language -> LegalPage -> Action ()
-legalAction lang page = render $ legalView lang locale
-    where locale = case page of
-            Terms   -> Legal.getLocaleTerms lang
-            Privacy -> Legal.getLocalePrivacy lang
+legalAction :: (?lang :: Language) => LegalPage -> Action ()
+legalAction page = render $ legalView (case page of
+    Terms   -> Legal.getLocaleTerms ?lang
+    Privacy -> Legal.getLocalePrivacy ?lang)
 
 notFoundAction :: Action ()
-notFoundAction = render (error404View EN)
+notFoundAction = withLang EN $ render error404View

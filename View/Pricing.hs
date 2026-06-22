@@ -7,8 +7,8 @@ import View.Prelude
 import View.Layout.Default
 import Locale.Pricing
 
-pricingView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> PricingLocale -> Html
-pricingView lang PricingLocale {..} = defaultLayout lang seo [lurk|
+pricingView :: ViewCtx Language => PricingLocale -> Html
+pricingView PricingLocale {..} = defaultLayout seo [lurk|
 <main id="pricing" class="flex-grow-1">
     <!-- Hero -->
     <section class="pricing-hero">
@@ -251,7 +251,7 @@ pricingView lang PricingLocale {..} = defaultLayout lang seo [lurk|
       
       <form class="modal-form" action="{{enterprisePostPath}}" method="POST">
         <input type="hidden" name="type" value="enterprise_inquiry">
-        <input type="hidden" name="lang" value="{{toText lang}}">
+        <input type="hidden" name="lang" value="{{toText ?lang}}">
         <input type="hidden" name="_token" value="{{csrfToken}}">
         
         <div class="row g-3">

@@ -9,18 +9,18 @@ import Data.Aeson qualified as Aeson
 import Data.Map.Strict qualified as Map
 import Data.Maybe (fromMaybe)
 import Data.Text qualified as T
+import Lurk.Prelude
 import Lurk.Email.SMTP
 import Lurk.Form
 import Lurk.Log (Logger(..), newLogger)
 import Paths (thanksPath)
-import Lurk.Prelude
 import Language
 import View.Email.AccessNotice
 import View.Email.EnterpriseNotice
-import Locale.Email.AccessThanks qualified as AL
-import Locale.Email.EnterpriseThanks qualified as EL
 import View.Email.AccessThanks
 import View.Email.EnterpriseThanks
+import Locale.Email.AccessThanks qualified as AL
+import Locale.Email.EnterpriseThanks qualified as EL
 
 -- | Load SMTP configuration from environment
 loadSmtpConfig :: IO (Maybe SmtpConfig)
@@ -155,8 +155,8 @@ sendAndLog logger config toAddr subject htmlBody = do
 -- HANDLERS
 ----------------------------------------------------------------------
 
-accessPostAction :: Language -> Action ()
-accessPostAction lang = do
+accessPostAction :: (?lang :: Language) => Action ()
+accessPostAction = do
     ip <- fromMaybe "unknown" <$> clientIp
 
     fd <- validateForm
@@ -207,7 +207,7 @@ accessPostAction lang = do
             sendAndLog smtpLogger config adminEmail subj body
 
             unless (T.null email) $ do
-                let l = AL.getLocale lang
+                let l = AL.getLocale ?lang
                     thanksFields = AccessThanksFields
                         { name = getParamDef "name" "" fd
                         , greeting = AL.greeting l
@@ -225,11 +225,10 @@ accessPostAction lang = do
         _ -> liftIO $ do
             logWarning smtpLogger "SMTP not configured, skipping email" []
 
-    let dest = thanksPath lang
-    redirect dest
+    redirect (thanksPath ?lang)
 
-enterprisePostAction :: Language -> Action ()
-enterprisePostAction lang = do
+enterprisePostAction :: (?lang :: Language) => Action ()
+enterprisePostAction = do
     ip <- fromMaybe "unknown" <$> clientIp
 
     fd <- validateForm
@@ -265,7 +264,7 @@ enterprisePostAction lang = do
             sendAndLog smtpLogger config adminEmail subj body
 
             unless (T.null email) $ do
-                let l = EL.getLocale lang
+                let l = EL.getLocale ?lang
                     thanksFields = EnterpriseThanksFields
                         { name = getParamDef "name" "" fd
                         , greeting = EL.greeting l
@@ -283,5 +282,4 @@ enterprisePostAction lang = do
         _ -> liftIO $ do
             logWarning smtpLogger "SMTP not configured, skipping enterprise email" []
 
-    let dest = thanksPath lang
-    redirect dest
+    redirect (thanksPath ?lang)

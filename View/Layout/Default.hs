@@ -4,10 +4,10 @@ import Paths (pageAlts, domain)
 import View.Prelude
 import View.Partial
 
-defaultLayout :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> SEO -> Html -> Html
-defaultLayout lang seo viewContent = [lurk|
+defaultLayout :: ViewCtx Language => SEO -> Html -> Html
+defaultLayout seo viewContent = [lurk|
 <!DOCTYPE html>
-<html lang="{{toText lang}}">
+<html lang="{{toText ?lang}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,13 +26,13 @@ defaultLayout lang seo viewContent = [lurk|
 
 </head>
 <body>
-    {{navbar lang}}
+    {{navbar}}
 
-    {{navside lang}}
+    {{navside}}
     
     {{viewContent}}
 
-    {{footer lang}}
+    {{footer}}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{assetPath "js/common.js"}}"></script>

@@ -1,6 +1,5 @@
 module Router where
 
-import Language (allLanguages) --, Language(..))
 import Lurk.Prelude
 import Paths
 import Controller.Static
@@ -10,17 +9,17 @@ router :: LurkApp
 router = do
     routeSettings [ TrailingSlashes, ForceSSL, ServeStatic "public" ]
 
-    getPages allLanguages homePath homeAction
-    getPages allLanguages productPath productAction
-    getPages allLanguages agencyPath agencyAction
-    getPages allLanguages pricingPath pricingAction
-    getPages allLanguages accessPath accessAction
-    getPages allLanguages thanksPath thanksAction
+    get homePath homeAction
+    get productPath productAction
+    get agencyPath agencyAction
+    get pricingPath pricingAction
+    get accessPath accessAction
+    get thanksPath thanksAction
 
-    getPages allLanguages termsPath (`legalAction` Terms)
-    getPages allLanguages privacyPath (`legalAction` Privacy)
+    get termsPath (legalAction Terms)
+    get privacyPath (legalAction Privacy)
 
-    postActions allLanguages accessPath accessPostAction
-    postActions allLanguages enterprisePath enterprisePostAction
+    post enterprisePath enterprisePostAction
+    post accessPath accessPostAction
 
     notFound notFoundAction

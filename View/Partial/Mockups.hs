@@ -3,8 +3,8 @@ module View.Partial.Mockups where
 import View.Prelude
 import Locale.Partial.Mockups
 
-renderDashboard :: Language -> Html
-renderDashboard lang = [lurk|
+renderDashboard :: (?lang :: Language) => Html
+renderDashboard = [lurk|
 <div class="hero-preview-card">
     <div class="hero-preview-bar">
         <span class="hero-dot dot-red"></span>
@@ -75,15 +75,15 @@ renderDashboard lang = [lurk|
 </div>
 |]
   where
-    d = dashboardLocale lang
+    d = dashboardLocale ?lang
 
     icon :: Text -> Text
     icon "high" = "fa-solid fa-circle-exclamation"
     icon "medium" = "fa-solid fa-circle-info"
     icon _ = "fa-solid fa-minus"
 
-renderAgency :: Language -> Html
-renderAgency lang = [lurk|
+renderAgency :: (?lang :: Language) => Html
+renderAgency = [lurk|
 <div class="hero-preview-card">
     <div class="hero-preview-bar">
         <span class="hero-dot dot-red"></span>
@@ -149,10 +149,10 @@ renderAgency lang = [lurk|
     </div>
 </div>
 |]
-  where l = agencyLocale lang
+  where l = agencyLocale ?lang
 
-renderConversation :: Language -> Html
-renderConversation lang = [lurk|
+renderConversation :: (?lang :: Language) => Html
+renderConversation = [lurk|
 <div class="hero-preview-card">
     <div class="hero-preview-bar">
         <span class="hero-dot dot-red"></span>
@@ -181,10 +181,10 @@ renderConversation lang = [lurk|
     </div>
 </div>
 |]
-  where l = conversationLocale lang
+  where l = conversationLocale ?lang
 
-renderProductMockup :: Language -> Html
-renderProductMockup lang = [lurk|
+renderProductMockup :: (?lang :: Language) => Html
+renderProductMockup = [lurk|
 <div class="hero-preview-card">
     <div class="hero-preview-bar">
         <span class="hero-dot dot-red"></span>
@@ -240,4 +240,4 @@ renderProductMockup lang = [lurk|
     </div>
 </div>
 |]
-  where p = productMockupLocale lang
+  where p = productMockupLocale ?lang

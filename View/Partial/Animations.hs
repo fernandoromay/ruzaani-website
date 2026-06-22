@@ -5,8 +5,8 @@ import Lurk.Html (preEscapedToHtml)
 import View.Prelude
 import Locale.Partial.Animations
 
-renderWebIntelligence :: Language -> Html
-renderWebIntelligence lang = [lurk|
+renderWebIntelligence :: (?lang :: Language) => Html
+renderWebIntelligence = [lurk|
 <div class="intelligence-viz">
     <!-- Platform Nodes -->
     <div class="platform-node node-1"><i class="fa-brands fa-instagram"></i></div>
@@ -18,13 +18,13 @@ renderWebIntelligence lang = [lurk|
     <!-- Center User Identity -->
     <div class="center-identity">
         JD
-        <span class="resolved-label">{{webIntelligenceLocale lang}}</span>
+        <span class="resolved-label">{{webIntelligenceLocale ?lang}}</span>
     </div>
 </div>
 |]
 
-renderKanbanCRM :: Language -> Html
-renderKanbanCRM lang = [lurk|
+renderKanbanCRM :: (?lang :: Language) => Html
+renderKanbanCRM = [lurk|
 <div class="kanban-board">
     <!-- Column 1 -->
     <div class="kanban-col">
@@ -82,7 +82,7 @@ renderKanbanCRM lang = [lurk|
 </div>
 
 |]
-  where l = kanbanLocale lang
+  where l = kanbanLocale ?lang
 
 -- <style>
 --    .stage-text-loop::after {
@@ -95,8 +95,8 @@ renderKanbanCRM lang = [lurk|
 --    }
 -- </style>
 
-renderSalesPipeline :: Language -> Html
-renderSalesPipeline lang = styleBlock <> [lurk|
+renderSalesPipeline :: (?lang :: Language) => Html
+renderSalesPipeline = styleBlock <> [lurk|
 <div class="pipeline-automation">
     <!-- Contact Card -->
     <div class="contact-card-viz">
@@ -148,16 +148,16 @@ renderSalesPipeline lang = styleBlock <> [lurk|
 </div>
 |]
   where
-    l = salesPipelineLocale lang
+    l = salesPipelineLocale ?lang
     styleBlock = preEscapedToHtml $ T.concat [
             "<style>\n",
             "    .stage-text-loop::after {\n",
             "        animation: stageTextLoop_",
-            toText lang,
+            toText ?lang,
             " 12s infinite;\n",
             "    }\n",
             "    @keyframes stageTextLoop_",
-            toText lang,
+            toText ?lang,
             " {\n",
             "        0%, 50% { content: '",
             stageLead l,
@@ -172,8 +172,8 @@ renderSalesPipeline lang = styleBlock <> [lurk|
             "</style>"
           ]
 
-renderenterpriseIntel :: Language -> Html
-renderenterpriseIntel lang = [lurk|
+renderenterpriseIntel :: (?lang :: Language) => Html
+renderenterpriseIntel = [lurk|
 <div class="enterprise-viz-container">
     <svg viewBox="0 0 600 500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <!-- Definitions for Gradients and Filters -->
@@ -238,4 +238,4 @@ renderenterpriseIntel lang = [lurk|
     </svg>
 </div>
 |]
-  where l = enterpriseIntelLocale lang
+  where l = enterpriseIntelLocale ?lang

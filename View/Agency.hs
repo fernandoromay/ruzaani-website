@@ -6,8 +6,8 @@ import View.Partial.Mockups
 import View.Layout.Default
 import Locale.Agency
 
-agencyView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> AgencyLocale -> Html
-agencyView lang AgencyLocale {..} = defaultLayout lang seo [lurk|
+agencyView :: ViewCtx Language => AgencyLocale -> Html
+agencyView AgencyLocale {..} = defaultLayout seo [lurk|
   <main id="agency-program" class="flex-grow-1">
     <!--- Hero Section --->
     <section class="hero-section agency-hero text-center position-relative overflow-hidden pb-5">
@@ -144,17 +144,17 @@ agencyView lang AgencyLocale {..} = defaultLayout lang seo [lurk|
                 {{case t.visual of
                     "sdr" -> (lurk|
                         <div class="conversation-mockup-wrap">
-                            {{renderConversation lang}}
+                            {{renderConversation}}
                         </div>
                     |)
                     "command" -> (lurk|
                         <div class="agency-mockup-wrap">
-                            {{renderAgency lang}}
+                            {{renderAgency}}
                         </div>
                     |)
                     "whitelabel" -> (lurk|
                         <div class="dashboard-mockup-wrap">
-                            {{renderDashboard lang}}
+                            {{renderDashboard}}
                         </div>
                     |)
                     "deploy" -> (lurk|
