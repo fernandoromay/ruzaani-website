@@ -71,13 +71,7 @@ data Stat = Stat
 
 commonSEO :: SEO
 commonSEO = defaultSEO
-    { alternates =
-        [ Alternate {hreflang = "en", href = domain <> agencyPath EN}
-        , Alternate {hreflang = "es", href = domain <> agencyPath ES}
-        , Alternate {hreflang = "ko", href = domain <> agencyPath KO}
-        , Alternate {hreflang = "x-default", href = domain <> agencyPath EN}
-        ]
-    , customTags = [lurk|
+    { customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/agency-program.css"}}">
         <link rel="stylesheet" href="{{assetPath "css/mockups.css"}}">
         |]

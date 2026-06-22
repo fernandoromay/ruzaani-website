@@ -8,13 +8,7 @@ import Locale.Legal.Prelude
 
 commonSEO :: SEO
 commonSEO = defaultSEO
-    { alternates =
-        [ Alternate {hreflang = "en", href = domain <> privacyPath EN}
-        , Alternate {hreflang = "es", href = domain <> privacyPath ES}
-        , Alternate {hreflang = "ko", href = domain <> privacyPath KO}
-        , Alternate {hreflang = "x-default", href = domain <> privacyPath EN}
-        ]
-    , customTags = [lurk|<link rel="stylesheet" href="{{assetPath "css/legal.css"}}">|]}
+    { customTags = [lurk|<link rel="stylesheet" href="{{assetPath "css/legal.css"}}">|]}
 
 effectiveDate :: Language -> Text
 effectiveDate EN = "April 25, 2026"

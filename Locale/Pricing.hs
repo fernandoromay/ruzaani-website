@@ -109,13 +109,7 @@ getSymbol _   = "$"
 
 commonSEO :: SEO
 commonSEO = defaultSEO
-    { alternates =
-        [ Alternate {hreflang = "en", href = domain <> pricingPath EN}
-        , Alternate {hreflang = "es", href = domain <> pricingPath ES}
-        , Alternate {hreflang = "ko", href = domain <> pricingPath KO}
-        , Alternate {hreflang = "x-default", href = domain <> pricingPath EN}
-        ]
-    , customTags = [lurk|
+    { customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/pricing.css"}}">
         |]
     }
