@@ -1,6 +1,7 @@
 module Controller.Static where
 
 import Lurk.Form (setFormLoadTime)
+import Lurk.Cloudflare (cfCountry)
 import Language
 import View.Prelude
 import View.Error
