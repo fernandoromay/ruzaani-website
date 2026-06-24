@@ -13,10 +13,6 @@ maintainer:      fernando.romay@ruzaani.com
 
 build-type:      Simple
 
--- extra-doc-files:    -- Extra files such as a CHANGELOG or a README
-
--- extra-source-files: -- Extras such as examples, or tutorial modules
-
 common warnings
     ghc-options: -Wall
 
@@ -34,9 +30,7 @@ common extensions
                         TypeApplications
                         ExtendedDefaultRules
 
--- ============================================================
--- Application Executable (this project)
--- ============================================================
+-- ------------------------------------------------------------
 
 executable ruzaani-website
     import:          warnings, extensions
@@ -49,10 +43,9 @@ executable ruzaani-website
                      Language,
                      Locale.Access,
                      Locale.Agency,
-                     Locale.Common,
+                     Locale.Partial,
                      Locale.Email.AccessThanks,
                      Locale.Email.EnterpriseThanks,
-                     Locale.Error,
                      Locale.Home,
                      Locale.Legal,
                      Locale.Legal.Prelude,
