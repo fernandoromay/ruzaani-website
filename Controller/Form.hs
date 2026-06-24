@@ -26,20 +26,21 @@ import Locale.Email.EnterpriseThanks qualified as EL
 loadSmtpConfig :: IO (Maybe SmtpConfig)
 loadSmtpConfig = do
     env <- getAppEnv
-    let mHost = getEnv env "SMTP_RZST_HOST"
-        mPort = getEnv env "SMTP_RZST_PORT"
-        mUser = getEnv env "SMTP_RZST_USER"
-        mPass = getEnv env "SMTP_RZST_PASS"
+    let mHost = getEnv env "SMTP_HOST"
+        mPort = getEnvInt env "SMTP_PORT"
+        mUser = getEnv env "SMTP_USER"
+        mPass = getEnv env "SMTP_PASS"
+        mEncr = fromMaybe "" (getEnv env "SMTP_ENCR")
     case (mHost, mPort, mUser, mPass) of
         (Just h, Just p, Just u, Just pw) -> do
-            let port = case reads (T.unpack p) of [(n, "")] -> n; _ -> 587
             pure $ Just SmtpConfig
-                { smtpHost     = h
-                , smtpPort     = port
-                , smtpUsername = u
-                , smtpPassword = pw
-                , smtpFrom     = u
-                , smtpFromName = "Ruzaani Support Team"
+                { smtpHost       = h
+                , smtpPort       = p
+                , smtpUsername   = u
+                , smtpPassword   = pw
+                , smtpFrom       = u
+                , smtpFromName   = "Ruzaani Support Team"
+                , smtpEncryption = mEncr
                 }
         _ -> pure Nothing
 
@@ -47,7 +48,7 @@ loadSmtpConfig = do
 loadAdminEmail :: IO (Maybe Text)
 loadAdminEmail = do
     env <- getAppEnv
-    pure $ getEnv env "SMTP_RZST_ADMIN_EMAIL"
+    pure $ getEnv env "ADMIN_EMAIL"
 
 ----------------------------------------------------------------------
 -- LEAD SCORING
@@ -207,7 +208,7 @@ accessPostAction = do
             sendAndLog smtpLogger config adminEmail subj body
 
             unless (T.null email) $ do
-                let l = AL.getLocale ?lang
+                let l = AL.locale ?lang
                     thanksFields = AccessThanksFields
                         { name = getParamDef "name" "" fd
                         , greeting = AL.greeting l
@@ -264,7 +265,7 @@ enterprisePostAction = do
             sendAndLog smtpLogger config adminEmail subj body
 
             unless (T.null email) $ do
-                let l = EL.getLocale ?lang
+                let l = EL.locale ?lang
                     thanksFields = EnterpriseThanksFields
                         { name = getParamDef "name" "" fd
                         , greeting = EL.greeting l
