@@ -3,7 +3,7 @@ module View.Partial where
 import Data.Text qualified as T
 import Paths (pageAlts)
 import View.Prelude
-import Locale.Common
+import Locale.Partial
 
 navbar :: ViewCtx Language => Html
 navbar = [lurk|

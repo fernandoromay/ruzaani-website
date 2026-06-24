@@ -17,8 +17,7 @@ defaultPort = 3003
 
 loadConfig :: IO Config
 loadConfig = do
-    env <- loadEnv -- Reads .env file in root directory
-    --loadEnvFile "config/secrets.env"
+    env <- loadEnv
     pure Config
         { port   = fromMaybe defaultPort (getEnvInt env "PORT")
         , domain = P.domain
