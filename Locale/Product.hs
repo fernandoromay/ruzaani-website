@@ -109,7 +109,8 @@ data CuratorMockup = CuratorMockup
 
 commonSEO :: SEO
 commonSEO = defaultSEO
-    { customTags = [lurk|
+    { ogSiteName = Just "Ruzaani"
+    , customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/product.css"}}">
         <link rel="stylesheet" href="{{assetPath "css/home-animations.css"}}">
         <link rel="stylesheet" href="{{assetPath "css/mockups.css"}}">
@@ -123,6 +124,7 @@ locale EN = ProductLocale
         , metaTitle = "Ruzaani Platform — AI Business Intelligence Suite"
         , metaDescription = "One unified layer connecting every customer interaction across conversations, CRM, channels, and behavioral intelligence into a single live business view."
         , canonical = Just $ domain <> productPath EN
+        , ogImage = Just $ domain <> "/img/open-graph/product-en.jpg"
         }
     , heroTitle = "One system. Every customer. Every signal."
     , heroSubtitle = "A unified layer that connects every customer interaction into a single live business view across channels, conversations, CRM, and behavioral intelligence."
@@ -334,6 +336,7 @@ locale ES = ProductLocale
         , metaTitle = "Ruzaani — Suite de Inteligencia de Negocios de IA"
         , metaDescription = "Una capa unificada de IA que conecta cada interacción con el cliente: conversaciones, CRM, canales e inteligencia de comportamiento en una única vista de negocio en tiempo real."
         , canonical = Just $ domain <> productPath ES
+        , ogImage = Just $ domain <> "/img/open-graph/product-es.jpg"
         }
     , heroTitle = "Un sistema. Cada cliente. Cada señal."
     , heroSubtitle = "Una capa unificada que conecta cada interacción con el cliente en una única vista de negocio en tiempo real, integrando canales, conversaciones, CRM e inteligencia de comportamiento."
@@ -545,6 +548,7 @@ locale KO = ProductLocale
         , metaTitle = "Ruzaani — AI 비즈니스 인텔리전스 슈트"
         , metaDescription = "대화, CRM, 채널 및 행동 인텔리전스를 통해 모든 고객 상호 작용을 실시간 단일 비즈니스 뷰로 연결하는 통합 AI 계층입니다."
         , canonical = Just $ domain <> productPath KO
+        , ogImage = Just $ domain <> "/img/open-graph/product-ko.jpg"
         }
     , heroTitle = "하나의 시스템. 모든 고객. 모든 신호."
     , heroSubtitle = "채널, 대화, CRM 및 행동 인텔리전스 전반에 걸쳐 모든 고객 상호 작용을 실시간 단일 비즈니스 뷰로 연결하는 통합 AI 계층 입니다."

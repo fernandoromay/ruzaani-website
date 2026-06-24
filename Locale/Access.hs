@@ -38,7 +38,8 @@ data AuditOption = AuditOption
 
 commonSeo :: SEO
 commonSeo = defaultSEO
-    { customTags = [lurk|
+    { ogSiteName = Just "Ruzaani"
+    , customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/interactive-form.css"}}">
         |]
     }
@@ -50,6 +51,7 @@ locale EN = AccessLocale
         , metaTitle = "Request Access to Ruzaani - AI Business Intelligence Platform"
         , metaDescription = "Request access to Ruzaani. Tell us about your business to get started."
         , canonical = Just $ domain <> accessPath EN
+        , ogImage = Just $ domain <> "/img/open-graph/home-en.jpg"
         }
     , heroTitle = "Request Platform Access"
     , heroSubtitle = "Tell us about your business so we can tailor your experience."
@@ -127,6 +129,7 @@ locale ES = AccessLocale
         , metaTitle = "Solicitar Acceso a Ruzaani - Plataforma de Inteligencia Empresarial con IA"
         , metaDescription = "Solicita acceso a Ruzaani. Cuéntanos sobre tu negocio para comenzar."
         , canonical = Just $ domain <> accessPath ES
+        , ogImage = Just $ domain <> "/img/open-graph/home-es.jpg"
         }
     , heroTitle = "Solicitar Acceso a la Plataforma"
     , heroSubtitle = "Cuéntanos sobre tu negocio para poder adaptar tu experiencia."
@@ -204,6 +207,7 @@ locale KO = AccessLocale
         , metaTitle = "Ruzaani 액세스 신청 - AI 비즈니스 인텔리전스 플랫폼"
         , metaDescription = "Ruzaani 액세스를 신청하세요. 비즈니스에 대해 알려주시면 시작할 수 있습니다."
         , canonical = Just $ domain <> accessPath KO
+        , ogImage = Just $ domain <> "/img/open-graph/home-ko.jpg"
         }
     , heroTitle = "플랫폼 액세스 신청"
     , heroSubtitle = "맞춤형 환경을 제공해 드릴 수 있도록 비즈니스에 대해 알려주세요."

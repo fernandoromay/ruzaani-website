@@ -71,7 +71,8 @@ data Stat = Stat
 
 commonSEO :: SEO
 commonSEO = defaultSEO
-    { customTags = [lurk|
+    { ogSiteName = Just "Ruzaani"
+    , customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/agency-program.css"}}">
         <link rel="stylesheet" href="{{assetPath "css/mockups.css"}}">
         |]
@@ -85,6 +86,7 @@ locale EN = AgencyLocale
         , metaTitle = "Ruzaani Agency Program: The Multi-Tenant AI Engine"
         , metaDescription = "Turn your agency into a revenue systems provider. Scale without headcount using our multi-tenant AI Agent Layer architecture."
         , canonical = Just $ domain <> agencyPath EN
+        , ogImage = Just $ domain <> "/img/open-graph/agency-en.jpg"
         }
     , heroTitle = "Deploy Enterprise AI Infrastructure"
     , heroSubtitle = "Stop building fragile bots and selling commoditized hours. Deploy the AI Agent Layer to own your client\'s revenue cycle and scale your margins."
@@ -207,6 +209,7 @@ locale ES = AgencyLocale
         , metaTitle = "Programa de Agencias Ruzaani: Motor de IA para Agencias"
         , metaDescription = "Convierte tu agencia en un proveedor de sistemas de crecimiento. Escala sin aumentar la nómina."
         , canonical = Just $ domain <> agencyPath ES
+        , ogImage = Just $ domain <> "/img/open-graph/agency-es.jpg"
         }
     , heroTitle = "Despliega Infraestructura de IA Empresarial"
     , heroSubtitle = "Deja de construir bots frágiles y vender horas de trabajo. Despliega nuestra infraestructura de IA para múltiples clientes para garantizar los resultados de tus clientes y escalar tus márgenes."
@@ -329,6 +332,7 @@ locale KO = AgencyLocale
         , metaTitle = "Ruzaani 에이전시 프로그램: 에이전시 전용 AI 엔진"
         , metaDescription = "에이전시를 성장 시스템 제공업체로 전환하세요. 인원 추가 없이 비즈니스를 확장할 수 있습니다."
         , canonical = Just $ domain <> agencyPath KO
+        , ogImage = Just $ domain <> "/img/open-graph/agency-ko.jpg"
         }
     , heroTitle = "엔터프라이즈 AI 인프라 배포"
     , heroSubtitle = "취약한 봇 구축과 시간 단위 노동 판매를 중단하세요. 멀티 클라이언트 AI 인프라를 배포하여 고객의 성과를 보장하고 수익성을 극대화하세요."

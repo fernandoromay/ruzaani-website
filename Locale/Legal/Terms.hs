@@ -8,7 +8,9 @@ import Locale.Legal.Prelude
 
 commonSEO :: SEO
 commonSEO = defaultSEO
-    { customTags = [lurk|<link rel="stylesheet" href="{{assetPath "css/legal.css"}}">|]}
+    { ogSiteName = Just "Ruzaani"
+    , customTags = [lurk|<link rel="stylesheet" href="{{assetPath "css/legal.css"}}">|]
+    }
 
 effectiveDate :: Language -> Text
 effectiveDate EN = "April 25, 2026"
@@ -22,6 +24,7 @@ localeTerms EN = LegalLocale
         , metaTitle = "Terms of Service | Ruzaani - AI Business Intelligence Platform"
         , metaDescription = "Read Ruzaani's Terms of Service to learn about the terms of service, acceptable use policy, and your rights and responsibilities when using our AI Business Intelligence Platform."
         , canonical = Just $ domain <> termsPath EN
+        , ogImage = Just $ domain <> "/img/open-graph/home-en.jpg"
         }
     , content = [lurk|
         <h1>Terms of Service</h1>
@@ -102,6 +105,7 @@ localeTerms ES = LegalLocale
         , metaTitle = "Términos y Condiciones | Ruzaani - Plataforma de inteligencia empresarial"
         , metaDescription = "Lee los Términos y Condiciones de Ruzaani para conocer los términos del servicio, la política de uso aceptable y tus derechos y responsabilidades al usar nuestra plataforma de inteligencia empresarial de IA."
         , canonical = Just $ domain <> termsPath ES
+        , ogImage = Just $ domain <> "/img/open-graph/home-es.jpg"
         }
     , content = [lurk|
         <h1>Términos y Condiciones</h1>
@@ -182,6 +186,7 @@ localeTerms KO = LegalLocale
         , metaTitle = "이용약관 | Ruzaani - 인공지능 기반 비즈니스 인텔리전스 플랫폼"
         , metaDescription = "Ruzaani의 서비스 이용 약관, 허용 가능한 사용 정책 및 AI 비즈니스 인텔리전스 플랫폼 사용에 따른 귀하의 권리와 책임에 대해 알아보려면 Ruzaani의 이용 약관을 읽어보십시오."
         , canonical = Just $ domain <> termsPath KO
+        , ogImage = Just $ domain <> "/img/open-graph/home-ko.jpg"
         }
     , content = [lurk|
         <h1>이용약관</h1>
