@@ -14,8 +14,8 @@ data EnterpriseThanksLocale = EnterpriseThanksLocale
     , signoff2  :: Text
     }
 
-getLocale :: Language -> EnterpriseThanksLocale
-getLocale ES = EnterpriseThanksLocale
+locale :: Language -> EnterpriseThanksLocale
+locale ES = EnterpriseThanksLocale
     { subject   = "Recibido: Consulta Enterprise de Ruzaani"
     , greeting  = "Hola"
     , thanks    = "Gracias por ponerte en contacto sobre un acuerdo Enterprise con Ruzaani."
@@ -26,7 +26,7 @@ getLocale ES = EnterpriseThanksLocale
     , signoff1  = "Saludos cordiales,"
     , signoff2  = "El equipo Enterprise de Ruzaani"
     }
-getLocale KO = EnterpriseThanksLocale
+locale KO = EnterpriseThanksLocale
     { subject   = "수신 완료: Ruzaani 엔터프라이즈 문의"
     , greeting  = "안녕하세요"
     , thanks    = "Ruzaani 엔터프라이즈 협약에 관해 문의해 주셔서 감사합니다."
@@ -37,7 +37,7 @@ getLocale KO = EnterpriseThanksLocale
     , signoff1  = "감사합니다."
     , signoff2  = "Ruzaani 엔터프라이즈 팀 드림"
     }
-getLocale _ = EnterpriseThanksLocale
+locale _ = EnterpriseThanksLocale
     { subject   = "Received: Your Ruzaani Enterprise Inquiry"
     , greeting  = "Hello"
     , thanks    = "Thank you for reaching out regarding an Enterprise agreement with Ruzaani."

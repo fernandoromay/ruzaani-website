@@ -3,10 +3,10 @@ module View.Partial where
 import Data.Text qualified as T
 import Paths (pageAlts)
 import View.Prelude
-import Locale.Common
+import Locale.Partial
 
-navbar :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> Html
-navbar lang = [lurk|
+navbar :: ViewCtx Language => Html
+navbar = [lurk|
 <header>
   <nav class="navbar-top">
     <div class="container">
@@ -40,7 +40,7 @@ navbar lang = [lurk|
 </header>
 |]
   where
-    l = navbarLocale lang
+    l = navbarLocale ?lang
 
     isActive :: (?currentPath :: Text) => Text -> Text
     isActive path
@@ -48,8 +48,8 @@ navbar lang = [lurk|
       | otherwise = ""
 
 
-navside :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> Html
-navside lang = [lurk|
+navside :: ViewCtx Language => Html
+navside = [lurk|
 <button class="menu-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#ruzaaniMenu"
   aria-controls="ruzaaniMenu" aria-label="Open strategic navigation">
   <div class="logo"></div>
@@ -87,7 +87,7 @@ navside lang = [lurk|
       <div class="d-flex gap-4 justify-content-center">
         {{forEach pageAlts (\(langCode, path) ->
           (lurk|
-            <a href="{{path}}" class='{{if langCode == toText lang then "accented fw-bold" else ""}}'>{{T.toUpper langCode}}</a>
+            <a href="{{path}}" class='{{if langCode == toText ?lang then "accented fw-bold" else ""}}'>{{T.toUpper langCode}}</a>
           |))
         }}
       </div>
@@ -96,11 +96,11 @@ navside lang = [lurk|
   </div>
 </div>
 |]
-  where l = navbarLocale lang
+  where l = navbarLocale ?lang
 
 
-footer :: Language -> Html
-footer lang = [lurk|
+footer :: (?lang :: Language) => Html
+footer = [lurk|
 <footer>
   <div class="row">
     <!-- Brand & Social -->
@@ -151,5 +151,5 @@ footer lang = [lurk|
 </footer>
 |]
   where
-    l = footerLocale lang
-    nav = navbarLocale lang
+    l = footerLocale ?lang
+    nav = navbarLocale ?lang

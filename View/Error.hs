@@ -3,23 +3,23 @@ module View.Error where
 import View.Prelude
 import View.Layout.Default
 
-error404View :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> Html
-error404View lang = defaultLayout lang seo [lurk|
+error404View :: ViewCtx Language => Html
+error404View = defaultLayout seo [lurk|
 <main class="flex-grow-1 d-flex align-items-center justify-content-center">
     <section class="container text-center">
         <div class="col-12 text-center p-auto">
             <h1 class="display-1 fw-bold mb-4">404</h1>
-            <p class="fs-2 mb-5 text-secondary">{{pageNotFound lang}}</p>
-            <a href="/" class="btn-primary">&larr; {{backHome lang}}</a>
+            <p class="fs-2 mb-5 text-secondary">{{pageNotFound ?lang}}</p>
+            <a href="/" class="btn-primary">&larr; {{backHome ?lang}}</a>
         </div>
     </section>
 </main>
 |]
   where
     seo = defaultSEO
-        { title = errorTitle lang
-        , metaTitle = errorTitle lang
-        , metaDescription = pageNotFound lang
+        { title = errorTitle ?lang
+        , metaTitle = errorTitle ?lang
+        , metaDescription = pageNotFound ?lang
         , customTags = [lurk|<link rel="stylesheet" href="{{assetPath "css/error.css"}}">|]
         }
 

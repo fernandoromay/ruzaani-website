@@ -49,12 +49,12 @@ jobs:
       - name: Deploy
         env:
           # --- App Secrets ---
-          SMTP_RZST_ADMIN_EMAIL: ${{ secrets.SMTP_RZST_ADMIN_EMAIL }}
-          SMTP_RZST_HOST: ${{ secrets.SMTP_RZST_HOST }}
-          SMTP_RZST_PASS: ${{ secrets.SMTP_RZST_PASS }}
-          SMTP_RZST_PORT: ${{ secrets.SMTP_RZST_PORT }}
-          SMTP_RZST_SECR: ${{ secrets.SMTP_RZST_SECR }}
-          SMTP_RZST_USER: ${{ secrets.SMTP_RZST_USER }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_SECR: ${{ secrets.SMTP_SECR }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
           # --- SSH Secrets ---
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           VPS_IP: ${{ secrets.VPS_IP }}

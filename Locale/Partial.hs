@@ -1,4 +1,4 @@
-module Locale.Common where
+module Locale.Partial where
 
 import Locale.Prelude
 

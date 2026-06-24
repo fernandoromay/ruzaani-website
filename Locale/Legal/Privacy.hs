@@ -1,5 +1,5 @@
 module Locale.Legal.Privacy
-    ( getLocalePrivacy
+    ( localePrivacy
     , module Locale.Legal.Prelude
     ) where
 
@@ -8,20 +8,23 @@ import Locale.Legal.Prelude
 
 commonSEO :: SEO
 commonSEO = defaultSEO
-    { customTags = [lurk|<link rel="stylesheet" href="{{assetPath "css/legal.css"}}">|]}
+    { ogSiteName = Just "Ruzaani"
+    , customTags = [lurk|<link rel="stylesheet" href="{{assetPath "css/legal.css"}}">|]
+    }
 
 effectiveDate :: Language -> Text
 effectiveDate EN = "April 25, 2026"
 effectiveDate ES = "25 de abril de 2026"
 effectiveDate KO = "2026년 4월 25일"
 
-getLocalePrivacy :: Language -> LegalLocale
-getLocalePrivacy EN = LegalLocale
+localePrivacy :: Language -> LegalLocale
+localePrivacy EN = LegalLocale
     { seo = commonSEO
         { title = "Ruzaani's Privacy Policy"
         , metaTitle = "Privacy Policy | Ruzaani - AI Business Intelligence Platform"
         , metaDescription = "Read Ruzaani's Privacy Policy to learn about how we collect, use, and protect your information when using our AI Business Intelligence Platform and website."
         , canonical = Just $ domain <> privacyPath EN
+        , ogImage = Just $ domain <> "/img/open-graph/home-en.jpg"
         }
     , content = [lurk|
         <h1>Privacy Policy</h1>
@@ -107,12 +110,13 @@ getLocalePrivacy EN = LegalLocale
         |]
     }
 
-getLocalePrivacy ES = LegalLocale
+localePrivacy ES = LegalLocale
     { seo = commonSEO
         { title = "Política de Privacidad de Ruzaani"
         , metaTitle = "Política de Privacidad | Ruzaani - Plataforma de inteligencia empresarial"
         , metaDescription = "Lee la Política de Privacidad de Ruzaani para saber cómo recopilamos, usamos y protegemos tu información cuando usas nuestra plataforma de inteligencia empresarial"
         , canonical = Just $ domain <> privacyPath ES
+        , ogImage = Just $ domain <> "/img/open-graph/home-es.jpg"
         }
     , content = [lurk|
         <h1>Política de Privacidad</h1>
@@ -198,12 +202,13 @@ getLocalePrivacy ES = LegalLocale
         |]
     }
 
-getLocalePrivacy KO = LegalLocale
+localePrivacy KO = LegalLocale
     { seo = commonSEO
         { title = "Ruzaani의 개인정보 처리방침"
         , metaTitle = "개인정보 처리방침 | Ruzaani - 인공지능 기반 비즈니스 인텔리전스 플랫폼"
         , metaDescription = "인공지능 기반 비즈니스 인텔리전스 플랫폼을 이용할 때 Ruzaani가 귀하의 정보를 수집, 사용 및 보호하는 방법을 알아보려면 Ruzaani의 개인정보 처리방침을 읽어보십시오."
         , canonical = Just $ domain <> privacyPath KO
+        , ogImage = Just $ domain <> "/img/open-graph/home-ko.jpg"
         }
     , content = [lurk|
         <h1>개인정보 처리방침</h1>

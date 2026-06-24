@@ -98,11 +98,12 @@ Environment variables (`.env`):
 
 | Variable | Description |
 |----------|-------------|
-| `SMTP_RZST_HOST` | SMTP server hostname |
-| `SMTP_RZST_PORT` | SMTP server port |
-| `SMTP_RZST_USER` | SMTP username |
-| `SMTP_RZST_PASS` | SMTP password |
-| `SMTP_RZST_ADMIN_EMAIL` | Admin notification email |
+| `SMTP_HOST` | SMTP server hostname |
+| `SMTP_PORT` | SMTP server port |
+| `SMTP_USER` | SMTP username |
+| `SMTP_PASS` | SMTP password |
+| `SMTP_ENCR` | Encryption: `plain`, `starttls` (default), `smtps` |
+| `ADMIN_EMAIL` | Admin notification email |
 
 ## Development
 

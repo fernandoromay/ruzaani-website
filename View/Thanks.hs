@@ -6,10 +6,10 @@ import View.Prelude
 import View.Partial
 import Locale.Thanks
 
-thanksView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> ThanksLocale -> Html
-thanksView lang ThanksLocale{..} = [lurk|
+thanksView :: ViewCtx Language => ThanksLocale -> Html
+thanksView ThanksLocale{..} = [lurk|
 <!DOCTYPE html>
-<html lang="{{toText lang}}">
+<html lang="{{toText ?lang}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,9 +26,9 @@ thanksView lang ThanksLocale{..} = [lurk|
     {{renderSEO seo}}
 </head>
 <body>
-    {{navbar lang}}
+    {{navbar}}
 
-    {{navside lang}}
+    {{navside}}
 
     <main class="flex-grow-1 d-flex align-items-center justify-content-center min-vh-100">
         <div class="container">
@@ -54,7 +54,7 @@ thanksView lang ThanksLocale{..} = [lurk|
         </div>
     </main>
 
-    {{footer lang}}
+    {{footer}}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{assetPath "js/common.js"}}"></script>

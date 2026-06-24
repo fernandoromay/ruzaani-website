@@ -109,18 +109,20 @@ getSymbol _   = "$"
 
 commonSEO :: SEO
 commonSEO = defaultSEO
-    { customTags = [lurk|
+    { ogSiteName = Just "Ruzaani"
+    , customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/pricing.css"}}">
         |]
     }
 
-getLocale :: Language -> Maybe Text -> PricingLocale
-getLocale EN country = PricingLocale
+locale :: Language -> Maybe Text -> PricingLocale
+locale EN country = PricingLocale
     { seo = commonSEO
         { title = "Ruzaani Pricing | Plans for Every Business"
         , metaTitle = "Ruzaani Pricing: Simple, Transparent Plans"
         , metaDescription = "Starter, Basic, Growth, and Enterprise. Every plan includes AI agents, native CRM, and multi-channel automation. No setup fees."
         , canonical = Just $ domain <> pricingPath EN
+        , ogImage = Just $ domain <> "/img/open-graph/pricing-en.jpg"
         }
     , heroTitle = "Straightforward pricing. No hidden costs."
     , heroSubtitle = "Every plan includes AI agents, native CRM, booking engine, and multi-channel automation. Pay for the tier that matches your operation, upgrade when you need more."
@@ -312,12 +314,13 @@ getLocale EN country = PricingLocale
     , enterprisePostPath = enterprisePath EN
     }
 
-getLocale ES country = PricingLocale
+locale ES country = PricingLocale
     { seo = commonSEO
         { title = "Precios de Ruzaani | Planes para cada Negocio"
         , metaTitle = "Precios de Ruzaani: Planes Simples y Transparentes"
         , metaDescription = "Starter, Basic, Growth y Enterprise. Cada plan incluye agentes de IA, CRM nativo y automatización multicanal. Sin costos de configuración."
         , canonical = Just $ domain <> pricingPath ES
+        , ogImage = Just $ domain <> "/img/open-graph/pricing-es.jpg"
         }
     , heroTitle = "Precios claros. Sin costos ocultos."
     , heroSubtitle = "Cada plan incluye agentes de IA, CRM nativo, motor de reservas y automatización multicanal. Paga por el nivel que se adapte a tu operación, sube de nivel cuando necesites más."
@@ -509,12 +512,13 @@ getLocale ES country = PricingLocale
     , enterprisePostPath = enterprisePath ES
     }
 
-getLocale KO country = PricingLocale
+locale KO country = PricingLocale
     { seo = commonSEO
         { title = "Ruzaani 요금제 | 모든 비즈니스를 위한 솔루션"
         , metaTitle = "Ruzaani 요금제: 심플하고 투명한 가격 정책"
         , metaDescription = "스타터, 베이직, 그로스 및 엔터프라이즈. 모든 요금제에 AI 에이전트, 네이티브 CRM, 멀티채널 자동화가 포함됩니다. 설치비 없음."
         , canonical = Just $ domain <> pricingPath KO
+        , ogImage = Just $ domain <> "/img/open-graph/pricing-ko.jpg"
         }
     , heroTitle = "명확한 가격. 숨겨진 비용 없음."
     , heroSubtitle = "모든 요금제에 AI 에이전트, 네이티브 CRM, 예약 엔진, 멀티채널 자동화가 포함됩니다. 운영 규모에 맞는 단계를 선택하고 성장에 따라 업그레이드하세요."

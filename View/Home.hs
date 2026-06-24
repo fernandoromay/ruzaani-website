@@ -8,8 +8,8 @@ import View.Partial.Animations
 import View.Partial.Mockups
 import Locale.Home
 
-homeView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> HomeLocale -> Html
-homeView lang HomeLocale {..} = defaultLayout lang seo [lurk|
+homeView :: ViewCtx Language => HomeLocale -> Html
+homeView HomeLocale {..} = defaultLayout seo [lurk|
 <main class="flex-grow-1">
   <!-- Hero -->
   <section class="hero-section py-5">
@@ -32,7 +32,7 @@ homeView lang HomeLocale {..} = defaultLayout lang seo [lurk|
           </div>
         </div>
         <div class="col-lg-6 fade-in-up mt-5 pt-5" style="animation-delay: 300ms;">
-          {{renderDashboard lang}}
+          {{renderDashboard}}
         </div>
       </div>
     </div>
@@ -89,17 +89,17 @@ homeView lang HomeLocale {..} = defaultLayout lang seo [lurk|
             <div class="disp-panel-body" id="disp-body">
               <div class="disp-animation active" data-index="0">
                 <div class="agent-animation-box">
-                  {{renderWebIntelligence lang}}
+                  {{renderWebIntelligence}}
                 </div>
               </div>
               <div class="disp-animation" data-index="1">
                 <div class="agent-animation-box">
-                  {{renderKanbanCRM lang}}
+                  {{renderKanbanCRM}}
                 </div>
               </div>
               <div class="disp-animation" data-index="2">
                 <div class="agent-animation-box">
-                  {{renderSalesPipeline lang}}
+                  {{renderSalesPipeline}}
                 </div>
               </div>
             </div>
@@ -125,7 +125,7 @@ homeView lang HomeLocale {..} = defaultLayout lang seo [lurk|
     <div class="container py-5">
       <div class="row g-5 align-items-center">
         <div class="col-lg-5 reveal">
-          {{renderenterpriseIntel lang}}
+          {{renderenterpriseIntel}}
         </div>
         <div class="col-lg-7 reveal">
           <h2 class="display-6 fw-bold mb-3 gradient-title">{{enterpriseTitle}}</h2>
@@ -157,7 +157,7 @@ homeView lang HomeLocale {..} = defaultLayout lang seo [lurk|
 
       <div class="row g-5 align-items-center flex-row-reverse">
         <div class="col-lg-6 reveal">
-          {{renderAgency lang}}
+          {{renderAgency}}
         </div>
         <div class="col-lg-6 reveal">
           {{forEach agencyPoints (\p -> (lurk|

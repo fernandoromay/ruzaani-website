@@ -7,8 +7,8 @@ import View.Layout.Default
 import View.Partial.Mockups
 import Locale.Product
 
-productView :: (?currentPath :: Text, ?params :: [(Text, Text)]) => Language -> ProductLocale -> Html
-productView lang ProductLocale {..} = defaultLayout lang seo [lurk|
+productView :: ViewCtx Language => ProductLocale -> Html
+productView ProductLocale {..} = defaultLayout seo [lurk|
 <main id="product" class="flex-grow-1">
 
     <!--- Hero Section --->
@@ -35,7 +35,7 @@ productView lang ProductLocale {..} = defaultLayout lang seo [lurk|
           </div>
 
           <div class="col-lg-5 fade-in-up" style="animation-delay:300ms;">
-            {{renderProductMockup lang}}
+            {{renderProductMockup}}
           </div>
 
         </div>
