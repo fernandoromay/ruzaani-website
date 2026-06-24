@@ -116,8 +116,8 @@ commonSEO = defaultSEO
         |]
     }
 
-getLocale :: Language -> ProductLocale
-getLocale EN = ProductLocale
+locale :: Language -> ProductLocale
+locale EN = ProductLocale
     { seo = commonSEO
         { title = "Ruzaani Suite | How the AI Platform Works"
         , metaTitle = "Ruzaani Platform — AI Business Intelligence Suite"
@@ -328,7 +328,7 @@ getLocale EN = ProductLocale
         }
     }
 
-getLocale ES = ProductLocale
+locale ES = ProductLocale
     { seo = commonSEO
         { title = "Ruzaani Suite | Cómo funciona la plataforma de IA"
         , metaTitle = "Ruzaani — Suite de Inteligencia de Negocios de IA"
@@ -539,7 +539,7 @@ getLocale ES = ProductLocale
         }
     }
 
-getLocale KO = ProductLocale
+locale KO = ProductLocale
     { seo = commonSEO
         { title = "Ruzaani Suite | AI 플랫폼 작동 방식"
         , metaTitle = "Ruzaani — AI 비즈니스 인텔리전스 슈트"

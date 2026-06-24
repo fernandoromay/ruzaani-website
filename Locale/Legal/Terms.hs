@@ -1,5 +1,5 @@
 module Locale.Legal.Terms
-    ( getLocaleTerms
+    ( localeTerms
     , module Locale.Legal.Prelude
     ) where
 
@@ -15,8 +15,8 @@ effectiveDate EN = "April 25, 2026"
 effectiveDate ES = "25 de abril de 2026"
 effectiveDate KO = "2026년 4월 25일"
 
-getLocaleTerms :: Language -> LegalLocale
-getLocaleTerms EN = LegalLocale
+localeTerms :: Language -> LegalLocale
+localeTerms EN = LegalLocale
     { seo = commonSEO
         { title = "Ruzaani's Terms of Service"
         , metaTitle = "Terms of Service | Ruzaani - AI Business Intelligence Platform"
@@ -96,7 +96,7 @@ getLocaleTerms EN = LegalLocale
         |]
     }
 
-getLocaleTerms ES = LegalLocale
+localeTerms ES = LegalLocale
     { seo = commonSEO
         { title = "Términos y Condiciones de Ruzaani"
         , metaTitle = "Términos y Condiciones | Ruzaani - Plataforma de inteligencia empresarial"
@@ -176,7 +176,7 @@ getLocaleTerms ES = LegalLocale
         |]
     }
 
-getLocaleTerms KO = LegalLocale
+localeTerms KO = LegalLocale
     { seo = commonSEO
         { title = "Ruzaani의 이용약관"
         , metaTitle = "이용약관 | Ruzaani - 인공지능 기반 비즈니스 인텔리전스 플랫폼"

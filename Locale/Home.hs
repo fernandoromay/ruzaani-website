@@ -60,8 +60,8 @@ commonSeo = defaultSEO
         |]
     }
 
-getLocale :: Language -> HomeLocale
-getLocale EN = HomeLocale
+locale :: Language -> HomeLocale
+locale EN = HomeLocale
     { seo = commonSeo
         { title = "Ruzaani | AI Business Intelligence Platform"
         , metaTitle = "Ruzaani - AI Business Intelligence Engine"
@@ -198,7 +198,7 @@ getLocale EN = HomeLocale
     , finalCtaLink = accessPath EN
     }
 
-getLocale ES = HomeLocale
+locale ES = HomeLocale
     { seo = commonSeo
         { title = "Ruzaani | Plataforma de Inteligencia de Negocios basada en IA"
         , metaTitle = "Ruzaani - Motor de Inteligencia de Negocios basada en IA"
@@ -335,7 +335,7 @@ getLocale ES = HomeLocale
     , finalCtaLink = accessPath ES
     }
 
-getLocale KO = HomeLocale
+locale KO = HomeLocale
     { seo = commonSeo
         { title = "Ruzaani | AI 비즈니스 인텔리전스 플랫폼"
         , metaTitle = "Ruzaani - AI 비즈니스 인텔리전스 엔진"

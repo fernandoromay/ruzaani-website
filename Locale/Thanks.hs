@@ -1,6 +1,6 @@
 module Locale.Thanks
     ( ThanksLocale(..)
-    , getLocale
+    , locale
     ) where
 
 import Locale.Prelude
@@ -22,8 +22,8 @@ commonSEO = defaultSEO
         |]
     }
 
-getLocale :: Language -> ThanksLocale
-getLocale lang = ThanksLocale
+locale :: Language -> ThanksLocale
+locale lang = ThanksLocale
     { seo = case lang of
         EN -> commonSEO
             { title = "Thanks for your interest in Ruzaani"

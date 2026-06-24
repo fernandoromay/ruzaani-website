@@ -14,8 +14,8 @@ data AccessThanksLocale = AccessThanksLocale
     , signoff2  :: Text
     }
 
-getLocale :: Language -> AccessThanksLocale
-getLocale ES = AccessThanksLocale
+locale :: Language -> AccessThanksLocale
+locale ES = AccessThanksLocale
     { subject   = "Recibido: Tu solicitud de acceso a Ruzaani"
     , greeting  = "Hola"
     , thanks    = "Gracias por solicitar acceso a la plataforma Ruzaani."
@@ -26,7 +26,7 @@ getLocale ES = AccessThanksLocale
     , signoff1  = "Saludos cordiales,"
     , signoff2  = "El equipo de soporte de Ruzaani"
     }
-getLocale KO = AccessThanksLocale
+locale KO = AccessThanksLocale
     { subject   = "수신 완료: Ruzaani 액세스 요청"
     , greeting  = "안녕하세요"
     , thanks    = "Ruzaani 플랫폼 액세스를 신청해 주셔서 감사합니다."
@@ -37,7 +37,7 @@ getLocale KO = AccessThanksLocale
     , signoff1  = "감사합니다."
     , signoff2  = "Ruzaani 지원팀 드림"
     }
-getLocale _ = AccessThanksLocale
+locale _ = AccessThanksLocale
     { subject   = "Received: Your Ruzaani Access Request"
     , greeting  = "Hello"
     , thanks    = "Thank you for requesting access to the Ruzaani platform."

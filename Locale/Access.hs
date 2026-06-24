@@ -43,8 +43,8 @@ commonSeo = defaultSEO
         |]
     }
 
-getLocale :: Language -> AccessLocale
-getLocale EN = AccessLocale
+locale :: Language -> AccessLocale
+locale EN = AccessLocale
     { seo = commonSeo
         { title = "Request Access to Ruzaani"
         , metaTitle = "Request Access to Ruzaani - AI Business Intelligence Platform"
@@ -121,7 +121,7 @@ getLocale EN = AccessLocale
     , errorMsg = "An error occurred."
     }
 
-getLocale ES = AccessLocale
+locale ES = AccessLocale
     { seo = commonSeo
         { title = "Solicitar Acceso a Ruzaani"
         , metaTitle = "Solicitar Acceso a Ruzaani - Plataforma de Inteligencia Empresarial con IA"
@@ -198,7 +198,7 @@ getLocale ES = AccessLocale
     , errorMsg = "Ocurrió un error."
     }
 
-getLocale KO = AccessLocale
+locale KO = AccessLocale
     { seo = commonSeo
         { title = "Ruzaani 액세스 신청"
         , metaTitle = "Ruzaani 액세스 신청 - AI 비즈니스 인텔리전스 플랫폼"

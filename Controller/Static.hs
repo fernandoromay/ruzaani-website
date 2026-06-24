@@ -22,31 +22,31 @@ import Locale.Thanks  qualified as Thanks
 data LegalPage = Terms | Privacy deriving (Eq)
 
 homeAction :: (?lang :: Language) => Action ()
-homeAction = render $ homeView (Home.getLocale ?lang)
+homeAction = render $ homeView (Home.locale ?lang)
 
 productAction :: (?lang :: Language) => Action ()
-productAction = render $ productView (Product.getLocale ?lang)
+productAction = render $ productView (Product.locale ?lang)
 
 agencyAction :: (?lang :: Language) => Action ()
-agencyAction = render $ agencyView (Agency.getLocale ?lang)
+agencyAction = render $ agencyView (Agency.locale ?lang)
 
 pricingAction :: (?lang :: Language) => Action ()
 pricingAction = do
     country <- cfCountry
-    render $ pricingView (Pricing.getLocale ?lang country)
+    render $ pricingView (Pricing.locale ?lang country)
 
 accessAction :: (?lang :: Language) => Action ()
 accessAction = do
     setFormLoadTime
-    render $ accessView (Access.getLocale ?lang)
+    render $ accessView (Access.locale ?lang)
 
 thanksAction :: (?lang :: Language) => Action ()
-thanksAction = render $ thanksView (Thanks.getLocale ?lang)
+thanksAction = render $ thanksView (Thanks.locale ?lang)
 
 legalAction :: (?lang :: Language) => LegalPage -> Action ()
 legalAction page = render $ legalView (case page of
-    Terms   -> Legal.getLocaleTerms ?lang
-    Privacy -> Legal.getLocalePrivacy ?lang)
+    Terms   -> Legal.localeTerms ?lang
+    Privacy -> Legal.localePrivacy ?lang)
 
 notFoundAction :: Action ()
 notFoundAction = withLang EN $ render error404View

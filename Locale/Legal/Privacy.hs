@@ -1,5 +1,5 @@
 module Locale.Legal.Privacy
-    ( getLocalePrivacy
+    ( localePrivacy
     , module Locale.Legal.Prelude
     ) where
 
@@ -15,8 +15,8 @@ effectiveDate EN = "April 25, 2026"
 effectiveDate ES = "25 de abril de 2026"
 effectiveDate KO = "2026년 4월 25일"
 
-getLocalePrivacy :: Language -> LegalLocale
-getLocalePrivacy EN = LegalLocale
+localePrivacy :: Language -> LegalLocale
+localePrivacy EN = LegalLocale
     { seo = commonSEO
         { title = "Ruzaani's Privacy Policy"
         , metaTitle = "Privacy Policy | Ruzaani - AI Business Intelligence Platform"
@@ -107,7 +107,7 @@ getLocalePrivacy EN = LegalLocale
         |]
     }
 
-getLocalePrivacy ES = LegalLocale
+localePrivacy ES = LegalLocale
     { seo = commonSEO
         { title = "Política de Privacidad de Ruzaani"
         , metaTitle = "Política de Privacidad | Ruzaani - Plataforma de inteligencia empresarial"
@@ -198,7 +198,7 @@ getLocalePrivacy ES = LegalLocale
         |]
     }
 
-getLocalePrivacy KO = LegalLocale
+localePrivacy KO = LegalLocale
     { seo = commonSEO
         { title = "Ruzaani의 개인정보 처리방침"
         , metaTitle = "개인정보 처리방침 | Ruzaani - 인공지능 기반 비즈니스 인텔리전스 플랫폼"

@@ -78,8 +78,8 @@ commonSEO = defaultSEO
     }
 
 
-getLocale :: Language -> AgencyLocale
-getLocale EN = AgencyLocale
+locale :: Language -> AgencyLocale
+locale EN = AgencyLocale
     { seo = commonSEO
         { title = "Ruzaani Agency Program | Scale with AI"
         , metaTitle = "Ruzaani Agency Program: The Multi-Tenant AI Engine"
@@ -201,7 +201,7 @@ getLocale EN = AgencyLocale
     , finalCta = "Join Agency Program"
     , finalCtaLink = accessPath EN
     }
-getLocale ES = AgencyLocale
+locale ES = AgencyLocale
     { seo = commonSEO
         { title = "Programa de Agencias Ruzaani | Escala con IA"
         , metaTitle = "Programa de Agencias Ruzaani: Motor de IA para Agencias"
@@ -323,7 +323,7 @@ getLocale ES = AgencyLocale
     , finalCta = "Unirse al Programa de Agencias"
     , finalCtaLink = accessPath ES
     }
-getLocale KO = AgencyLocale
+locale KO = AgencyLocale
     { seo = commonSEO
         { title = "Ruzaani 에이전시 프로그램 | AI와 함께 성장하세요"
         , metaTitle = "Ruzaani 에이전시 프로그램: 에이전시 전용 AI 엔진"

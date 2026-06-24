@@ -114,8 +114,8 @@ commonSEO = defaultSEO
         |]
     }
 
-getLocale :: Language -> Maybe Text -> PricingLocale
-getLocale EN country = PricingLocale
+locale :: Language -> Maybe Text -> PricingLocale
+locale EN country = PricingLocale
     { seo = commonSEO
         { title = "Ruzaani Pricing | Plans for Every Business"
         , metaTitle = "Ruzaani Pricing: Simple, Transparent Plans"
@@ -312,7 +312,7 @@ getLocale EN country = PricingLocale
     , enterprisePostPath = enterprisePath EN
     }
 
-getLocale ES country = PricingLocale
+locale ES country = PricingLocale
     { seo = commonSEO
         { title = "Precios de Ruzaani | Planes para cada Negocio"
         , metaTitle = "Precios de Ruzaani: Planes Simples y Transparentes"
@@ -509,7 +509,7 @@ getLocale ES country = PricingLocale
     , enterprisePostPath = enterprisePath ES
     }
 
-getLocale KO country = PricingLocale
+locale KO country = PricingLocale
     { seo = commonSEO
         { title = "Ruzaani 요금제 | 모든 비즈니스를 위한 솔루션"
         , metaTitle = "Ruzaani 요금제: 심플하고 투명한 가격 정책"
