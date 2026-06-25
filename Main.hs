@@ -3,7 +3,6 @@ module Main where
 import Paths qualified as P (domain)
 import Lurk.Prelude
 import Lurk.App (Config(..))
-import Lurk.Env
 import Router
 
 loadConfig :: IO Config
@@ -17,7 +16,7 @@ loadConfig = do
 
 main :: IO ()
 main = do
-    env <- loadEnv
+    loadEnv
     cfg <- loadConfig
     putStrLn $ "Starting on http://localhost:" ++ show (port cfg)
     runLurk cfg router
