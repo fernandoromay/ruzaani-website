@@ -3,8 +3,6 @@ module View.Access where
 
 
 import Data.Maybe (fromMaybe)
-import Data.Text qualified as T
-import Lurk.Html (preEscapedToHtml)
 import View.Prelude
 import View.Layout.Default
 import Locale.Access
@@ -142,8 +140,21 @@ accessView AccessLocale {..} = defaultLayout seo [lurk|
       </div>
     </div>
 </main>
+
+<script>
+    window.auditTotalQuestions = {{totalQuestions}};
+    window.langStrings = { 
+        processing: '{{processingMsg}}', 
+        error: '{{errorMsg}}' 
+    };
+</script>
+<script src="{{assetPath "js/interactive-form.js"}}"></script>
+<script>
+    if (typeof window.startAudit === 'function') {
+        window.startAudit();
+    }
+</script>
 |]
-  <> renderScripts
   where
     totalQuestions = length questions
     csrfToken = fromMaybe "" (contextValue "csrfToken")
@@ -151,11 +162,3 @@ accessView AccessLocale {..} = defaultLayout seo [lurk|
     auditOptions q = q.options
     optionValue opt = opt.value
     optionLabel opt = opt.label
-
-    renderScripts :: Html
-    renderScripts =
-        preEscapedToHtml ("<script>window.auditTotalQuestions = " <> 
-            T.pack (show totalQuestions) <> 
-            "; window.langStrings = { processing: '" <> processingMsg <> "', error: '" <> errorMsg <> "' };</script><script src=\"" <> 
-            assetPath "js/interactive-form.js" <> 
-            "\"></script><script>if (typeof window.startAudit === 'function') { window.startAudit(); }</script>" :: Text)
