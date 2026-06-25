@@ -2,6 +2,7 @@ module Main where
 
 import Paths qualified as P (domain)
 import Lurk.Prelude
+import Lurk.App (Config(..))
 import Lurk.Env
 import Router
 
@@ -11,7 +12,7 @@ loadConfig = do
         { port          = 3003
         , domain        = P.domain
         , sessionMaxAge = Nothing
-        , sessionIdle   = 259200
+        , sessionIdle   = Just 259200
         }
 
 main :: IO ()
