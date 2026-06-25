@@ -9,6 +9,7 @@ import Data.Aeson qualified as Aeson
 import Data.Map.Strict qualified as Map
 import Data.Maybe (fromMaybe)
 import Data.Text qualified as T
+import Lurk.App (getAppEnv)
 import Lurk.Prelude
 import Lurk.Email.SMTP
 import Lurk.Form
