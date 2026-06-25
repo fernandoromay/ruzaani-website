@@ -1,30 +1,22 @@
 module Main where
 
-import Data.Maybe (fromMaybe)
-import Data.Text (Text)
-import Lurk.Env
 import Paths qualified as P (domain)
-import Lurk.Prelude (runLurk)
-import Router (router)
-
-data Config = Config
-    { port   :: Int
-    , domain :: Text
-    }
-
-defaultPort :: Int
-defaultPort = 3003
+import Lurk.Prelude
+import Lurk.Env
+import Router
 
 loadConfig :: IO Config
 loadConfig = do
-    env <- loadEnv
     pure Config
-        { port   = fromMaybe defaultPort (getEnvInt env "PORT")
-        , domain = P.domain
+        { port          = 3003
+        , domain        = P.domain
+        , sessionMaxAge = Nothing
+        , sessionIdle   = 259200
         }
 
 main :: IO ()
 main = do
+    env <- loadEnv
     cfg <- loadConfig
     putStrLn $ "Starting on http://localhost:" ++ show (port cfg)
-    runLurk (port cfg) router
+    runLurk cfg router
