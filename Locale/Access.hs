@@ -37,9 +37,8 @@ data AuditOption = AuditOption
     }
 
 commonSeo :: SEO
-commonSeo = defaultSEO
-    { ogSiteName = Just "Ruzaani"
-    , customTags = [lurk|
+commonSeo = defSEO
+    { customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/interactive-form.css"}}">
         |]
     }

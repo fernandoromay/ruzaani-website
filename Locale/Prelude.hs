@@ -8,6 +8,7 @@ module Locale.Prelude
     , Html
     , lurk
     , assetPath
+    , defSEO
     ) where
 
 import Data.Map.Strict (Map, fromList)
@@ -21,3 +22,9 @@ import Paths
 import Language
 
 mkAssetPath "public"
+
+defSEO :: SEO
+defSEO = defaultSEO
+    { ogSiteName = Just "Ruzaani"
+    , twitterSite = Just "@ruzaaniai"
+    }

@@ -52,9 +52,8 @@ data PointWithIcon = PointWithIcon
     }
 
 commonSeo :: SEO
-commonSeo = defaultSEO
-    { ogSiteName = Just "Ruzaani"
-    , customTags = [lurk|
+commonSeo = defSEO
+    { customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/home.css"}}">
         <link rel="stylesheet" href="{{assetPath "css/home-animations.css"}}">
         <link rel="stylesheet" href="{{assetPath "css/mockups.css"}}">

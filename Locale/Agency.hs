@@ -70,9 +70,8 @@ data Stat = Stat
     }
 
 commonSEO :: SEO
-commonSEO = defaultSEO
-    { ogSiteName = Just "Ruzaani"
-    , customTags = [lurk|
+commonSEO = defSEO
+    { customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/agency-program.css"}}">
         <link rel="stylesheet" href="{{assetPath "css/mockups.css"}}">
         |]

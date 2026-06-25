@@ -3,14 +3,12 @@ module Locale.Legal.Privacy
     , module Locale.Legal.Prelude
     ) where
 
-import Locale.Prelude (assetPath)
+import Locale.Prelude
 import Locale.Legal.Prelude
 
 commonSEO :: SEO
-commonSEO = defaultSEO
-    { ogSiteName = Just "Ruzaani"
-    , customTags = [lurk|<link rel="stylesheet" href="{{assetPath "css/legal.css"}}">|]
-    }
+commonSEO = defSEO
+    { customTags = [lurk|<link rel="stylesheet" href="{{assetPath "css/legal.css"}}">|] }
 
 effectiveDate :: Language -> Text
 effectiveDate EN = "April 25, 2026"
