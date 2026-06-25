@@ -108,9 +108,8 @@ data CuratorMockup = CuratorMockup
     }
 
 commonSEO :: SEO
-commonSEO = defaultSEO
-    { ogSiteName = Just "Ruzaani"
-    , customTags = [lurk|
+commonSEO = defSEO
+    { customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/product.css"}}">
         <link rel="stylesheet" href="{{assetPath "css/home-animations.css"}}">
         <link rel="stylesheet" href="{{assetPath "css/mockups.css"}}">

@@ -108,9 +108,8 @@ getSymbol KRW = "₩"
 getSymbol _   = "$"
 
 commonSEO :: SEO
-commonSEO = defaultSEO
-    { ogSiteName = Just "Ruzaani"
-    , customTags = [lurk|
+commonSEO = defSEO
+    { customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/pricing.css"}}">
         |]
     }

@@ -1,7 +1,7 @@
 cabal-version:   3.6
 
 name:            ruzaani-website
-version:         2026.6.24
+version:         2026.6.25
 -- synopsis:     -- Short (one-line) description
 -- description:  -- Long description
 
@@ -43,7 +43,6 @@ executable ruzaani-website
                      Language,
                      Locale.Access,
                      Locale.Agency,
-                     Locale.Partial,
                      Locale.Email.AccessThanks,
                      Locale.Email.EnterpriseThanks,
                      Locale.Home,
@@ -51,6 +50,7 @@ executable ruzaani-website
                      Locale.Legal.Prelude,
                      Locale.Legal.Privacy,
                      Locale.Legal.Terms,
+                     Locale.Partial,
                      Locale.Partial.Animations,
                      Locale.Partial.Mockups,
                      Locale.Prelude,

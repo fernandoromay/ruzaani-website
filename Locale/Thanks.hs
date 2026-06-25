@@ -15,9 +15,8 @@ data ThanksLocale = ThanksLocale
     }
 
 commonSEO :: SEO
-commonSEO = defaultSEO
+commonSEO = defSEO
     { robots = Just "noindex,follow"
-    , ogSiteName = Just "Ruzaani"
     , customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/common.css"}}">
         |]
@@ -33,7 +32,6 @@ locale lang = ThanksLocale
             , ogTitle = Just "Thanks for your interest in Ruzaani"
             , ogDescription = Just "Thanks for your interest in Ruzaani. We will get back to you as soon as possible."
             , canonical = Just $ domain <> thanksPath EN
-            , ogUrl = Just $ domain <> homePath EN
             , ogImage = Just $ domain <> "/img/open-graph/home-en.jpg"
             }
         ES -> commonSEO
@@ -43,7 +41,6 @@ locale lang = ThanksLocale
             , ogTitle = Just "Gracias por tu interés en Ruzaani"
             , ogDescription = Just "Gracias por tu interés en Ruzaani. Te contactaremos lo antes posible."
             , canonical = Just $ domain <> thanksPath ES
-            , ogUrl = Just $ domain <> homePath ES
             , ogImage = Just $ domain <> "/img/open-graph/home-es.jpg"
             }
         KO -> commonSEO
@@ -53,7 +50,6 @@ locale lang = ThanksLocale
             , ogTitle = Just "Ruzaani에 관심을 가져주셔서 감사합니다"
             , ogDescription = Just "Ruzaani에 관심을 가져주셔서 감사합니다. 최대한 빨리 연락드리겠습니다."
             , canonical = Just $ domain <> thanksPath KO
-            , ogUrl = Just $ domain <> homePath KO
             , ogImage = Just $ domain <> "/img/open-graph/home-ko.jpg"
             }
     , header = case lang of

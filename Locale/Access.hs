@@ -37,9 +37,8 @@ data AuditOption = AuditOption
     }
 
 commonSeo :: SEO
-commonSeo = defaultSEO
-    { ogSiteName = Just "Ruzaani"
-    , customTags = [lurk|
+commonSeo = defSEO
+    { customTags = [lurk|
         <link rel="stylesheet" href="{{assetPath "css/interactive-form.css"}}">
         |]
     }
@@ -82,10 +81,9 @@ locale EN = AccessLocale
             { question = "How do your leads or clients most often contact you?"
             , options =
                 [ AuditOption { label = "Primarily via WhatsApp", value = "whatsapp" }
-                , AuditOption { label = "Primarily via Instagram or Facebook DMs", value = "instagram" }
-                , AuditOption { label = "WhatsApp and social media DMs", value = "both_social" }
+                , AuditOption { label = "Primarily via Social Media", value = "social_media" }
                 , AuditOption { label = "Multiple channels — no single system for them", value = "mixed" }
-                , AuditOption { label = "Phone calls and/or website forms", value = "phone_forms" }
+                , AuditOption { label = "Phone calls and/or website forms", value = "phone_webforms" }
                 ]
             }
         , Question
@@ -160,10 +158,9 @@ locale ES = AccessLocale
             { question = "¿Cómo te contactan principalmente tus leads o clientes?"
             , options =
                 [ AuditOption { label = "Principalmente por WhatsApp", value = "whatsapp" }
-                , AuditOption { label = "Principalmente por Instagram o Facebook DMs", value = "instagram" }
-                , AuditOption { label = "Por WhatsApp y redes sociales", value = "both_social" }
+                , AuditOption { label = "Principalmente por Redes Sociales", value = "social_media" }
                 , AuditOption { label = "Por varios canales sin un sistema único", value = "mixed" }
-                , AuditOption { label = "Por teléfono y/o formularios en el sitio web", value = "phone_forms" }
+                , AuditOption { label = "Por teléfono y/o formularios en el sitio web", value = "phone_webforms" }
                 ]
             }
         , Question
@@ -238,10 +235,9 @@ locale KO = AccessLocale
             { question = "고객 또는 잠재 고객이 주로 어떻게 연락하나요?"
             , options =
                 [ AuditOption { label = "주로 WhatsApp으로", value = "whatsapp" }
-                , AuditOption { label = "주로 Instagram 또는 Facebook DM으로", value = "instagram" }
-                , AuditOption { label = "WhatsApp과 소셜 미디어 DM 모두", value = "both_social" }
+                , AuditOption { label = "주로 소셜 미디어", value = "social_media" }
                 , AuditOption { label = "여러 채널을 사용하지만 통합 시스템 없음", value = "mixed" }
-                , AuditOption { label = "전화 및/또는 웹사이트 문의 양식", value = "phone_forms" }
+                , AuditOption { label = "전화 및/또는 웹사이트 문의 양식", value = "phone_webforms" }
                 ]
             }
         , Question
