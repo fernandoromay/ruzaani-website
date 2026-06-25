@@ -15,7 +15,7 @@ A fully multilingual (English, Spanish, Korean) marketing site with dynamic pric
 Lurk is a lightweight Haskell web framework I developed. This project demonstrates its capabilities:
 
 ```haskell
--- Router — clean, expressive routing
+-- Routes automatically handle all languages via ?lang
 router :: LurkApp
 router = do
     routeSettings [ TrailingSlashes, ForceSSL, ServeStatic "public" ]
@@ -26,10 +26,13 @@ router = do
 ```
 
 ```haskell
--- Templates — compile-time safe with [lurk|...|] quasiquoter
+-- Compile-time safe [lurk|...|] with {{}} interpolation
 [lurk|
-<h1>@{title locale}</h1>
-<p>@{description locale}</p>
+<ul>
+  {{forEach items (\item -> (lurk|
+    <li>{{item}}</li>
+  |))}}
+</ul>
 |]
 ```
 
