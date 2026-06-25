@@ -74,11 +74,10 @@ scoreAccessForm fd = (score, qual)
         ]
 
     channelScores = Map.fromList
-        [ ("whatsapp",    20)
-        , ("instagram",   20)
-        , ("both_social", 20)
-        , ("mixed",       15)
-        , ("phone_forms", 10)
+        [ ("whatsapp",    15)
+        , ("social_media",   15)
+        , ("mixed",       20)
+        , ("phone_webforms", 10)
         ]
 
     volumeScores = Map.fromList
@@ -107,7 +106,7 @@ scoreAccessForm fd = (score, qual)
           + Map.findWithDefault 0 q5 painScores
 
     qual
-        | score >= 65 = SQL
+        | score >= 70 = SQL
         | score >= 40 = MQL
         | otherwise   = NQ
 
