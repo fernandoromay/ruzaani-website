@@ -25,12 +25,11 @@ import Locale.Email.EnterpriseThanks qualified as EL
 -- | Load SMTP configuration from environment
 loadSmtpConfig :: IO (Maybe SmtpConfig)
 loadSmtpConfig = do
-    env <- getAppEnv
-    let mHost = getEnv env "SMTP_HOST"
-        mPort = getEnvInt env "SMTP_PORT"
-        mUser = getEnv env "SMTP_USER"
-        mPass = getEnv env "SMTP_PASS"
-        mEncr = fromMaybe "" (getEnv env "SMTP_ENCR")
+    mHost <- getEnv "SMTP_HOST"
+    mPort <- getEnvInt "SMTP_PORT"
+    mUser <- getEnv "SMTP_USER"
+    mPass <- getEnv "SMTP_PASS"
+    mEncr <- getEnvWithDefault "SMTP_ENCR" ""
     case (mHost, mPort, mUser, mPass) of
         (Just h, Just p, Just u, Just pw) -> do
             pure $ Just SmtpConfig
@@ -46,9 +45,7 @@ loadSmtpConfig = do
 
 -- | Load admin email from environment
 loadAdminEmail :: IO (Maybe Text)
-loadAdminEmail = do
-    env <- getAppEnv
-    pure $ getEnv env "ADMIN_EMAIL"
+loadAdminEmail = getEnv "ADMIN_EMAIL"
 
 ----------------------------------------------------------------------
 -- LEAD SCORING

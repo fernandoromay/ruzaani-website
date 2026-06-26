@@ -7,7 +7,7 @@ import Controller.Form
 
 router :: LurkApp
 router = do
-    routeSettings [ TrailingSlashes, ForceSSL, ServeStatic "public" ]
+    routeSettings [ SecurityHeaders, TrailingSlashes, ForceSSL, ServeStatic "public" ]
 
     get homePath homeAction
     get productPath productAction
