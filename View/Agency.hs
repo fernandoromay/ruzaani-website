@@ -220,7 +220,7 @@ agencyView AgencyLocale {..} = defaultLayout seo [lurk|
             <div class="scale-counter-wrap">
               <div class="scale-counter-value">
                 <span data-count="{{show scaleCounterTarget}}"
-                  data-suffix="{{show scaleCounterSuffix}}">0
+                  data-suffix="{{scaleCounterSuffix}}">0
                   {{scaleCounterSuffix}}
                 </span>
               </div>
