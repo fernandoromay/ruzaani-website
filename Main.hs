@@ -19,5 +19,4 @@ main :: IO ()
 main = do
     loadEnv
     cfg <- loadConfig
-    putStrLn $ "Starting on http://localhost:" ++ show (port cfg)
     runLurk cfg router
