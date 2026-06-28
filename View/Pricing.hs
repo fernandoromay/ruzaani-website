@@ -2,7 +2,7 @@
 
 module View.Pricing where
 
-import Data.Maybe (isJust, fromMaybe)
+import Data.Maybe (isJust)
 import View.Prelude
 import View.Layout.Default
 import Locale.Pricing
@@ -252,7 +252,7 @@ pricingView PricingLocale {..} = defaultLayout seo [lurk|
       <form class="modal-form" action="{{enterprisePostPath}}" method="POST">
         <input type="hidden" name="type" value="enterprise_inquiry">
         <input type="hidden" name="lang" value="{{toText ?lang}}">
-        <input type="hidden" name="_token" value="{{csrfToken}}">
+        <input type="hidden" name="_token" value="{{?csrfToken}}">
         
         <div class="row g-3">
           <div class="col-md-6 form-group">
@@ -290,6 +290,3 @@ pricingView PricingLocale {..} = defaultLayout seo [lurk|
 
   <script src="{{assetPath "js/pricing.js"}}"></script>
 |]
-  where
-    csrfToken :: Text
-    csrfToken = fromMaybe "" (contextValue "csrfToken")

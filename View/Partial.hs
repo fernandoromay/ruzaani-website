@@ -19,7 +19,7 @@ navbar = [lurk|
         <li><a href="{{l.productLink}}" class="{{isActive l.productLink}}">{{l.productText}}</a></li>
         <li><a href="{{l.agencyLink}}" class="{{isActive l.agencyLink}}">{{l.agencyText}}</a></li>
         <li><a href="{{l.pricingLink}}" class="{{isActive l.pricingLink}}">{{l.pricingText}}</a></li>
-        {{if contextValue "showLogin" == Just "true" 
+        {{if paramValue "showLogin" == Just "true" 
           then (lurk|
             <a href="{{l.loginLink}}">
                 <li class="btn-navbar">
@@ -74,7 +74,7 @@ navside = [lurk|
 
     <hr>
 
-    {{ if contextValue "showLogin" == Just "true"
+    {{ if paramValue "showLogin" == Just "true"
         then (lurk|<a class="nav-link access-link" href="{{l.loginLink}}">{{l.loginText}}</a>|)
         else (lurk|<a class="nav-link access-link" href="{{l.accessLink}}">{{l.accessText}}</a>|)
     }}
