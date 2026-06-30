@@ -4,7 +4,7 @@ Marketing website for [Ruzaani](https://ruzaani.com), an AI business intelligenc
 
 ![Ruzaani Website](ruzaani.png)
 
-## What I Built
+## Overview
 
 A fully multilingual (English, Spanish, Korean) marketing site with dynamic pricing, intelligent lead qualification forms, and one-command deployment — all in Haskell.
 
@@ -12,7 +12,7 @@ A fully multilingual (English, Spanish, Korean) marketing site with dynamic pric
 
 ## Built with [Lurk](https://github.com/fernandoromay/lurk)
 
-Lurk is a lightweight Haskell web framework I developed. This project demonstrates its capabilities:
+Lurk is the Lean Unified Rendering Kernel — a lightweight, compile-time safe Haskell web framework. This project demonstrates its capabilities:
 
 ```haskell
 -- Routes automatically handle all languages via ?lang
