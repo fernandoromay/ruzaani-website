@@ -8,25 +8,34 @@ module View.Prelude
     ) where
 
 import Lurk.Prelude hiding (ViewCtx, render)
+import Lurk.Request (fetchCurrentPath)
+import Lurk.CSRF (fetchCsrfToken)
+import Lurk.Flash (getFlash)
+import Lurk.Validate (getValidationErrors)
 import Data.Text.Lazy qualified as TL
-import Lurk.CSRF
 import Language
 
 mkAssetPath "public"
 
-type ViewCtx lang = (?currentPath :: Text, ?csrfToken :: Text, ?params :: [(Text, Text)], ?lang :: lang)
+type ViewCtx lang = (?ctx :: ViewContext, ?params :: [(Text, Text)], ?lang :: lang)
 
-render :: ((?currentPath :: Text, ?csrfToken :: Text, ?params :: [(Text, Text)]) => Html) -> Action ()
+render :: ((?ctx :: ViewContext, ?params :: [(Text, Text)]) => Html) -> Action ()
 render viewHtml = do
     showLogin <- maybe False (/= "") <$> getCookie "rz_show_login"
     let params =
             [ ("showLogin", if showLogin then "true" else "false")
             ]
-    uri <- currentPath
-    token <- csrfToken
-    let ?currentPath = uri
+    uri <- fetchCurrentPath
+    tokn <- fetchCsrfToken
+    flsh <- getFlash
+    errs <- getValidationErrors
+    let ?ctx = ViewContext
+            { vcCurrentPath = uri
+            , vcCsrfToken   = tokn
+            , vcFlash       = flsh
+            , vcValidation  = errs
+            }
         ?params = params
-        ?csrfToken = token
     html . TL.fromStrict . renderHtml $ viewHtml
 
 paramValue :: (?params :: [(Text, Text)]) => Text -> Maybe Text

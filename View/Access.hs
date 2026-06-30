@@ -91,8 +91,8 @@ accessView AccessLocale {..} = defaultLayout seo [lurk|
             <h3 class="mb-3">{{contactTitle}}</h3>
             <p class="text-secondary mb-4">{{contactSubtitle}}</p>
 
-            <form class="contact-form text-start" id="audit-form" action="{{?currentPath}}" method="POST">
-              <input type="hidden" name="_token" value="{{?csrfToken}}">
+            <form class="contact-form text-start" id="audit-form" action="{{currentPath}}" method="POST">
+              <input type="hidden" name="_token" value="{{csrfToken}}">
               <div class="mb-3">
                 <label
                   class="form-label small text-uppercase text-secondary fw-bold">{{labelName}}</label>

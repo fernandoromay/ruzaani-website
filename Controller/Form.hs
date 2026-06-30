@@ -156,7 +156,7 @@ accessPostAction :: (?lang :: Language) => Action ()
 accessPostAction = do
     ip <- fromMaybe "unknown" <$> clientIp
 
-    fd <- validateForm
+    fd <- runGuards
         (map ($ redirect "/404/")
             [ honeypot "b_website"
             , minSubmitTime 3
@@ -217,7 +217,7 @@ enterprisePostAction :: (?lang :: Language) => Action ()
 enterprisePostAction = do
     ip <- fromMaybe "unknown" <$> clientIp
 
-    fd <- validateForm
+    fd <- runGuards
         (map ($ redirect "/404/")
             [ honeypot "b_website"
             , minSubmitTime 3
