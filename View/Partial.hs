@@ -15,11 +15,11 @@ navbar = [lurk|
       </a>
 
       <ul class="navbar-nav">
-        <li><a href="{{l.homeLink}}" class='{{if ?currentPath == l.homeLink then "active" else ""}}'>{{l.homeText}}</a></li>
+        <li><a href="{{l.homeLink}}" class='{{if currentPath == l.homeLink then "active" else ""}}'>{{l.homeText}}</a></li>
         <li><a href="{{l.productLink}}" class="{{isActive l.productLink}}">{{l.productText}}</a></li>
         <li><a href="{{l.agencyLink}}" class="{{isActive l.agencyLink}}">{{l.agencyText}}</a></li>
         <li><a href="{{l.pricingLink}}" class="{{isActive l.pricingLink}}">{{l.pricingText}}</a></li>
-        {{if contextValue "showLogin" == Just "true" 
+        {{if paramValue "showLogin" == Just "true" 
           then (lurk|
             <a href="{{l.loginLink}}">
                 <li class="btn-navbar">
@@ -42,9 +42,9 @@ navbar = [lurk|
   where
     l = navbarLocale ?lang
 
-    isActive :: (?currentPath :: Text) => Text -> Text
+    isActive :: (?ctx :: ViewContext) => Text -> Text
     isActive path
-      | (path `isSubpath` ?currentPath) && (path /= "/") = "active"
+      | (path `isSubpath` currentPath) && (path /= "/") = "active"
       | otherwise = ""
 
 
@@ -74,7 +74,7 @@ navside = [lurk|
 
     <hr>
 
-    {{ if contextValue "showLogin" == Just "true"
+    {{ if paramValue "showLogin" == Just "true"
         then (lurk|<a class="nav-link access-link" href="{{l.loginLink}}">{{l.loginText}}</a>|)
         else (lurk|<a class="nav-link access-link" href="{{l.accessLink}}">{{l.accessText}}</a>|)
     }}

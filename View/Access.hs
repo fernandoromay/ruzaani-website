@@ -1,8 +1,6 @@
 {-# LANGUAGE RecordWildCards #-}
 module View.Access where
 
-
-import Data.Maybe (fromMaybe)
 import View.Prelude
 import View.Layout.Default
 import Locale.Access
@@ -93,7 +91,7 @@ accessView AccessLocale {..} = defaultLayout seo [lurk|
             <h3 class="mb-3">{{contactTitle}}</h3>
             <p class="text-secondary mb-4">{{contactSubtitle}}</p>
 
-            <form class="contact-form text-start" id="audit-form" action="{{?currentPath}}" method="POST">
+            <form class="contact-form text-start" id="audit-form" action="{{currentPath}}" method="POST">
               <input type="hidden" name="_token" value="{{csrfToken}}">
               <div class="mb-3">
                 <label
@@ -157,7 +155,6 @@ accessView AccessLocale {..} = defaultLayout seo [lurk|
 |]
   where
     totalQuestions = length questions
-    csrfToken = fromMaybe "" (contextValue "csrfToken")
     auditQuestion q = q.question
     auditOptions q = q.options
     optionValue opt = opt.value

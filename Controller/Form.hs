@@ -156,7 +156,7 @@ accessPostAction :: (?lang :: Language) => Action ()
 accessPostAction = do
     ip <- fromMaybe "unknown" <$> clientIp
 
-    fd <- validateForm
+    fd <- runGuards
         (map ($ redirect "/404/")
             [ honeypot "b_website"
             , minSubmitTime 3
@@ -204,20 +204,9 @@ accessPostAction = do
             sendAndLog smtpLogger config adminEmail subj body
 
             unless (T.null email) $ do
-                let l = AL.locale ?lang
-                    thanksFields = AccessThanksFields
-                        { name = getParamDef "name" "" fd
-                        , greeting = AL.greeting l
-                        , thanks = AL.thanks l
-                        , review = AL.review l
-                        , nextSteps = AL.nextSteps l
-                        , step1 = AL.step1 l
-                        , step2 = AL.step2 l
-                        , signoff1 = AL.signoff1 l
-                        , signoff2 = AL.signoff2 l
-                        }
-                    confirmSubject = AL.subject l
-                    confirmBody = renderHtml (accessThanks thanksFields)
+                let name = getParamDef "name" "" fd
+                    confirmSubject = AL.subject (AL.locale ?lang)
+                    confirmBody = renderHtml (accessThanks name)
                 sendAndLog smtpLogger config email confirmSubject confirmBody
         _ -> liftIO $ do
             logWarning smtpLogger "SMTP not configured, skipping email" []
@@ -228,7 +217,7 @@ enterprisePostAction :: (?lang :: Language) => Action ()
 enterprisePostAction = do
     ip <- fromMaybe "unknown" <$> clientIp
 
-    fd <- validateForm
+    fd <- runGuards
         (map ($ redirect "/404/")
             [ honeypot "b_website"
             , minSubmitTime 3
@@ -261,20 +250,9 @@ enterprisePostAction = do
             sendAndLog smtpLogger config adminEmail subj body
 
             unless (T.null email) $ do
-                let l = EL.locale ?lang
-                    thanksFields = EnterpriseThanksFields
-                        { name = getParamDef "name" "" fd
-                        , greeting = EL.greeting l
-                        , thanks = EL.thanks l
-                        , review = EL.review l
-                        , nextSteps = EL.nextSteps l
-                        , step1 = EL.step1 l
-                        , step2 = EL.step2 l
-                        , signoff1 = EL.signoff1 l
-                        , signoff2 = EL.signoff2 l
-                        }
-                    confirmSubject = EL.subject l
-                    confirmBody = renderHtml (enterpriseThanks thanksFields)
+                let name = getParamDef "name" "" fd
+                    confirmSubject = EL.subject (EL.locale ?lang)
+                    confirmBody = renderHtml (enterpriseThanks name)
                 sendAndLog smtpLogger config email confirmSubject confirmBody
         _ -> liftIO $ do
             logWarning smtpLogger "SMTP not configured, skipping enterprise email" []

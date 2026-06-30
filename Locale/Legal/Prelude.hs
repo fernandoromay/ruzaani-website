@@ -1,10 +1,8 @@
 module Locale.Legal.Prelude
-    ( LegalLocale(..) 
-    , module Lurk.Prelude
+    ( LegalLocale(..)
     , module Locale.Prelude
      ) where
 
-import Lurk.Prelude
 import Locale.Prelude hiding (assetPath)
 
 data LegalLocale = LegalLocale

@@ -2,7 +2,7 @@
 
 module View.Pricing where
 
-import Data.Maybe (isJust, fromMaybe)
+import Data.Maybe (isJust)
 import View.Prelude
 import View.Layout.Default
 import Locale.Pricing
@@ -290,6 +290,3 @@ pricingView PricingLocale {..} = defaultLayout seo [lurk|
 
   <script src="{{assetPath "js/pricing.js"}}"></script>
 |]
-  where
-    csrfToken :: Text
-    csrfToken = fromMaybe "" (contextValue "csrfToken")
