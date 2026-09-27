@@ -1,8 +1,8 @@
-# Ruzaani Website
+# Panawik Website
 
-Marketing website for [Ruzaani](https://ruzaani.com), an AI business intelligence platform.
+Marketing website for [Panawik](https://panawik.ruzaani.com), an AI business intelligence platform.
 
-![Ruzaani Website](ruzaani.png)
+![Panawik Website](panawik.png)
 
 ## Overview
 
@@ -64,9 +64,9 @@ Haskell · Lurk · Warp · Bootstrap · GitHub Actions
 
 ```bash
 git clone --recurse-submodules https://github.com/fernandoromay/ruzaani-website.git
-cd ruzaani-website
+cd panawik-website
 cabal build
-cabal run ruzaani-website
+cabal run panawik-website
 ```
 
 Server starts at `http://localhost:3003`

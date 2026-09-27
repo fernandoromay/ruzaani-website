@@ -81,8 +81,8 @@ commonSEO = defSEO
 locale :: Language -> AgencyLocale
 locale EN = AgencyLocale
     { seo = commonSEO
-        { title = "Ruzaani Agency Program | Scale with AI"
-        , metaTitle = "Ruzaani Agency Program: The Multi-Tenant AI Engine"
+        { title = "Panawik Agency Program | Scale with AI"
+        , metaTitle = "Panawik Agency Program: The Multi-Tenant AI Engine"
         , metaDescription = "Turn your agency into a revenue systems provider. Scale without headcount using our multi-tenant AI Agent Layer architecture."
         , canonical = Just $ domain <> agencyPath EN
         , ogImage = Just $ domain <> "/img/open-graph/agency-en.jpg"
@@ -97,14 +97,14 @@ locale EN = AgencyLocale
     , comparisonTitle = "The Bespoke Trap Is Killing Your Margins"
     , comparisonSubtitle = "Your agency builds custom automation stacks for every client. Then the API breaks, the client churns — and your team starts over."
     , comparisonBad = "The Bespoke Trap"
-    , comparisonGood = "The Ruzaani Way"
+    , comparisonGood = "The Panawik Way"
     , comparisonData =
         [ ComparisonRow {bad = "Weeks building fragile Zapier / Make workflows", good = "Deploy the full AI Agent Layer in hours, not weeks"} 
         , ComparisonRow {bad = "API breaks → your team fixes it on weekends", good = "We absorb every API change & model update"} 
         , ComparisonRow {bad = "ROI reported on a spreadsheet no one trusts", good = "Unified revenue attribution built into the platform"} 
         , ComparisonRow {bad = "Scaling means more headcount, more overhead", good = "Every new client increases your net margin"} 
         ]
-    , comparisonBento = "Ruzaani replaces bespoke automation with a standardized, enterprise-grade AI Agent Layer. One deployment covers your entire portfolio. When the underlying systems change, we absorb it — your margins stay intact and your clients stay won."
+    , comparisonBento = "Panawik replaces bespoke automation with a standardized, enterprise-grade AI Agent Layer. One deployment covers your entire portfolio. When the underlying systems change, we absorb it — your margins stay intact and your clients stay won."
     , payloadTitle = "Everything Your Agency Needs"
     , payloadSubtitle = "Four infrastructure pillars. One unified platform. Zero maintenance burden on your team."
     , payloadTabsList = 
@@ -116,7 +116,7 @@ locale EN = AgencyLocale
         [ PayloadTab 
             { label = "Zero-code deployment"
             , title = "Swap Fragile Builds for Standardized Power"
-            , description = "Stop rebuilding the same automation stack for every client. The Ruzaani AI Agent Layer replaces weeks of Zapier and Make workflows with an enterprise-grade, standardized deployment that ships in hours."
+            , description = "Stop rebuilding the same automation stack for every client. The Panawik AI Agent Layer replaces weeks of Zapier and Make workflows with an enterprise-grade, standardized deployment that ships in hours."
             , bullets = 
                 [ "No coding required — configure, not build"
                 , "SDR, Closer, Sentinel active on day one"
@@ -162,7 +162,7 @@ locale EN = AgencyLocale
     , payloadDeployBad2 = "Custom API glue code"
     , payloadDeployBad3 = "3–6 weeks to deliver"
     , payloadDeployDivider = "replaced by"
-    , payloadDeployGood1 = "Ruzaani AI Infrastructure — deployed"
+    , payloadDeployGood1 = "Panawik AI Infrastructure — deployed"
     , payloadDeployGood2 = "Live in hours, not weeks"
     , payloadDeployGood3 = "Zero maintenance, ever"
     , scaleBrow = "Agency Economics"
@@ -170,13 +170,13 @@ locale EN = AgencyLocale
     , scaleSubtitle = "The economics of the agency model — built differently."
     , scaleCounterTarget = 100
     , scaleCounterSuffix = "%"
-    , scaleCounterLabel = "Maintenance cost absorbed by Ruzaani"
+    , scaleCounterLabel = "Maintenance cost absorbed by Panawik"
     , scaleCounterNote = "You focus on high-level strategy. We handle the heavy lifting."
     , scalePillars =
         [ ScalePillar 
             { icon = "fa-solid fa-wrench"
             , title = "Zero Maintenance Cost"
-            , description = "When APIs change or models update, Ruzaani handles it. Your margins are no longer eaten by bug-fixing and workflow repair."
+            , description = "When APIs change or models update, Panawik handles it. Your margins are no longer eaten by bug-fixing and workflow repair."
             }
         , ScalePillar 
             { icon = "fa-solid fa-link"
@@ -204,8 +204,8 @@ locale EN = AgencyLocale
     }
 locale ES = AgencyLocale
     { seo = commonSEO
-        { title = "Programa de Agencias Ruzaani | Escala con IA"
-        , metaTitle = "Programa de Agencias Ruzaani: Motor de IA para Agencias"
+        { title = "Programa de Agencias Panawik | Escala con IA"
+        , metaTitle = "Programa de Agencias Panawik: Motor de IA para Agencias"
         , metaDescription = "Convierte tu agencia en un proveedor de sistemas de crecimiento. Escala sin aumentar la nómina."
         , canonical = Just $ domain <> agencyPath ES
         , ogImage = Just $ domain <> "/img/open-graph/agency-es.jpg"
@@ -220,14 +220,14 @@ locale ES = AgencyLocale
     , comparisonTitle = "La Trampa de lo \"Hecho a Medida\" está Limitando tus Márgenes"
     , comparisonSubtitle = "Tu agencia construye flujos de automatización personalizados para cada cliente. Luego la API falla, el cliente se va y tu equipo tiene que empezar de cero."
     , comparisonBad = "La Trampa Artesanal"
-    , comparisonGood = "El Método Ruzaani"
+    , comparisonGood = "El Método Panawik"
     , comparisonData =
         [ ComparisonRow {bad = "Semanas creando flujos frágiles en Zapier / Make", good = "Despliega el sistema completo en horas, no semanas"} 
         , ComparisonRow {bad = "La API falla → tu equipo lo arregla el fin de semana", good = "Absorbemos cada cambio de API y actualización"} 
         , ComparisonRow {bad = "ROI reportado en excels en los que nadie confía", good = "Atribución de ingresos unificada integrada en la plataforma"} 
         , ComparisonRow {bad = "Escalar implica más personal y más gastos fijos", good = "Cada nuevo cliente aumenta tu margen neto"} 
         ]
-    , comparisonBento = "Ruzaani reemplaza la automatización artesanal con una infraestructura de IA estandarizada de grado empresarial. Un solo despliegue cubre todo tu portafolio. Cuando los sistemas cambian, nosotros lo absorbemos: tus márgenes se mantienen y tus clientes se quedan."
+    , comparisonBento = "Panawik reemplaza la automatización artesanal con una infraestructura de IA estandarizada de grado empresarial. Un solo despliegue cubre todo tu portafolio. Cuando los sistemas cambian, nosotros lo absorbemos: tus márgenes se mantienen y tus clientes se quedan."
     , payloadTitle = "Todo lo que tu Agencia Necesita"
     , payloadSubtitle = "Cuatro pilares de infraestructura. Una plataforma unificada. Cero carga de mantenimiento para tu equipo."
     , payloadTabsList = 
@@ -239,7 +239,7 @@ locale ES = AgencyLocale
         [ PayloadTab 
             { label = "Despliegue sin código"
             , title = "Cambia Construcciones Frágiles por Poder Estandarizado"
-            , description = "Deja de reconstruir el mismo stack para cada cliente. La infraestructura de Ruzaani reemplaza semanas de trabajo en Zapier y Make con un despliegue estandarizado de grado empresarial que se lanza en horas."
+            , description = "Deja de reconstruir el mismo stack para cada cliente. La infraestructura de Panawik reemplaza semanas de trabajo en Zapier y Make con un despliegue estandarizado de grado empresarial que se lanza en horas."
             , bullets = 
                 [ "Sin código — configurar, no construir"
                 , "SDR, Closer y Sentinel activos desde el primer día"
@@ -285,7 +285,7 @@ locale ES = AgencyLocale
     , payloadDeployBad2 = "Código personalizado"
     , payloadDeployBad3 = "3–6 semanas de desarrollo"
     , payloadDeployDivider = "reemplazado por"
-    , payloadDeployGood1 = "Infraestructura de Ruzaani"
+    , payloadDeployGood1 = "Infraestructura de Panawik"
     , payloadDeployGood2 = "En vivo en horas, no semanas"
     , payloadDeployGood3 = "Cero mantenimiento, siempre"
     , scaleBrow = "Economía de Agencia"
@@ -293,13 +293,13 @@ locale ES = AgencyLocale
     , scaleSubtitle = "La economía del modelo de agencia, construida de forma diferente."
     , scaleCounterTarget = 100
     , scaleCounterSuffix = "%"
-    , scaleCounterLabel = "Coste de mantenimiento absorbido por Ruzaani"
+    , scaleCounterLabel = "Coste de mantenimiento absorbido por Panawik"
     , scaleCounterNote = "Tú te enfocas en la estrategia. Nosotros en el trabajo pesado."
     , scalePillars =
         [ ScalePillar 
             { icon = "fa-solid fa-wrench"
             , title = "Cero Mantenimiento"
-            , description = "Cuando las APIs cambian o los modelos se actualizan, Ruzaani se encarga. Tus márgenes ya no se pierden en arreglar fallos y flujos."
+            , description = "Cuando las APIs cambian o los modelos se actualizan, Panawik se encarga. Tus márgenes ya no se pierden en arreglar fallos y flujos."
             }
         , ScalePillar 
             { icon = "fa-solid fa-link"
@@ -327,8 +327,8 @@ locale ES = AgencyLocale
     }
 locale KO = AgencyLocale
     { seo = commonSEO
-        { title = "Ruzaani 에이전시 프로그램 | AI와 함께 성장하세요"
-        , metaTitle = "Ruzaani 에이전시 프로그램: 에이전시 전용 AI 엔진"
+        { title = "Panawik 에이전시 프로그램 | AI와 함께 성장하세요"
+        , metaTitle = "Panawik 에이전시 프로그램: 에이전시 전용 AI 엔진"
         , metaDescription = "에이전시를 성장 시스템 제공업체로 전환하세요. 인원 추가 없이 비즈니스를 확장할 수 있습니다."
         , canonical = Just $ domain <> agencyPath KO
         , ogImage = Just $ domain <> "/img/open-graph/agency-ko.jpg"
@@ -343,14 +343,14 @@ locale KO = AgencyLocale
     , comparisonTitle = "\"커스텀 개발의 함정\"이 에이전시의 수익을 해치고 있습니다"
     , comparisonSubtitle = "에이전시가 고객마다 새로운 자동화 워크플로우를 구축하면, API가 변경될 때마다 유지보수 비용이 발생하고 결국 고객은 이탈하게 됩니다."
     , comparisonBad = "수동 커스텀 방식"
-    , comparisonGood = "Ruzaani 솔루션"
+    , comparisonGood = "Panawik 솔루션"
     , comparisonData =
         [ ComparisonRow {bad = "Zapier / Make 플로우 구축에 수주 소요", good = "수시간 내에 전체 AI 시스템 배포 완료"} 
         , ComparisonRow {bad = "API 오류 발생 시 팀이 주말까지 수정 작업", good = "모든 API 변경 및 모델 업데이트 실시간 자동 대응"} 
         , ComparisonRow {bad = "신뢰할 수 없는 엑셀 기반의 ROI 보고", good = "플랫폼에 내장된 통합 매출 기여도 분석"} 
         , ComparisonRow {bad = "확장을 위해 인력 충원과 고정비 증가 필수", good = "고객이 늘어날수록 에이전시의 순이익률 상승"} 
         ]
-    , comparisonBento = "Ruzaani는 수동적인 커스텀 자동화 대신 표준화된 엔터프라이즈급 AI 인프라를 제공합니다. 단 한 번의 배포로 전체 포트폴리오를 관리하세요. 시스템이 변경되어도 Ruzaani가 모든 대응을 대행하며, 에이전시의 마진과 고객 유지율은 안전하게 보호됩니다."
+    , comparisonBento = "Panawik는 수동적인 커스텀 자동화 대신 표준화된 엔터프라이즈급 AI 인프라를 제공합니다. 단 한 번의 배포로 전체 포트폴리오를 관리하세요. 시스템이 변경되어도 Panawik가 모든 대응을 대행하며, 에이전시의 마진과 고객 유지율은 안전하게 보호됩니다."
     , payloadTitle = "에이전시 성장을 위한 모든 도구"
     , payloadSubtitle = "4대 핵심 인프라 기둥. 하나의 통합 플랫폼. 유지보수 부담 제로."
     , payloadTabsList = 
@@ -362,7 +362,7 @@ locale KO = AgencyLocale
         [ PayloadTab 
             { label = "제로 코드 배포"
             , title = "취약한 워크플로우를 표준화된 강력한 인프라로 교체"
-            , description = "모든 고객을 위해 동일한 자동화 스택을 반복해서 만들지 마세요. Ruzaani는 수주가 걸리던 작업을 단 몇 시간 만에 완료되는 표준화된 엔터프라이즈급 배포로 대체합니다."
+            , description = "모든 고객을 위해 동일한 자동화 스택을 반복해서 만들지 마세요. Panawik는 수주가 걸리던 작업을 단 몇 시간 만에 완료되는 표준화된 엔터프라이즈급 배포로 대체합니다."
             , bullets = 
                 [ "코딩 불필요 — 구축이 아닌 구성 방식"
                 , "SDR, Closer, Sentinel 즉시 가동 가능"
@@ -408,7 +408,7 @@ locale KO = AgencyLocale
     , payloadDeployBad2 = "커스텀 API 연결 코드"
     , payloadDeployBad3 = "배포까지 3~6주 소요"
     , payloadDeployDivider = "다음으로 대체"
-    , payloadDeployGood1 = "Ruzaani AI 인프라 — 배포 완료"
+    , payloadDeployGood1 = "Panawik AI 인프라 — 배포 완료"
     , payloadDeployGood2 = "수주가 아닌 수시간 내 가동"
     , payloadDeployGood3 = "영구적인 유지보수 제로"
     , scaleBrow = "에이전시 경제학"
@@ -416,13 +416,13 @@ locale KO = AgencyLocale
     , scaleSubtitle = "에이전시 모델의 수익 구조를 근본적으로 혁신합니다."
     , scaleCounterTarget = 100
     , scaleCounterSuffix = "%"
-    , scaleCounterLabel = "유지보수 비용 Ruzaani가 전액 흡수"
+    , scaleCounterLabel = "유지보수 비용 Panawik가 전액 흡수"
     , scaleCounterNote = "귀사는 전략에만 집중하세요. 기술적인 문제는 저희가 해결합니다."
     , scalePillars =
         [ ScalePillar 
             { icon = "fa-solid fa-wrench"
             , title = "유지보수 비용 제로"
-            , description = "API가 변경되거나 모델이 업데이트되어도 Ruzaani가 처리합니다. 더 이상 버그 수정에 에이전시의 마진을 낭비하지 마세요."
+            , description = "API가 변경되거나 모델이 업데이트되어도 Panawik가 처리합니다. 더 이상 버그 수정에 에이전시의 마진을 낭비하지 마세요."
             }
         , ScalePillar 
             { icon = "fa-solid fa-link"

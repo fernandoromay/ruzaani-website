@@ -22,7 +22,7 @@ kanbanLocale EN = KanbanLocale
     , colProposal = "Proposal"
     , colClosing = "Closing"
     , agentWorking = "Agent working..."
-    , toastTitle = "Ruzaani SDR"
+    , toastTitle = "Panawik SDR"
     , toastText = "Deal <b>Meta</b> moved to Proposal. Sending summary..."
     }
 kanbanLocale ES = KanbanLocale
@@ -30,7 +30,7 @@ kanbanLocale ES = KanbanLocale
     , colProposal = "Propuesta"
     , colClosing = "Cierre"
     , agentWorking = "Trabajando..."
-    , toastTitle = "Ruzaani SDR"
+    , toastTitle = "Panawik SDR"
     , toastText = "Trato <b>Meta</b> movido a Propuesta. Enviando resumen..."
     }
 kanbanLocale KO = KanbanLocale
@@ -38,7 +38,7 @@ kanbanLocale KO = KanbanLocale
     , colProposal = "제안"
     , colClosing = "종결"
     , agentWorking = "작업 중..."
-    , toastTitle = "Ruzaani SDR"
+    , toastTitle = "Panawik SDR"
     , toastText = "<b>Meta</b> 거래 제안으로 이동. 요약 전송..."
     }
 

@@ -28,8 +28,8 @@
       updateProgress(questionNum);
 
       // --- Granular Tracking Start ---
-      if (window.RuzaaniTracker) {
-        window.RuzaaniTracker.track('evaluation_step_view', {
+      if (window.Panawik) {
+        window.Panawik.track('evaluation_step_view', {
             step: questionNum,
             total: totalQuestions
         });
@@ -72,8 +72,8 @@
 
   window.submitAudit = function () {
     // --- Granular Tracking Start ---
-    if (window.RuzaaniTracker) {
-        window.RuzaaniTracker.track('evaluation_submit_start', {
+    if (window.Panawik) {
+        window.Panawik.track('evaluation_submit_start', {
             date: new Date().toISOString()
         });
     }
@@ -150,8 +150,8 @@
     answers[questionId] = value;
 
     // --- Granular Tracking Start ---
-    if (window.RuzaaniTracker) {
-        window.RuzaaniTracker.track('evaluation_option_selected', {
+    if (window.Panawik) {
+        window.Panawik.track('evaluation_option_selected', {
             question: questionNum,
             value: value
         });

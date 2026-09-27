@@ -46,9 +46,9 @@ commonSeo = defSEO
 locale :: Language -> AccessLocale
 locale EN = AccessLocale
     { seo = commonSeo
-        { title = "Request Access to Ruzaani"
-        , metaTitle = "Request Access to Ruzaani - AI Business Intelligence Platform"
-        , metaDescription = "Request access to Ruzaani. Tell us about your business to get started."
+        { title = "Request Access to Panawik"
+        , metaTitle = "Request Access to Panawik - AI Business Intelligence Platform"
+        , metaDescription = "Request access to Panawik. Tell us about your business to get started."
         , canonical = Just $ domain <> accessPath EN
         , ogImage = Just $ domain <> "/img/open-graph/home-en.jpg"
         }
@@ -60,7 +60,7 @@ locale EN = AccessLocale
     , txtOf = "of"
     , questions =
         [ Question
-            { question = "How will you use Ruzaani?"
+            { question = "How will you use Panawik?"
             , options =
                 [ AuditOption { label = "For my own business", value = "end_user" }
                 , AuditOption { label = "For my clients", value = "agency" }
@@ -123,9 +123,9 @@ locale EN = AccessLocale
 
 locale ES = AccessLocale
     { seo = commonSeo
-        { title = "Solicitar Acceso a Ruzaani"
-        , metaTitle = "Solicitar Acceso a Ruzaani - Plataforma de Inteligencia Empresarial con IA"
-        , metaDescription = "Solicita acceso a Ruzaani. Cuéntanos sobre tu negocio para comenzar."
+        { title = "Solicitar Acceso a Panawik"
+        , metaTitle = "Solicitar Acceso a Panawik - Plataforma de Inteligencia Empresarial con IA"
+        , metaDescription = "Solicita acceso a Panawik. Cuéntanos sobre tu negocio para comenzar."
         , canonical = Just $ domain <> accessPath ES
         , ogImage = Just $ domain <> "/img/open-graph/home-es.jpg"
         }
@@ -137,7 +137,7 @@ locale ES = AccessLocale
     , txtOf = "de"
     , questions =
         [ Question
-            { question = "¿Cómo usarás Ruzaani?"
+            { question = "¿Cómo usarás Panawik?"
             , options =
                 [ AuditOption { label = "Para mi propia empresa", value = "end_user" }
                 , AuditOption { label = "Para mis clientes", value = "agency" }
@@ -200,9 +200,9 @@ locale ES = AccessLocale
 
 locale KO = AccessLocale
     { seo = commonSeo
-        { title = "Ruzaani 액세스 신청"
-        , metaTitle = "Ruzaani 액세스 신청 - AI 비즈니스 인텔리전스 플랫폼"
-        , metaDescription = "Ruzaani 액세스를 신청하세요. 비즈니스에 대해 알려주시면 시작할 수 있습니다."
+        { title = "Panawik 액세스 신청"
+        , metaTitle = "Panawik 액세스 신청 - AI 비즈니스 인텔리전스 플랫폼"
+        , metaDescription = "Panawik 액세스를 신청하세요. 비즈니스에 대해 알려주시면 시작할 수 있습니다."
         , canonical = Just $ domain <> accessPath KO
         , ogImage = Just $ domain <> "/img/open-graph/home-ko.jpg"
         }
@@ -214,7 +214,7 @@ locale KO = AccessLocale
     , txtOf = "/"
     , questions =
         [ Question
-            { question = "Ruzaani를 어떻게 사용하실 계획인가요?"
+            { question = "Panawik를 어떻게 사용하실 계획인가요?"
             , options =
                 [ AuditOption { label = "우리 회사 비즈니스를 위해", value = "end_user" }
                 , AuditOption { label = "우리 고객사를 위해", value = "agency" }

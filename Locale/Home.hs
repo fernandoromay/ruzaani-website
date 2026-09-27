@@ -63,8 +63,8 @@ commonSeo = defSEO
 locale :: Language -> HomeLocale
 locale EN = HomeLocale
     { seo = commonSeo
-        { title = "Ruzaani | AI Business Intelligence Platform"
-        , metaTitle = "Ruzaani - AI Business Intelligence Engine"
+        { title = "Panawik | AI Business Intelligence Platform"
+        , metaTitle = "Panawik - AI Business Intelligence Engine"
         , metaDescription = "Powered by an AI Agent Layer of six specialized agents. Connect online behavior, ad attribution, conversations, and CRM data into a single, continuously-updated picture."
         , canonical = Just $ domain <> homePath EN
         , ogImage = Just $ domain <> "/img/open-graph/home-en.jpg"
@@ -193,7 +193,7 @@ locale EN = HomeLocale
             }
         ]
     , finalLabel = "Phase 1 · Limited Spots"
-    , finalTitle = [lurk|Your pipeline doesn’t sleep.<br>Neither does Ruzaani.|]
+    , finalTitle = [lurk|Your pipeline doesn’t sleep.<br>Neither does Panawik.|]
     , finalTrust = "Month-to-month. No setup fee. Cancel when it stops working."
     , finalCta = "Request Access Now"
     , finalCtaLink = accessPath EN
@@ -201,8 +201,8 @@ locale EN = HomeLocale
 
 locale ES = HomeLocale
     { seo = commonSeo
-        { title = "Ruzaani | Plataforma de Inteligencia de Negocios basada en IA"
-        , metaTitle = "Ruzaani - Motor de Inteligencia de Negocios basada en IA"
+        { title = "Panawik | Plataforma de Inteligencia de Negocios basada en IA"
+        , metaTitle = "Panawik - Motor de Inteligencia de Negocios basada en IA"
         , metaDescription = "Impulsado por una capa de agentes de IA especializados. Conecta el comportamiento online, la atribución publicitaria, conversaciones y los datos de CRM en una sola visión continuamente actualizada.'"
         , canonical = Just $ domain <> homePath ES
         , ogImage = Just $ domain <> "/img/open-graph/home-es.jpg"
@@ -331,7 +331,7 @@ locale ES = HomeLocale
             }
         ]
     , finalLabel = "Fase 1 · Cupos Limitados"
-    , finalTitle = [lurk|Tu pipeline no duerme.<br>Ruzaani tampoco.|]
+    , finalTitle = [lurk|Tu pipeline no duerme.<br>Panawik tampoco.|]
     , finalTrust = "Mes a mes. Sin configuración. Sin permanencia."
     , finalCta = "Solicitar Acceso"
     , finalCtaLink = accessPath ES
@@ -339,8 +339,8 @@ locale ES = HomeLocale
 
 locale KO = HomeLocale
     { seo = commonSeo
-        { title = "Ruzaani | AI 비즈니스 인텔리전스 플랫폼"
-        , metaTitle = "Ruzaani - AI 비즈니스 인텔리전스 엔진"
+        { title = "Panawik | AI 비즈니스 인텔리전스 플랫폼"
+        , metaTitle = "Panawik - AI 비즈니스 인텔리전스 엔진"
         , metaDescription = "6개의 전문 AI 에이전트로 구성된 AI 에이전트 레이어로 구동됩니다. 온라인 행동, 광고 어트리뷰션, 대화, CRM 데이터를 하나의 지속적으로 업데이트되는 통합 뷰로 연결합니다."
         , canonical = Just $ domain <> homePath KO
         , ogImage = Just $ domain <> "/img/open-graph/home-ko.jpg"
@@ -469,7 +469,7 @@ locale KO = HomeLocale
             }
         ]
     , finalLabel = "1단계 · 한정된 자리"
-    , finalTitle = [lurk|비즈니스 파이프라인은 멈추지 않습니다.<br>Ruzaani도 마찬가지입니다.|]
+    , finalTitle = [lurk|비즈니스 파이프라인은 멈추지 않습니다.<br>Panawik도 마찬가지입니다.|]
     , finalTrust = "월 단위 계약. 설치비 없음. 효과가 없으면 해지하세요."
     , finalCta = "액세스 요청"
     , finalCtaLink = accessPath KO

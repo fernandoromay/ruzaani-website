@@ -5,6 +5,6 @@ Disallow: /api
 
 # LLM Crawler Support
 # See https://llmstxt.org/
-llms: https://ruzaani.com/llms.txt
+llms: https://panawik.ruzaani.com/llms.txt
 
-Sitemap: https://ruzaani.com/sitemap.xml
+Sitemap: https://panawik.ruzaani.com/sitemap.xml

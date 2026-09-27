@@ -1,4 +1,4 @@
-/* product.js — Ruzaani Product Page */
+/* product.js — Panawik Product Page */
 
 (function () {
     'use strict';

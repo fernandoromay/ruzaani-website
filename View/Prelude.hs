@@ -21,7 +21,7 @@ type ViewCtx lang = (?ctx :: ViewContext, ?params :: [(Text, Text)], ?lang :: la
 
 render :: ((?ctx :: ViewContext, ?params :: [(Text, Text)]) => Html) -> Action ()
 render viewHtml = do
-    showLogin <- maybe False (/= "") <$> getCookie "rz_show_login"
+    showLogin <- maybe False (/= "") <$> getCookie "pw_show_login"
     let params =
             [ ("showLogin", if showLogin then "true" else "false")
             ]

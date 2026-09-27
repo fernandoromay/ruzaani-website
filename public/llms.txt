@@ -1,17 +1,17 @@
-# Ruzaani
+# Panawik
 
-> Ruzaani is an AI business intelligence platform that unifies lead qualification, sales automation, customer lifecycle management, and process optimization through six specialized AI agents. It connects online behavior, ad attribution, conversations, and CRM data into a single Golden Record for each contact. Built for AI automation agencies, marketing agencies, and B2B enterprises.
+> Panawik is an AI business intelligence platform that unifies lead qualification, sales automation, customer lifecycle management, and process optimization through six specialized AI agents. It connects online behavior, ad attribution, conversations, and CRM data into a single Golden Record for each contact. Built for AI automation agencies, marketing agencies, and B2B enterprises.
 
 ## Platform
 
-- [Product Overview](https://ruzaani.com/product/): How Ruzaani's six AI agents (SDR, Closer, Sentinel, Analyst, Strategist, Curator) operate on shared contextual memory to automate the full sales pipeline.
-- [Pricing & Plans](https://ruzaani.com/pricing/): Four tiers — Starter ($199/mo), Basic ($349/mo), Growth ($599/mo), Enterprise ($1,299/mo) — with multi-currency support (USD, EUR, MXN, KRW).
-- [Agency Program](https://ruzaani.com/agency-program/): Multi-tenant infrastructure for AI automation agencies to build, resell, and manage AI-ops at scale. Includes white-label reporting, SDR automation, and command center dashboards.
+- [Product Overview](https://panawik.ruzaani.com/product/): How Panawik's six AI agents (SDR, Closer, Sentinel, Analyst, Strategist, Curator) operate on shared contextual memory to automate the full sales pipeline.
+- [Pricing & Plans](https://panawik.ruzaani.com/pricing/): Four tiers — Starter ($199/mo), Basic ($349/mo), Growth ($599/mo), Enterprise ($1,299/mo) — with multi-currency support (USD, EUR, MXN, KRW).
+- [Agency Program](https://panawik.ruzaani.com/agency-program/): Multi-tenant infrastructure for AI automation agencies to build, resell, and manage AI-ops at scale. Includes white-label reporting, SDR automation, and command center dashboards.
 
 ## How It Works
 
-- [Intelligent Lead Qualification](https://ruzaani.com/access/): Interactive 5-question assessment that scores inbound leads across business vertical, communication channel, daily volume, and handling method. Leads are classified as SQL (score >= 65), MQL (>= 40), or NQ (< 40).
-- [Enterprise Inquiries](https://ruzaani.com/pricing/): Direct contact channel for enterprise prospects requiring custom deployments, dedicated infrastructure, or volume-based pricing.
+- [Intelligent Lead Qualification](https://panawik.ruzaani.com/access/): Interactive 5-question assessment that scores inbound leads across business vertical, communication channel, daily volume, and handling method. Leads are classified as SQL (score >= 65), MQL (>= 40), or NQ (< 40).
+- [Enterprise Inquiries](https://panawik.ruzaani.com/pricing/): Direct contact channel for enterprise prospects requiring custom deployments, dedicated infrastructure, or volume-based pricing.
 They are
 - **Six AI Agents**: SDR (lead qualification and engagement), Closer (deal closing and objection handling), Sentinel (customer support and sentiment detection), Analyst (behavioral profiling and churn prediction), Strategist (ROAS optimization and budget allocation), Curator (content intelligence and topic modeling). All agents share a single PostgreSQL database as their intelligence ledger.
 - **Identity Resolution**: Stitching anonymous sessions to known contacts across 10+ signals — email, Facebook Click ID, Google Click ID, LinkedIn Click IDs, WhatsApp phone, Instagram handle, Messenger user ID, browser fingerprint (`anon_id`), and tracked link parameters (`cid`). No identity signal is discarded; records merge automatically when resolved.
@@ -19,24 +19,24 @@ They are
 - **Multi-Channel Messaging**: Native connectors for WhatsApp Business, Instagram DMs, Facebook Messenger, Email (IMAP/SMTP), and Telegram (human handoff bridge). All conversations are automatically logged, analyzed, and linked to the Golden Record.
 - **Native CRM**: Contacts, Companies, Deals Pipeline (Kanban), Calendar with dynamic booking slots, Unified Inbox (Growth+ tiers), and Trigger-based Automations via EventBus and WorkflowEngine.
 - **Lead Scoring**: Recency + Frequency + Channel Diversity algorithm. +5 points per message. Hot lead alerts at score >150. ML churn prediction using Logistic Regression.
-- **Web Tracker**: Lightweight JavaScript (~5kb) served from `tracker.ruzaani.com`. Captures behavioral events, ad click IDs, and session fingerprints. Public API: `window.Ruzaani.track()`.
+- **Web Tracker**: Lightweight JavaScript (~5kb) served from `tracker.panawik.ruzaani.com`. Captures behavioral events, ad click IDs, and session fingerprints. Public API: `window.Panawik.track()`.
 
 ## For Agencies
 
-- [Payload: Deploy](https://ruzaani.com/agency-program/): Rapid deployment tools for spinning up client instances with pre-configured agents and channel integrations.
-- [Payload: SDR](https://ruzaani.com/agency-program/): Automated SDR workflows — lead capture, qualification, scoring, and handoff — fully managed by the AI agents.
-- [Payload: Command](https://ruzaani.com/agency-program/): Centralized dashboard for monitoring all client accounts, agent performance metrics, and pipeline health.
-- [Payload: White Label](https://ruzaani.com/agency-program/): Rebrandable reporting and client-facing dashboards. Agencies present Ruzaani as their own proprietary platform.
-- [Scale Engine](https://ruzaani.com/agency-program/): Infrastructure for managing 50+ client accounts with automated onboarding, billing, and resource allocation.
+- [Payload: Deploy](https://panawik.ruzaani.com/agency-program/): Rapid deployment tools for spinning up client instances with pre-configured agents and channel integrations.
+- [Payload: SDR](https://panawik.ruzaani.com/agency-program/): Automated SDR workflows — lead capture, qualification, scoring, and handoff — fully managed by the AI agents.
+- [Payload: Command](https://panawik.ruzaani.com/agency-program/): Centralized dashboard for monitoring all client accounts, agent performance metrics, and pipeline health.
+- [Payload: White Label](https://panawik.ruzaani.com/agency-program/): Rebrandable reporting and client-facing dashboards. Agencies present Panawik as their own proprietary platform.
+- [Scale Engine](https://panawik.ruzaani.com/agency-program/): Infrastructure for managing 50+ client accounts with automated onboarding, billing, and resource allocation.
 
 ## Security & Privacy
 
-- [Data Protection](https://ruzaani.com/privacy-policy/): All data is encrypted at rest and in transit. Customer data is never used for training public LLM models. GDPR and CCPA compliant. Clients are data controllers; Ruzaani is the data processor.
-- [Terms of Service](https://ruzaani.com/terms-of-service/): Enterprise-grade SLA with 99.9% uptime guarantee, dedicated support, and custom data retention policies.
+- [Data Protection](https://panawik.ruzaani.com/privacy-policy/): All data is encrypted at rest and in transit. Customer data is never used for training public LLM models. GDPR and CCPA compliant. Clients are data controllers; Panawik is the data processor.
+- [Terms of Service](https://panawik.ruzaani.com/terms-of-service/): Enterprise-grade SLA with 99.9% uptime guarantee, dedicated support, and custom data retention policies.
 
 ## Languages & Localization
 
-Ruzaani is natively trilingual. All pages, forms, and email notifications are fully localized. More languages to come as it enters new markets:
+Panawik is natively trilingual. All pages, forms, and email notifications are fully localized. More languages to come as it enters new markets:
 
 | Language | URL Prefix | Coverage |
 |----------|-----------|----------|
@@ -57,7 +57,7 @@ Ruzaani is natively trilingual. All pages, forms, and email notifications are fu
 
 ## Technical Architecture
 
-The Ruzaani platform is a multi-tenant SaaS built on three runtimes:
+The Panawik platform is a multi-tenant SaaS built on three runtimes:
 
 - **Core Application**: REST API and webhook handlers for WhatsApp, Instagram, Messenger, Facebook, Telegram, Email, and external CRM integrations. Background services include WorkflowEngine (event-driven automations), MeetingReminderService, and IMAPListenerService (polls client inboxes every 30s).
 - **Intelligence Agents**: Cron-scheduled analytics — Analyst (hourly: lead scoring, churn prediction, Golden Record construction), Strategist (daily: ROAS optimization, CPA anomaly detection, revenue forecasting), Curator (weekly: LDA topic modeling, keyword extraction from social conversations).
@@ -69,7 +69,7 @@ The Ruzaani platform is a multi-tenant SaaS built on three runtimes:
 
 ## Contact
 
-- **Support**: contact@ruzaani.com
-- **Access Request**: [ruzaani.com/access](https://ruzaani.com/access/)
-- **Enterprise Inquiries**: [ruzaani.com/pricing](https://ruzaani.com/pricing/)
-- **Admin Portal**: [admin.ruzaani.com](https://admin.ruzaani.com/)
+- **Support**: contact@panawik.ruzaani.com
+- **Access Request**: [panawik.ruzaani.com/access](https://panawik.ruzaani.com/access/)
+- **Enterprise Inquiries**: [panawik.ruzaani.com/pricing](https://panawik.ruzaani.com/pricing/)
+- **Admin Portal**: [admin.panawik.ruzaani.com](https://admin.panawik.ruzaani.com/)

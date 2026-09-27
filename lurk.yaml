@@ -3,10 +3,10 @@ build:
   target: x86_64-linux
 deploy:
   config:
-    activate_cmd: sudo systemctl restart ruzaani-website
+    activate_cmd: sudo systemctl restart panawik-website
     host: ${VPS_IP}
-    path: /var/www/ruzaani/website
-    service_name: ruzaani-website
+    path: /var/www/panawik/website
+    service_name: panawik-website
     user: ${VPS_USER}
   env_vars:
     ADMIN_EMAIL: ADMIN_EMAIL
@@ -16,4 +16,4 @@ deploy:
     SMTP_SECR: SMTP_SECR
     SMTP_USER: SMTP_USER
   provider: ssh
-project: ruzaani-website
+project: panawik-website

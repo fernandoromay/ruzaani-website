@@ -23,7 +23,7 @@ data DashboardInsight = DashboardInsight
 
 dashboardLocale :: Language -> DashboardLocale
 dashboardLocale EN = DashboardLocale
-    { navTitle = "Ruzaani — Dashboard"
+    { navTitle = "Panawik — Dashboard"
     , graphTitle = "Performance Trend"
     , insightsTitle = "AI Insights"
     , stats = 
@@ -38,7 +38,7 @@ dashboardLocale EN = DashboardLocale
         ]
     }
 dashboardLocale ES = DashboardLocale
-    { navTitle = "Ruzaani — Dashboard"
+    { navTitle = "Panawik — Dashboard"
     , graphTitle = "Tendencia de Rendimiento"
     , insightsTitle = "Insights de IA"
     , stats = 
@@ -53,7 +53,7 @@ dashboardLocale ES = DashboardLocale
         ]
     }
 dashboardLocale KO = DashboardLocale
-    { navTitle = "Ruzaani — 대시보드"
+    { navTitle = "Panawik — 대시보드"
     , graphTitle = "성과 트렌드"
     , insightsTitle = "AI 인사이트"
     , stats = 
@@ -109,7 +109,7 @@ agencyLocale ES = AgencyLocale
     , reportBrand = "Generado por [Tu Agencia]"
     }
 agencyLocale KO = AgencyLocale
-    { navTitle = "Ruzaani — 에이전시"
+    { navTitle = "Panawik — 에이전시"
     , activeClient = "워크스페이스 전환"
     , clientLabel = "클라이언트"
     , clients = 
@@ -195,7 +195,7 @@ data ProductMockupList = ProductMockupList
 
 productMockupLocale :: Language -> ProductMockupLocale
 productMockupLocale EN = ProductMockupLocale
-    { title = "Ruzaani — Live Intelligence View"
+    { title = "Panawik — Live Intelligence View"
     , stats = 
         [ DashboardStat { label = "Active Leads", value = "28" }
         , DashboardStat { label = "Resp. Rate", value = "94%" }
@@ -212,7 +212,7 @@ productMockupLocale EN = ProductMockupLocale
         ]
     }
 productMockupLocale ES = ProductMockupLocale
-    { title = "Ruzaani — Vista de Inteligencia en Vivo"
+    { title = "Panawik — Vista de Inteligencia en Vivo"
     , stats = 
         [ DashboardStat { label = "Leads Activos", value = "28" }
         , DashboardStat { label = "Tasa Resp.", value = "94%" }
@@ -229,7 +229,7 @@ productMockupLocale ES = ProductMockupLocale
         ]
     }
 productMockupLocale KO = ProductMockupLocale
-    { title = "Ruzaani — 실시간 인텔리전스 뷰"
+    { title = "Panawik — 실시간 인텔리전스 뷰"
     , stats = 
         [ DashboardStat { label = "활성 리드", value = "28" }
         , DashboardStat { label = "응답률", value = "94%" }

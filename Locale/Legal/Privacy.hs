@@ -18,9 +18,9 @@ effectiveDate KO = "2026년 4월 25일"
 localePrivacy :: Language -> LegalLocale
 localePrivacy EN = LegalLocale
     { seo = commonSEO
-        { title = "Ruzaani's Privacy Policy"
-        , metaTitle = "Privacy Policy | Ruzaani - AI Business Intelligence Platform"
-        , metaDescription = "Read Ruzaani's Privacy Policy to learn about how we collect, use, and protect your information when using our AI Business Intelligence Platform and website."
+        { title = "Panawik's Privacy Policy"
+        , metaTitle = "Privacy Policy | Panawik - AI Business Intelligence Platform"
+        , metaDescription = "Read Panawik's Privacy Policy to learn about how we collect, use, and protect your information when using our AI Business Intelligence Platform and website."
         , canonical = Just $ domain <> privacyPath EN
         , ogImage = Just $ domain <> "/img/open-graph/home-en.jpg"
         }
@@ -29,9 +29,9 @@ localePrivacy EN = LegalLocale
         <p><strong>Effective Date:</strong> {{effectiveDate EN}}</p>
         <br>
         <h2>1. Introduction</h2>
-        <p>We value the privacy and security of our users. This Privacy Policy outlines how Ruzaani ("we," "us," or "our") collects, uses, and protects your information when you use our website, platform, AI business intelligence tools, and related services (collectively, the "Services").</p>
+        <p>We value the privacy and security of our users. This Privacy Policy outlines how Panawik ("we," "us," or "our") collects, uses, and protects your information when you use our website, platform, AI business intelligence tools, and related services (collectively, the "Services").</p>
         <h3>Data Controllers and Processors</h3>
-        <p>In relation to personal data collected via our services, our clients (the businesses and agencies using Ruzaani) act as the <strong>data controllers</strong>, while Ruzaani acts as the <strong>data processor</strong>. We process personal data on behalf of our clients in accordance with their instructions.</p>
+        <p>In relation to personal data collected via our services, our clients (the businesses and agencies using Panawik) act as the <strong>data controllers</strong>, while Panawik acts as the <strong>data processor</strong>. We process personal data on behalf of our clients in accordance with their instructions.</p>
         <h3>Legal Basis for Processing</h3>
         <p>We process personal data based on the following legal grounds:</p>
         <ul>
@@ -102,7 +102,7 @@ localePrivacy EN = LegalLocale
         <h2>11. Changes to the Privacy Policy</h2>
         <p>We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new Privacy Policy on this page. The updated policy becomes valid and effective immediately upon its publication.</p>
         <h2>12. Legal Entity & Contact Information</h2>
-        <p>"Ruzaani" is a commercial brand and service operated by Fernando Alberto Ocampo Romay. For the purposes of data protection compliance, Fernando Alberto Ocampo Romay is the legally responsible entity providing the Ruzaani platform.</p>
+        <p>"Panawik" is a commercial brand and service operated by Fernando Alberto Ocampo Romay. For the purposes of data protection compliance, Fernando Alberto Ocampo Romay is the legally responsible entity providing the Panawik platform.</p>
         <p>If you have any questions, concerns, or requests regarding this Privacy Policy, our data practices, or to exercise your privacy rights, please contact us at:</p>
         <p><strong>Responsible Entity:</strong> Fernando Alberto Ocampo Romay<br/><strong>Email:</strong> <a href='mailto:legal@ruzaani.com' target='_blank' class='url'>legal@ruzaani.com</a></p>
         |]
@@ -110,9 +110,9 @@ localePrivacy EN = LegalLocale
 
 localePrivacy ES = LegalLocale
     { seo = commonSEO
-        { title = "Política de Privacidad de Ruzaani"
-        , metaTitle = "Política de Privacidad | Ruzaani - Plataforma de inteligencia empresarial"
-        , metaDescription = "Lee la Política de Privacidad de Ruzaani para saber cómo recopilamos, usamos y protegemos tu información cuando usas nuestra plataforma de inteligencia empresarial"
+        { title = "Política de Privacidad de Panawik"
+        , metaTitle = "Política de Privacidad | Panawik - Plataforma de inteligencia empresarial"
+        , metaDescription = "Lee la Política de Privacidad de Panawik para saber cómo recopilamos, usamos y protegemos tu información cuando usas nuestra plataforma de inteligencia empresarial"
         , canonical = Just $ domain <> privacyPath ES
         , ogImage = Just $ domain <> "/img/open-graph/home-es.jpg"
         }
@@ -121,9 +121,9 @@ localePrivacy ES = LegalLocale
         <p><strong>Fecha de publicación:</strong> {{effectiveDate ES}}</p>
         <br>
         <h2>1. Introducción</h2>
-        <p>Valoramos la privacidad y seguridad de nuestros usuarios. Esta Política de Privacidad describe cómo Ruzaani ("nosotros", "nos" o "nuestro") recopila, utiliza y protege su información cuando utiliza nuestro sitio web, plataforma, herramientas de inteligencia empresarial de IA y servicios relacionados (colectivamente, los "Servicios").</p>
+        <p>Valoramos la privacidad y seguridad de nuestros usuarios. Esta Política de Privacidad describe cómo Panawik ("nosotros", "nos" o "nuestro") recopila, utiliza y protege su información cuando utiliza nuestro sitio web, plataforma, herramientas de inteligencia empresarial de IA y servicios relacionados (colectivamente, los "Servicios").</p>
         <h3>Responsables y Encargados del Tratamiento de Datos</h3>
-        <p>En relación con los datos personales recopilados a través de nuestros servicios, nuestros clientes (las empresas y agencias que utilizan Ruzaani) actúan como <strong>responsables del tratamiento de datos</strong>, mientras que Ruzaani actúa como <strong>encargado del tratamiento de datos</strong>. Procesamos los datos personales en nombre de nuestros clientes de acuerdo con sus instrucciones.</p>
+        <p>En relación con los datos personales recopilados a través de nuestros servicios, nuestros clientes (las empresas y agencias que utilizan Panawik) actúan como <strong>responsables del tratamiento de datos</strong>, mientras que Panawik actúa como <strong>encargado del tratamiento de datos</strong>. Procesamos los datos personales en nombre de nuestros clientes de acuerdo con sus instrucciones.</p>
         <h3>Base Legal para el Procesamiento</h3>
         <p>Procesamos datos personales basados en los siguientes fundamentos legales:</p>
         <ul>
@@ -194,7 +194,7 @@ localePrivacy ES = LegalLocale
         <h2>11. Cambios en la Política de Privacidad</h2>
         <p>Podemos actualizar esta Política de Privacidad de vez en cuando. Le notificaremos cualquier cambio importante publicando la nueva Política de Privacidad en esta página. La política actualizada entra en vigor y es efectiva inmediatamente después de su publicación.</p>
         <h2>12. Entidad Legal e Información de Contacto</h2>
-        <p>"Ruzaani" es una marca comercial y un servicio operado por Fernando Alberto Ocampo Romay. Para fines de cumplimiento de protección de datos, Fernando Alberto Ocampo Romay es la entidad legalmente responsable que provee la plataforma Ruzaani.</p>
+        <p>"Panawik" es una marca comercial y un servicio operado por Fernando Alberto Ocampo Romay. Para fines de cumplimiento de protección de datos, Fernando Alberto Ocampo Romay es la entidad legalmente responsable que provee la plataforma Panawik.</p>
         <p>Si tiene alguna pregunta, inquietud o solicitud con respecto a esta Política de Privacidad, nuestras prácticas de datos, o para ejercer sus derechos de privacidad, por favor contáctenos en:</p>
         <p><strong>Entidad Responsable:</strong> Fernando Alberto Ocampo Romay<br/><strong>Correo Electrónico:</strong> <a href='mailto:legal@ruzaani.com' target='_blank' class='url'>legal@ruzaani.com</a></p>
         |]
@@ -202,9 +202,9 @@ localePrivacy ES = LegalLocale
 
 localePrivacy KO = LegalLocale
     { seo = commonSEO
-        { title = "Ruzaani의 개인정보 처리방침"
-        , metaTitle = "개인정보 처리방침 | Ruzaani - 인공지능 기반 비즈니스 인텔리전스 플랫폼"
-        , metaDescription = "인공지능 기반 비즈니스 인텔리전스 플랫폼을 이용할 때 Ruzaani가 귀하의 정보를 수집, 사용 및 보호하는 방법을 알아보려면 Ruzaani의 개인정보 처리방침을 읽어보십시오."
+        { title = "Panawik의 개인정보 처리방침"
+        , metaTitle = "개인정보 처리방침 | Panawik - 인공지능 기반 비즈니스 인텔리전스 플랫폼"
+        , metaDescription = "인공지능 기반 비즈니스 인텔리전스 플랫폼을 이용할 때 Panawik가 귀하의 정보를 수집, 사용 및 보호하는 방법을 알아보려면 Panawik의 개인정보 처리방침을 읽어보십시오."
         , canonical = Just $ domain <> privacyPath KO
         , ogImage = Just $ domain <> "/img/open-graph/home-ko.jpg"
         }
@@ -213,9 +213,9 @@ localePrivacy KO = LegalLocale
         <p><strong>시행일:</strong> {{effectiveDate KO}}</p>
         <br>
         <h2>1. 개요</h2>
-        <p>우리는 사용자의 개인정보와 보안을 중요하게 생각합니다. 본 개인정보 처리방침은 귀하가 당사의 웹사이트, 플랫폼, AI 비즈니스 인텔리전스 도구 및 관련 서비스(이하 "서비스")를 사용할 때 Ruzaani(이하 "당사")가 귀하의 정보를 수집, 사용 및 보호하는 방법을 설명합니다.</p>
+        <p>우리는 사용자의 개인정보와 보안을 중요하게 생각합니다. 본 개인정보 처리방침은 귀하가 당사의 웹사이트, 플랫폼, AI 비즈니스 인텔리전스 도구 및 관련 서비스(이하 "서비스")를 사용할 때 Panawik(이하 "당사")가 귀하의 정보를 수집, 사용 및 보호하는 방법을 설명합니다.</p>
         <h3>개인정보처리자 및 수탁자</h3>
-        <p>당사의 서비스를 통해 수집된 개인정보와 관련하여, 당사의 고객(Ruzaani를 사용하는 기업 및 기관)은 <strong>개인정보처리자(Data Controller)</strong>의 역할을 하며, Ruzaani는 <strong>개인정보수탁자(Data Processor)</strong>의 역할을 합니다. 당사는 고객의 지시에 따라 고객을 대신하여 개인정보를 처리합니다.</p>
+        <p>당사의 서비스를 통해 수집된 개인정보와 관련하여, 당사의 고객(Panawik를 사용하는 기업 및 기관)은 <strong>개인정보처리자(Data Controller)</strong>의 역할을 하며, Panawik는 <strong>개인정보수탁자(Data Processor)</strong>의 역할을 합니다. 당사는 고객의 지시에 따라 고객을 대신하여 개인정보를 처리합니다.</p>
         <h3>처리의 법적 근거</h3>
         <p>당사는 다음의 법적 근거를 바탕으로 개인정보를 처리합니다:</p>
         <ul>
@@ -286,7 +286,7 @@ localePrivacy KO = LegalLocale
         <h2>11. 개인정보 처리방침의 변경</h2>
         <p>당사는 본 개인정보 처리방침을 수시로 업데이트할 수 있습니다. 중요한 변경 사항이 있을 경우 이 페이지에 새로운 개인정보 처리방침을 게시하여 알려드립니다. 업데이트된 정책은 게시 즉시 효력이 발생합니다.</p>
         <h2>12. 법적 주체 및 연락처</h2>
-        <p>"Ruzaani"는 Fernando Alberto Ocampo Romay가 운영하는 상업 브랜드 및 서비스입니다. 데이터 보호법 준수를 위해 Fernando Alberto Ocampo Romay가 Ruzaani 플랫폼을 제공하는 법적 책임 주체입니다.</p>
+        <p>"Panawik"는 Fernando Alberto Ocampo Romay가 운영하는 상업 브랜드 및 서비스입니다. 데이터 보호법 준수를 위해 Fernando Alberto Ocampo Romay가 Panawik 플랫폼을 제공하는 법적 책임 주체입니다.</p>
         <p>본 개인정보 처리방침, 당사의 데이터 관행에 대한 질문이나 우려 사항이 있거나 개인정보 권리를 행사하고자 하는 경우 아래 연락처로 문의해 주십시오:</p>
         <p><strong>책임 주체:</strong> Fernando Alberto Ocampo Romay<br/><strong>이메일:</strong> <a href='mailto:legal@ruzaani.com' target='_blank' class='url'>legal@ruzaani.com</a></p>
         |]

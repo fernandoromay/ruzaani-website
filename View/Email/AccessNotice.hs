@@ -50,7 +50,7 @@ accessNotice AccessNoticeFields{..} = [lurk|
         <strong>Volume:</strong> {{volume}}<br>
         <strong>Handling:</strong> {{handling}}</p>
         <p style="margin-top: 30px; font-size: 12px; color: #999;">
-            Submitted via Ruzaani Onboarding Flow.
+            Submitted via Panawik Onboarding Flow.
             <br>
             IP: {{ip}}
         </p>

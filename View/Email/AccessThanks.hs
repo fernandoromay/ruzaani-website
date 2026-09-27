@@ -11,7 +11,7 @@ accessThanks name = [lurk|
 <html><head></head>
 <body style="font-family: Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
   <div style="border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px;">
-    <h1>Ruzaani</h1>
+    <h1>Panawik</h1>
   </div>
   <div>
     <p>{{l.greeting}} {{name}},</p>

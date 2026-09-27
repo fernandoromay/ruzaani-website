@@ -4,7 +4,7 @@ import Lurk.Prelude (ViewContext, Text)
 import Language
 
 domain :: Text
-domain = "https://ruzaani.com"
+domain = "https://panawik.ruzaani.com"
 
 homePath :: Language -> Text
 homePath EN = "/"

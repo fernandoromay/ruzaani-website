@@ -141,7 +141,7 @@ productView ProductLocale {..} = defaultLayout seo [lurk|
                   <span class="hero-dot dot-red"></span>
                   <span class="hero-dot dot-amber"></span>
                   <span class="hero-dot dot-green"></span>
-                  <span class="mockup-title">Ruzaani</span>
+                  <span class="mockup-title">Panawik</span>
                 </div>
 
                 <div class="d-flex flex-grow-1 position-relative" style="overflow: hidden;">

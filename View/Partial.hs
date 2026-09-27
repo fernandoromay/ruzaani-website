@@ -141,7 +141,7 @@ footer = [lurk|
 
   <div class="footer-bottom">
     <div class="copyright">
-      © 2026 Ruzaani. {{l.rights}}
+      © 2026 Panawik. {{l.rights}}
     </div>
     <div class="footer-legal">
       <a href="{{l.privacyUrl}}">{{l.privacy}}</a>

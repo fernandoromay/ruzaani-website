@@ -117,8 +117,8 @@ commonSEO = defSEO
 locale :: Language -> Maybe Text -> PricingLocale
 locale EN country = PricingLocale
     { seo = commonSEO
-        { title = "Ruzaani Pricing | Plans for Every Business"
-        , metaTitle = "Ruzaani Pricing: Simple, Transparent Plans"
+        { title = "Panawik Pricing | Plans for Every Business"
+        , metaTitle = "Panawik Pricing: Simple, Transparent Plans"
         , metaDescription = "Starter, Basic, Growth, and Enterprise. Every plan includes AI agents, native CRM, and multi-channel automation. No setup fees."
         , canonical = Just $ domain <> pricingPath EN
         , ogImage = Just $ domain <> "/img/open-graph/pricing-en.jpg"
@@ -246,7 +246,7 @@ locale EN country = PricingLocale
     , agencyId = "agencies"
     , agencyTitle = "The Agency Program"
     , agencySubtitle = "Volume-discounted rates. Set your own margin. Grow without adding headcount."
-    , agencyDescription = "Agencies manage multiple client accounts from a single admin panel, deliver results under their own brand, and pay Ruzaani a volume-discounted rate that decreases as their portfolio grows. The more clients you bring, the better your margin becomes."
+    , agencyDescription = "Agencies manage multiple client accounts from a single admin panel, deliver results under their own brand, and pay Panawik a volume-discounted rate that decreases as their portfolio grows. The more clients you bring, the better your margin becomes."
     , agencyFeatures =
         [ "Sub-client management: switch workspaces instantly"
         , "White-label reports: your brand on every insight"
@@ -292,13 +292,13 @@ locale EN country = PricingLocale
           , "Currently, we do not limit the amount of conversations on any plan. We want you to scale your business without worrying about volume thresholds while we are in Phase 1."
           )
         , ( "Are WhatsApp API fees included?"
-          , "No, WhatsApp Business API usage fees are billed by Meta at cost, as a separate line item. We do not mark them up. The plan price covers the Ruzaani platform only."
+          , "No, WhatsApp Business API usage fees are billed by Meta at cost, as a separate line item. We do not mark them up. The plan price covers the Panawik platform only."
           )
         , ( "Can I change plans later?"
           , "Yes. You can upgrade or downgrade at any time. Upgrades take effect immediately; downgrades take effect at the start of the next billing period."
           )
         , ( "How does the Agency Program work?"
-          , "Agencies pay Ruzaani a volume-discounted rate based on the number of active clients they manage. You set your own client pricing and retain the margin."
+          , "Agencies pay Panawik a volume-discounted rate based on the number of active clients they manage. You set your own client pricing and retain the margin."
           )
         ]
     , modalTitle = "Tell us about your business"
@@ -315,8 +315,8 @@ locale EN country = PricingLocale
 
 locale ES country = PricingLocale
     { seo = commonSEO
-        { title = "Precios de Ruzaani | Planes para cada Negocio"
-        , metaTitle = "Precios de Ruzaani: Planes Simples y Transparentes"
+        { title = "Precios de Panawik | Planes para cada Negocio"
+        , metaTitle = "Precios de Panawik: Planes Simples y Transparentes"
         , metaDescription = "Starter, Basic, Growth y Enterprise. Cada plan incluye agentes de IA, CRM nativo y automatización multicanal. Sin costos de configuración."
         , canonical = Just $ domain <> pricingPath ES
         , ogImage = Just $ domain <> "/img/open-graph/pricing-es.jpg"
@@ -444,7 +444,7 @@ locale ES country = PricingLocale
     , agencyId = "agencias"
     , agencyTitle = "El Programa de Agencias"
     , agencySubtitle = "Compra a tarifa de volumen. Establece tu propio margen. Crece sin aumentar la nómina."
-    , agencyDescription = "Las agencias gestionan múltiples cuentas de clientes desde un único panel de administración, entregan resultados bajo su propia marca y pagan a Ruzaani una tarifa de volumen con descuento que disminuye a medida que crece su cartera. Cuantos más clientes traigas, mejor será tu margen."
+    , agencyDescription = "Las agencias gestionan múltiples cuentas de clientes desde un único panel de administración, entregan resultados bajo su propia marca y pagan a Panawik una tarifa de volumen con descuento que disminuye a medida que crece su cartera. Cuantos más clientes traigas, mejor será tu margen."
     , agencyFeatures =
         [ "Gestión de sub-clientes: cambia de espacio al instante"
         , "Reportes white-label: tu marca en cada insight"
@@ -490,13 +490,13 @@ locale ES country = PricingLocale
           , "Actualmente, no limitamos la cantidad de conversaciones en ningún plan. Queremos que escales tu negocio sin preocuparte por umbrales de volumen mientras estamos en la Fase 1."
           )
         , ( "¿Están incluidos los costos de la API de WhatsApp?"
-          , "No, los costos de uso de la API de WhatsApp Business son facturados por Meta al costo, como una línea aparte. No les aplicamos ningún recargo. El precio del plan cubre solo la plataforma Ruzaani."
+          , "No, los costos de uso de la API de WhatsApp Business son facturados por Meta al costo, como una línea aparte. No les aplicamos ningún recargo. El precio del plan cubre solo la plataforma Panawik."
           )
         , ( "¿Puedo cambiar de plan más adelante?"
           , "Sí. Puedes subir o bajar de nivel en cualquier momento. Las subidas se aplican de inmediato; las bajadas se aplican al inicio del siguiente período de facturación."
           )
         , ( "¿Cómo funciona el Programa de Agencias?"
-          , "Las agencias pagan a Ruzaani una tarifa con descuento por volumen según el número de clientes activos que gestionan. Tú defines el precio para tus clientes y conservas el margen."
+          , "Las agencias pagan a Panawik una tarifa con descuento por volumen según el número de clientes activos que gestionan. Tú defines el precio para tus clientes y conservas el margen."
           )
         ]
     , modalTitle = "Cuéntanos sobre tu negocio"
@@ -513,8 +513,8 @@ locale ES country = PricingLocale
 
 locale KO country = PricingLocale
     { seo = commonSEO
-        { title = "Ruzaani 요금제 | 모든 비즈니스를 위한 솔루션"
-        , metaTitle = "Ruzaani 요금제: 심플하고 투명한 가격 정책"
+        { title = "Panawik 요금제 | 모든 비즈니스를 위한 솔루션"
+        , metaTitle = "Panawik 요금제: 심플하고 투명한 가격 정책"
         , metaDescription = "스타터, 베이직, 그로스 및 엔터프라이즈. 모든 요금제에 AI 에이전트, 네이티브 CRM, 멀티채널 자동화가 포함됩니다. 설치비 없음."
         , canonical = Just $ domain <> pricingPath KO
         , ogImage = Just $ domain <> "/img/open-graph/pricing-ko.jpg"
@@ -642,7 +642,7 @@ locale KO country = PricingLocale
     , agencyId = "agencies"
     , agencyTitle = "에이전시 프로그램"
     , agencySubtitle = "볼륨 할인 요율로 구매하고, 나만의 마진을 설정하세요. 인원 추가 없이 성장할 수 있습니다."
-    , agencyDescription = "에이전시는 단일 관리자 패널에서 여러 고객 계정을 관리하고, 자신의 브랜드로 결과를 제공하며, 포트폴리오 성장에 따라 낮아지는 볼륨 할인 요금을 Ruzaani에 지불합니다. 고객이 많아질수록 마진은 더 커집니다."
+    , agencyDescription = "에이전시는 단일 관리자 패널에서 여러 고객 계정을 관리하고, 자신의 브랜드로 결과를 제공하며, 포트폴리오 성장에 따라 낮아지는 볼륨 할인 요금을 Panawik에 지불합니다. 고객이 많아질수록 마진은 더 커집니다."
     , agencyFeatures =
         [ "하위 고객 관리: 워크스페이스 즉시 전환"
         , "화이트 라벨 리포트: 모든 인사이트에 에이전시 브랜드 적용"
@@ -688,7 +688,7 @@ locale KO country = PricingLocale
           , "현재 모든 요금제에서 대화량 제한을 두지 않고 있습니다. Phase 1 기간 동안은 볼륨 제한 걱정 없이 비즈니스를 확장하실 수 있도록 지원합니다."
           )
         , ( "WhatsApp API 비용이 포함되어 있나요?"
-          , "아니요, WhatsApp Business API 사용료는 Meta에서 실비로 별도 청구됩니다. Ruzaani는 추가 수수료를 부과하지 않으며, 요금제 가격은 Ruzaani 플랫폼 이용료만 포함합니다."
+          , "아니요, WhatsApp Business API 사용료는 Meta에서 실비로 별도 청구됩니다. Panawik는 추가 수수료를 부과하지 않으며, 요금제 가격은 Panawik 플랫폼 이용료만 포함합니다."
           )
         , ( "나중에 요금제를 변경할 수 있나요?"
           , "네. 언제든지 업그레이드 또는 다운그레이드할 수 있습니다. 업그레이드는 즉시 적용되며, 다운그레이드는 다음 결제 주기가 시작될 때 적용됩니다."

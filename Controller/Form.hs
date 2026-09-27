@@ -38,7 +38,7 @@ loadSmtpConfig = do
                 , smtpUsername   = u
                 , smtpPassword   = pw
                 , smtpFrom       = u
-                , smtpFromName   = "Ruzaani Support Team"
+                , smtpFromName   = "Panawik Support Team"
                 , smtpEncryption = mEncr
                 }
         _ -> pure Nothing

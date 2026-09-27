@@ -25,6 +25,6 @@ mkAssetPath "public"
 
 defSEO :: SEO
 defSEO = defaultSEO
-    { ogSiteName = Just "Ruzaani"
+    { ogSiteName = Just "Panawik"
     , twitterSite = Just "@ruzaaniai"
     }

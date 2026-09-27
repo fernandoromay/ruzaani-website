@@ -119,8 +119,8 @@ commonSEO = defSEO
 locale :: Language -> ProductLocale
 locale EN = ProductLocale
     { seo = commonSEO
-        { title = "Ruzaani Suite | How the AI Platform Works"
-        , metaTitle = "Ruzaani Platform — AI Business Intelligence Suite"
+        { title = "Panawik Suite | How the AI Platform Works"
+        , metaTitle = "Panawik Platform — AI Business Intelligence Suite"
         , metaDescription = "One unified layer connecting every customer interaction across conversations, CRM, channels, and behavioral intelligence into a single live business view."
         , canonical = Just $ domain <> productPath EN
         , ogImage = Just $ domain <> "/img/open-graph/product-en.jpg"
@@ -132,7 +132,7 @@ locale EN = ProductLocale
     , heroCtaAlt = "See Pricing"
     , heroCtaAltLink = pricingPath EN
     , valueTitle = "What the system does"
-    , valueSubtitle = "Most platforms store what happens. Ruzaani reads every signal and acts on the full picture — in real time."
+    , valueSubtitle = "Most platforms store what happens. Panawik reads every signal and acts on the full picture — in real time."
     , valuePoints =
         [ PointWithIcon
             { icon = "fa-solid fa-bolt"
@@ -288,11 +288,11 @@ locale EN = ProductLocale
         { userId = "user"
         , agentId = "SDR Agent"
         , sdr = SdrMockup
-            { user1 = "Can Ruzaani help me automate responses for my dental clinic?"
+            { user1 = "Can Panawik help me automate responses for my dental clinic?"
             , agent1 = "That\'s a direct fit. How are you currently handling after-hours inquiries — manual follow-up, voicemail, or nothing?"
             , user2 = "We usually just use voicemail, but we lose a lot of patients."
             , agent2 = "Let\'s fix that. Here is a link to book a quick setup call and activate your AI Receptionist:"
-            , link = "ruzaani.com/setup"
+            , link = "panawik.ruzaani.com/setup"
             }
         , alerts = AlertsMockup
             { analystLabel = "Analyst Insight"
@@ -331,8 +331,8 @@ locale EN = ProductLocale
 
 locale ES = ProductLocale
     { seo = commonSEO
-        { title = "Ruzaani Suite | Cómo funciona la plataforma de IA"
-        , metaTitle = "Ruzaani — Suite de Inteligencia de Negocios de IA"
+        { title = "Panawik Suite | Cómo funciona la plataforma de IA"
+        , metaTitle = "Panawik — Suite de Inteligencia de Negocios de IA"
         , metaDescription = "Una capa unificada de IA que conecta cada interacción con el cliente: conversaciones, CRM, canales e inteligencia de comportamiento en una única vista de negocio en tiempo real."
         , canonical = Just $ domain <> productPath ES
         , ogImage = Just $ domain <> "/img/open-graph/product-es.jpg"
@@ -344,7 +344,7 @@ locale ES = ProductLocale
     , heroCtaAlt = "Ver Precios"
     , heroCtaAltLink = pricingPath ES
     , valueTitle = "Lo que el sistema hace por ti"
-    , valueSubtitle = "La mayoría de las plataformas solo almacenan datos. Ruzaani lee cada señal y actúa sobre el panorama completo — en tiempo real."
+    , valueSubtitle = "La mayoría de las plataformas solo almacenan datos. Panawik lee cada señal y actúa sobre el panorama completo — en tiempo real."
     , valuePoints =
         [ PointWithIcon
             { icon = "fa-solid fa-bolt"
@@ -500,11 +500,11 @@ locale ES = ProductLocale
         { userId = "usuario"
         , agentId = "Agente SDR"
         , sdr = SdrMockup
-            { user1 = "¿Puede Ruzaani ayudarme a automatizar las respuestas de mi clínica dental?"
+            { user1 = "¿Puede Panawik ayudarme a automatizar las respuestas de mi clínica dental?"
             , agent1 = "Es un caso claro. ¿Cómo están gestionando actualmente las consultas fuera de horario — seguimiento manual, buzón de voz, o no se atienden?"
             , user2 = "Normalmente usamos buzón de voz, pero perdemos muchos pacientes."
             , agent2 = "Vamos a solucionarlo. Aquí tienes un enlace para agendar una llamada de configuración rápida y activar tu Recepcionista IA:"
-            , link = "ruzaani.com/setup"
+            , link = "panawik.ruzaani.com/setup"
             }
         , alerts = AlertsMockup
             { analystLabel = "Insight del Analista"
@@ -543,8 +543,8 @@ locale ES = ProductLocale
 
 locale KO = ProductLocale
     { seo = commonSEO
-        { title = "Ruzaani Suite | AI 플랫폼 작동 방식"
-        , metaTitle = "Ruzaani — AI 비즈니스 인텔리전스 슈트"
+        { title = "Panawik Suite | AI 플랫폼 작동 방식"
+        , metaTitle = "Panawik — AI 비즈니스 인텔리전스 슈트"
         , metaDescription = "대화, CRM, 채널 및 행동 인텔리전스를 통해 모든 고객 상호 작용을 실시간 단일 비즈니스 뷰로 연결하는 통합 AI 계층입니다."
         , canonical = Just $ domain <> productPath KO
         , ogImage = Just $ domain <> "/img/open-graph/product-ko.jpg"
@@ -556,7 +556,7 @@ locale KO = ProductLocale
     , heroCtaAlt = "요금제 보기"
     , heroCtaAltLink = pricingPath KO
     , valueTitle = "시스템의 핵심 기능"
-    , valueSubtitle = "대부분의 플랫폼은 발생한 일을 저장만 합니다. Ruzaani는 모든 신호를 읽고 실시간으로 전체 상황을 파악하여 행동합니다."
+    , valueSubtitle = "대부분의 플랫폼은 발생한 일을 저장만 합니다. Panawik는 모든 신호를 읽고 실시간으로 전체 상황을 파악하여 행동합니다."
     , valuePoints =
         [ PointWithIcon
             { icon = "fa-solid fa-bolt"
@@ -662,7 +662,7 @@ locale KO = ProductLocale
             }
         ]
     , crmTitle = "데이터를 중심으로 구축된 CRM"
-    , crmSubtitle = "대부분의 CRM은 단순한 데이터 저장소입니다. 하지만 Ruzaani는 AI 에이전트가 대화, 행동, 거래 진행 상황에 따라 실시간으로 업데이트하는 활성 운영 계층입니다."
+    , crmSubtitle = "대부분의 CRM은 단순한 데이터 저장소입니다. 하지만 Panawik는 AI 에이전트가 대화, 행동, 거래 진행 상황에 따라 실시간으로 업데이트하는 활성 운영 계층입니다."
     , crmFeatures =
         [ PointWithIcon
             { icon = "fa-solid fa-address-card"
@@ -712,11 +712,11 @@ locale KO = ProductLocale
         { userId = "사용자"
         , agentId = "SDR 에이전트"
         , sdr = SdrMockup
-            { user1 = "치과 병원 응답을 자동화하는 데 Ruzaani가 도움이 될까요?"
+            { user1 = "치과 병원 응답을 자동화하는 데 Panawik가 도움이 될까요?"
             , agent1 = "담에 맞는 사례입니다. 현재 업무 시간 외 문의는 어떻게 처리하시나요 — 수동 평탈인가요, 음성사서함인가요, 아니면 미답변인가요?"
             , user2 = "보통 음성 사서함을 쓰는데, 환자를 많이 놓치게 되더라고요."
             , agent2 = "그 문제를 해결해 드리겠습니다. 여기 AI 리셉셔니스트를 활성화하기 위한 상담 예약 링크입니다:"
-            , link = "ruzaani.com/setup"
+            , link = "panawik.ruzaani.com/setup"
             }
         , alerts = AlertsMockup
             { analystLabel = "애널리스트 인사이트"

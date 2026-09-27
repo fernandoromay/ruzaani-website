@@ -18,9 +18,9 @@ effectiveDate KO = "2026년 4월 25일"
 localeTerms :: Language -> LegalLocale
 localeTerms EN = LegalLocale
     { seo = commonSEO
-        { title = "Ruzaani's Terms of Service"
-        , metaTitle = "Terms of Service | Ruzaani - AI Business Intelligence Platform"
-        , metaDescription = "Read Ruzaani's Terms of Service to learn about the terms of service, acceptable use policy, and your rights and responsibilities when using our AI Business Intelligence Platform."
+        { title = "Panawik's Terms of Service"
+        , metaTitle = "Terms of Service | Panawik - AI Business Intelligence Platform"
+        , metaDescription = "Read Panawik's Terms of Service to learn about the terms of service, acceptable use policy, and your rights and responsibilities when using our AI Business Intelligence Platform."
         , canonical = Just $ domain <> termsPath EN
         , ogImage = Just $ domain <> "/img/open-graph/home-en.jpg"
         }
@@ -28,11 +28,11 @@ localeTerms EN = LegalLocale
         <h1>Terms of Service</h1>
         <p><strong>Effective Date:</strong> {{effectiveDate EN}}</p>
         <br><br>
-        <p>These Terms of Service ("Terms") govern your access to and use of the Ruzaani website, platform, AI business intelligence tools, and related services (collectively, the "Services"). </p>
-        <p>Throughout these Terms, "Ruzaani", "we," "us," or "our" refers to the Ruzaani platform and its operating entity. "Client," "you," or "your" refers to the business, agency, or individual registering for and using the Services.</p>
+        <p>These Terms of Service ("Terms") govern your access to and use of the Panawik website, platform, AI business intelligence tools, and related services (collectively, the "Services"). </p>
+        <p>Throughout these Terms, "Panawik", "we," "us," or "our" refers to the Panawik platform and its operating entity. "Client," "you," or "your" refers to the business, agency, or individual registering for and using the Services.</p>
         <p>By registering for an account or using our Services, you agree to be bound by these Terms. If you do not agree to these Terms, you must not use the Services.</p>
         <h2>1. Description of Services</h2>
-        <p>Ruzaani provides a B2B AI-driven business intelligence and communication platform. The Services include, but are not limited to, AI conversational agents, a unified CRM, messaging platform integrations (Meta, Telegram, Email), and behavioral web tracking.</p>
+        <p>Panawik provides a B2B AI-driven business intelligence and communication platform. The Services include, but are not limited to, AI conversational agents, a unified CRM, messaging platform integrations (Meta, Telegram, Email), and behavioral web tracking.</p>
         <h2>2. Account Registration and Security</h2>
         <ol>
             <li><strong>Eligibility:</strong> You must be at least 18 years old and have the legal authority to bind your business or agency to these Terms.</li>
@@ -52,7 +52,7 @@ localeTerms EN = LegalLocale
         <p>As the <strong>Data Controller</strong> of your end-users' data, you are solely responsible for:</p>
         <ul>
             <li><strong>Consent:</strong> Obtaining all legally required consents from your end-users before deploying our Web Tracker on your website or communicating with them via our AI agents.</li>
-            <li><strong>Third-Party Compliance:</strong> Complying with the Terms of Service of any third-party integrations you connect to Ruzaani (e.g., Meta's WhatsApp Business Policy, Facebook Platform Terms). We reserve the right to suspend your account if your usage violates these third-party terms and risks our API access.</li>
+            <li><strong>Third-Party Compliance:</strong> Complying with the Terms of Service of any third-party integrations you connect to Panawik (e.g., Meta's WhatsApp Business Policy, Facebook Platform Terms). We reserve the right to suspend your account if your usage violates these third-party terms and risks our API access.</li>
         </ul>
         <h2>5. Artificial Intelligence Disclaimer</h2>
         <p>Our Services rely on advanced Artificial Intelligence (AI) models. While we strive for high accuracy, you acknowledge that:</p>
@@ -63,7 +63,7 @@ localeTerms EN = LegalLocale
         </ul>
         <h2>6. Intellectual Property</h2>
         <ul>
-            <li><strong>Ruzaani IP & Brand:</strong> We retain all rights, title, and interest in and to the Services, including the platform architecture, algorithms, AI prompts, interface designs, and the "Ruzaani" brand. You may not use our name, logo, or trademarks in your own marketing or claim endorsement without our prior written consent.</li>
+            <li><strong>Panawik IP & Brand:</strong> We retain all rights, title, and interest in and to the Services, including the platform architecture, algorithms, AI prompts, interface designs, and the "Panawik" brand. You may not use our name, logo, or trademarks in your own marketing or claim endorsement without our prior written consent.</li>
             <li><strong>Client Data:</strong> You retain all ownership rights to the data, contacts, and content you input into the Services. You grant us a limited, non-exclusive license to process this data solely to provide the Services to you. <em>(We do not use your proprietary customer data to train our foundational models).</em></li>
             <li><strong>Aggregated Data:</strong> We reserve the right to aggregate and anonymize usage data across our platform to analyze trends, improve our algorithms, and enhance system performance. This aggregated data will never identify you, your agency, or your end-users.</li>
             <li><strong>Feedback:</strong> If you provide us with any feedback, suggestions, or feature requests regarding the Services, you grant us a perpetual, irrevocable, royalty-free license to use and incorporate such feedback into our platform without any obligation or compensation to you.</li>
@@ -91,7 +91,7 @@ localeTerms EN = LegalLocale
         <h2>13. Changes to these Terms</h2>
         <p>We may modify these Terms at any time. We will notify you of material changes by email or through the platform. Your continued use of the Services after the effective date of the updated Terms constitutes your acceptance of the changes.</p>
         <h2>14. Legal Entity & Contact Information</h2>
-        <p>"Ruzaani" is a commercial brand and service operated by Fernando Alberto Ocampo Romay. For the purposes of legal compliance, Fernando Alberto Ocampo Romay is the legally responsible entity providing the Ruzaani platform.</p>
+        <p>"Panawik" is a commercial brand and service operated by Fernando Alberto Ocampo Romay. For the purposes of legal compliance, Fernando Alberto Ocampo Romay is the legally responsible entity providing the Panawik platform.</p>
         <p>If you have any questions or concerns regarding these Terms, please contact us at:</p>
         <p><strong>Responsible Entity:</strong> Fernando Alberto Ocampo Romay<br/><strong>Email:</strong> <a href='mailto:legal@ruzaani.com' target='_blank' class='url'>legal@ruzaani.com</a></p>
         |]
@@ -99,9 +99,9 @@ localeTerms EN = LegalLocale
 
 localeTerms ES = LegalLocale
     { seo = commonSEO
-        { title = "Términos y Condiciones de Ruzaani"
-        , metaTitle = "Términos y Condiciones | Ruzaani - Plataforma de inteligencia empresarial"
-        , metaDescription = "Lee los Términos y Condiciones de Ruzaani para conocer los términos del servicio, la política de uso aceptable y tus derechos y responsabilidades al usar nuestra plataforma de inteligencia empresarial de IA."
+        { title = "Términos y Condiciones de Panawik"
+        , metaTitle = "Términos y Condiciones | Panawik - Plataforma de inteligencia empresarial"
+        , metaDescription = "Lee los Términos y Condiciones de Panawik para conocer los términos del servicio, la política de uso aceptable y tus derechos y responsabilidades al usar nuestra plataforma de inteligencia empresarial de IA."
         , canonical = Just $ domain <> termsPath ES
         , ogImage = Just $ domain <> "/img/open-graph/home-es.jpg"
         }
@@ -109,11 +109,11 @@ localeTerms ES = LegalLocale
         <h1>Términos y Condiciones</h1>
         <p><strong>Fecha de vigencia:</strong> {{effectiveDate ES}}</p>
         <br><br>
-        <p>Estos Términos y Condiciones ("Términos") rigen su acceso y uso del sitio web, la plataforma, las herramientas de inteligencia empresarial de IA y los servicios relacionados de Ruzaani (colectivamente, los "Servicios").</p>
-        <p>A lo largo de estos Términos, "Ruzaani", "nosotros", "nos" o "nuestro" se refiere a la plataforma Ruzaani y a su entidad operadora. "Cliente", "usted" o "su" se refiere a la empresa, agencia o individuo que se registra y utiliza los Servicios.</p>
+        <p>Estos Términos y Condiciones ("Términos") rigen su acceso y uso del sitio web, la plataforma, las herramientas de inteligencia empresarial de IA y los servicios relacionados de Panawik (colectivamente, los "Servicios").</p>
+        <p>A lo largo de estos Términos, "Panawik", "nosotros", "nos" o "nuestro" se refiere a la plataforma Panawik y a su entidad operadora. "Cliente", "usted" o "su" se refiere a la empresa, agencia o individuo que se registra y utiliza los Servicios.</p>
         <p>Al registrar una cuenta o utilizar nuestros Servicios, usted acepta quedar vinculado por estos Términos. If you do not agree to these Terms, you must not use the Services.</p>
         <h2>1. Descripción de los Servicios</h2>
-        <p>Ruzaani ofrece una plataforma B2B de inteligencia empresarial y comunicación impulsada por IA. Los Servicios incluyen, entre otros, agentes conversacionales de IA, un CRM unificado, integraciones con plataformas de mensajería (Meta, Telegram, Email) y rastreo web de comportamiento.</p>
+        <p>Panawik ofrece una plataforma B2B de inteligencia empresarial y comunicación impulsada por IA. Los Servicios incluyen, entre otros, agentes conversacionales de IA, un CRM unificado, integraciones con plataformas de mensajería (Meta, Telegram, Email) y rastreo web de comportamiento.</p>
         <h2>2. Registro de Cuenta y Seguridad</h2>
         <ol>
             <li><strong>Elegibilidad:</strong> Debe tener al menos 18 años de edad y contar con la autoridad legal para vincular a su empresa o agencia con estos Términos.</li>
@@ -133,7 +133,7 @@ localeTerms ES = LegalLocale
         <p>Como <strong>Responsable del Tratamiento de Datos</strong> de los datos de sus usuarios finales, usted es el único responsable de:</p>
         <ul>
             <li><strong>Consentimiento:</strong> Obtener todos los consentimientos legalmente requeridos de sus usuarios finales antes de implementar nuestro Web Tracker en su sitio web o comunicarse con ellos a través de nuestros agentes de IA.</li>
-            <li><strong>Cumplimiento con Terceros:</strong> Cumplir con los Términos de Servicio de cualquier integración de terceros que conecte a Ruzaani (por ejemplo, la Política de WhatsApp Business de Meta, los Términos de la Plataforma de Facebook). Nos reservamos el derecho de suspender su cuenta si su uso viola estos términos de terceros y pone en riesgo nuestro acceso a sus APIs.</li>
+            <li><strong>Cumplimiento con Terceros:</strong> Cumplir con los Términos de Servicio de cualquier integración de terceros que conecte a Panawik (por ejemplo, la Política de WhatsApp Business de Meta, los Términos de la Plataforma de Facebook). Nos reservamos el derecho de suspender su cuenta si su uso viola estos términos de terceros y pone en riesgo nuestro acceso a sus APIs.</li>
         </ul>
         <h2>5. Descargo de Responsabilidad sobre Inteligencia Artificial</h2>
         <p>Nuestros Servicios dependen de modelos avanzados de Inteligencia Artificial (IA). Si bien nos esforzamos por lograr alta precisión, usted reconoce que:</p>
@@ -144,7 +144,7 @@ localeTerms ES = LegalLocale
         </ul>
         <h2>6. Propiedad Intelectual</h2>
         <ul>
-            <li><strong>PI y Marca Ruzaani:</strong> Nos reservamos todos los derechos, títulos e intereses sobre los Servicios, incluyendo la arquitectura de la plataforma, algoritmos, prompts de IA, diseños de interfaz y la marca "Ruzaani". Usted no puede usar nuestro nombre, logotipo o marcas comerciales en su propio marketing ni afirmar ser avalado por nosotros sin nuestro previo consentimiento por escrito.</li>
+            <li><strong>PI y Marca Panawik:</strong> Nos reservamos todos los derechos, títulos e intereses sobre los Servicios, incluyendo la arquitectura de la plataforma, algoritmos, prompts de IA, diseños de interfaz y la marca "Panawik". Usted no puede usar nuestro nombre, logotipo o marcas comerciales en su propio marketing ni afirmar ser avalado por nosotros sin nuestro previo consentimiento por escrito.</li>
             <li><strong>Datos del Cliente:</strong> Usted conserva todos los derechos de propiedad sobre los datos, contactos y contenido que ingrese en los Servicios. Nos otorga una licencia limitada y no exclusiva para procesar estos datos únicamente con el fin de prestarle los Servicios. <em>(No utilizamos los datos privados de sus clientes para entrenar nuestros modelos fundacionales).</em></li>
             <li><strong>Datos Agregados:</strong> Nos reservamos el derecho de agregar y anonimizar los datos de uso de nuestra plataforma para analizar tendencias, mejorar nuestros algoritmos y optimizar el rendimiento del sistema. Estos datos agregados nunca identificarán a usted, su agencia ni a sus usuarios finales.</li>
             <li><strong>Comentarios y Sugerencias:</strong> Si nos proporciona comentarios, sugerencias o solicitudes de funciones sobre los Servicios, nos otorga una licencia perpetua, irrevocable y libre de regalías para usar e incorporar dichos comentarios en nuestra plataforma sin ninguna obligación ni compensación hacia usted.</li>
@@ -172,7 +172,7 @@ localeTerms ES = LegalLocale
         <h2>13. Cambios en estos Términos</h2>
         <p>Podemos modificar estos Términos en cualquier momento. Le notificaremos de cambios importantes por correo electrónico o a través de la plataforma. Su uso continuado de los Servicios después de la fecha de entrada en vigor de los Términos actualizados constituye su aceptación de los cambios.</p>
         <h2>14. Entidad Legal e Información de Contacto</h2>
-        <p>"Ruzaani" es una marca comercial y un servicio operado por Fernando Alberto Ocampo Romay. Para fines de cumplimiento legal, Fernando Alberto Ocampo Romay es la entidad legalmente responsable que provee la plataforma Ruzaani.</p>
+        <p>"Panawik" es una marca comercial y un servicio operado por Fernando Alberto Ocampo Romay. Para fines de cumplimiento legal, Fernando Alberto Ocampo Romay es la entidad legalmente responsable que provee la plataforma Panawik.</p>
         <p>Si tiene alguna pregunta o inquietud respecto a estos Términos, por favor contáctenos en:</p>
         <p><strong>Responsible Entity:</strong> Fernando Alberto Ocampo Romay<br/><strong>Email:</strong> <a href='mailto:legal@ruzaani.com' target='_blank' class='url'>legal@ruzaani.com</a></p>
         |]
@@ -180,9 +180,9 @@ localeTerms ES = LegalLocale
 
 localeTerms KO = LegalLocale
     { seo = commonSEO
-        { title = "Ruzaani의 이용약관"
-        , metaTitle = "이용약관 | Ruzaani - 인공지능 기반 비즈니스 인텔리전스 플랫폼"
-        , metaDescription = "Ruzaani의 서비스 이용 약관, 허용 가능한 사용 정책 및 AI 비즈니스 인텔리전스 플랫폼 사용에 따른 귀하의 권리와 책임에 대해 알아보려면 Ruzaani의 이용 약관을 읽어보십시오."
+        { title = "Panawik의 이용약관"
+        , metaTitle = "이용약관 | Panawik - 인공지능 기반 비즈니스 인텔리전스 플랫폼"
+        , metaDescription = "Panawik의 서비스 이용 약관, 허용 가능한 사용 정책 및 AI 비즈니스 인텔리전스 플랫폼 사용에 따른 귀하의 권리와 책임에 대해 알아보려면 Panawik의 이용 약관을 읽어보십시오."
         , canonical = Just $ domain <> termsPath KO
         , ogImage = Just $ domain <> "/img/open-graph/home-ko.jpg"
         }
@@ -190,11 +190,11 @@ localeTerms KO = LegalLocale
         <h1>이용약관</h1>
         <p><strong>시행일:</strong> {{effectiveDate KO}}</p>
         <br><br>
-        <p>본 이용약관("약관")은 귀하의 Ruzaani 웹사이트, 플랫폼, AI 비즈니스 인텔리전스 도구 및 관련 서비스(이하 "서비스")에 대한 접근 및 이용을 규율합니다.</p>
-        <p>본 약관 전체에서 "Ruzaani", "당사", "우리"는 Ruzaani 플랫폼 및 그 운영 주체를 의미합니다. "고객", "귀하"는 서비스에 등록하여 이용하는 기업, 기관 또는 개인을 의미합니다.</p>
+        <p>본 이용약관("약관")은 귀하의 Panawik 웹사이트, 플랫폼, AI 비즈니스 인텔리전스 도구 및 관련 서비스(이하 "서비스")에 대한 접근 및 이용을 규율합니다.</p>
+        <p>본 약관 전체에서 "Panawik", "당사", "우리"는 Panawik 플랫폼 및 그 운영 주체를 의미합니다. "고객", "귀하"는 서비스에 등록하여 이용하는 기업, 기관 또는 개인을 의미합니다.</p>
         <p>계정에 등록하거나 서비스를 이용함으로써 귀하는 본 약관에 동의하는 것으로 간주됩니다. 본 약관에 동의하지 않는 경우, 서비스를 이용하지 마십시오.</p>
         <h2>1. 서비스 설명</h2>
-        <p>Ruzaani는 B2B AI 기반 비즈니스 인텔리전스 및 커뮤니케이션 플랫폼을 제공합니다. 서비스에는 AI 대화형 에이전트, 통합 CRM, 메시징 플랫폼 연동(Meta, Telegram, 이메일), 행동 기반 웹 추적이 포함되나 이에 한정되지 않습니다.</p>
+        <p>Panawik는 B2B AI 기반 비즈니스 인텔리전스 및 커뮤니케이션 플랫폼을 제공합니다. 서비스에는 AI 대화형 에이전트, 통합 CRM, 메시징 플랫폼 연동(Meta, Telegram, 이메일), 행동 기반 웹 추적이 포함되나 이에 한정되지 않습니다.</p>
         <h2>2. 계정 등록 및 보안</h2>
         <ol>
             <li><strong>자격 요건:</strong> 귀하는 만 18세 이상이어야 하며, 귀하의 기업 또는 기관을 본 약관에 법적으로 구속시킬 권한이 있어야 합니다.</li>
@@ -214,7 +214,7 @@ localeTerms KO = LegalLocale
         <p>귀하의 최종 사용자 데이터에 대한 <strong>개인정보처리자(Data Controller)</strong>로서, 귀하는 다음에 대해 전적인 책임을 집니다:</p>
         <ul>
             <li><strong>동의:</strong> 귀하의 웹사이트에 당사의 웹 트래커를 배포하거나 AI 에이전트를 통해 최종 사용자와 소통하기 전에, 법적으로 요구되는 모든 동의를 최종 사용자로부터 획득해야 합니다.</li>
-            <li><strong>제3자 준수:</strong> Ruzaani에 연동하는 모든 제3자 통합 서비스(예: Meta의 WhatsApp Business 정책, Facebook 플랫폼 약관)의 서비스 이용약관을 준수해야 합니다. 귀하의 사용이 이러한 제3자 약관을 위반하여 당사의 API 접근을 위협하는 경우, 당사는 귀하의 계정을 정지할 권리를 보유합니다.</li>
+            <li><strong>제3자 준수:</strong> Panawik에 연동하는 모든 제3자 통합 서비스(예: Meta의 WhatsApp Business 정책, Facebook 플랫폼 약관)의 서비스 이용약관을 준수해야 합니다. 귀하의 사용이 이러한 제3자 약관을 위반하여 당사의 API 접근을 위협하는 경우, 당사는 귀하의 계정을 정지할 권리를 보유합니다.</li>
         </ul>
         <h2>5. 인공지능 면책 조항</h2>
         <p>당사의 서비스는 고급 인공지능(AI) 모델에 의존합니다. 당사는 높은 정확도를 위해 노력하지만, 귀하는 다음 사항을 인지하고 동의합니다:</p>
@@ -225,7 +225,7 @@ localeTerms KO = LegalLocale
         </ul>
         <h2>6. 지식재산권</h2>
         <ul>
-            <li><strong>Ruzaani IP 및 브랜드:</strong> 당사는 플랫폼 아키텍처, 알고리즘, AI 프롬프트, 인터페이스 디자인 및 "Ruzaani" 브랜드를 포함한 서비스에 대한 모든 권리, 소유권 및 이익을 보유합니다. 귀하는 당사의 사전 서면 동의 없이 당사의 이름, 로고 또는 상표를 귀하의 마케팅에 사용하거나 당사의 보증을 주장할 수 없습니다.</li>
+            <li><strong>Panawik IP 및 브랜드:</strong> 당사는 플랫폼 아키텍처, 알고리즘, AI 프롬프트, 인터페이스 디자인 및 "Panawik" 브랜드를 포함한 서비스에 대한 모든 권리, 소유권 및 이익을 보유합니다. 귀하는 당사의 사전 서면 동의 없이 당사의 이름, 로고 또는 상표를 귀하의 마케팅에 사용하거나 당사의 보증을 주장할 수 없습니다.</li>
             <li><strong>고객 데이터:</strong> 귀하는 서비스에 입력하는 데이터, 연락처 및 콘텐츠에 대한 모든 소유권을 보유합니다. 귀하는 당사가 서비스를 제공하는 목적으로만 해당 데이터를 처리할 수 있는 제한적이고 비독점적인 라이선스를 당사에 부여합니다. <em>(당사는 귀하의 독점 고객 데이터를 파운데이션 모델 학습에 사용하지 않습니다).</em></li>
             <li><strong>집계 데이터:</strong> 당사는 추세 분석, 알고리즘 개선 및 시스템 성능 향상을 위해 플랫폼 전체의 사용 데이터를 집계 및 익명화할 권리를 보유합니다. 이 집계 데이터는 귀하, 귀하의 기관 또는 귀하의 최종 사용자를 식별하지 않습니다.</li>
             <li><strong>피드백:</strong> 서비스에 대한 피드백, 제안 또는 기능 요청을 제공하는 경우, 귀하는 당사가 해당 피드백을 플랫폼에 사용하고 통합할 수 있는 영구적, 취소 불가능한 무료 라이선스를 부여합니다. 이에 대한 어떠한 의무나 보상도 발생하지 않습니다.</li>
@@ -253,7 +253,7 @@ localeTerms KO = LegalLocale
         <h2>13. 약관의 변경</h2>
         <p>당사는 언제든지 본 약관을 수정할 수 있습니다. 중요한 변경 사항이 있을 경우 이메일 또는 플랫폼을 통해 통지합니다. 변경된 약관의 시행일 이후 서비스를 계속 이용하는 것은 변경 사항에 대한 귀하의 동의로 간주됩니다.</p>
         <h2>14. 법적 주체 및 연락처</h2>
-        <p>"Ruzaani"는 Fernando Alberto Ocampo Romay가 운영하는 상업 브랜드 및 서비스입니다. 법적 준수를 위해 Fernando Alberto Ocampo Romay가 Ruzaani 플랫폼을 제공하는 법적 책임 주체입니다.</p>
+        <p>"Panawik"는 Fernando Alberto Ocampo Romay가 운영하는 상업 브랜드 및 서비스입니다. 법적 준수를 위해 Fernando Alberto Ocampo Romay가 Panawik 플랫폼을 제공하는 법적 책임 주체입니다.</p>
         <p>본 약관에 관한 질문이나 우려 사항이 있으시면 아래 연락처로 문의해 주십시오:</p>
         <p><strong>책임 주체:</strong> Fernando Alberto Ocampo Romay<br/><strong>이메일:</strong> <a href='mailto:legal@ruzaani.com' target='_blank' class='url'>legal@ruzaani.com</a></p>
         |]
